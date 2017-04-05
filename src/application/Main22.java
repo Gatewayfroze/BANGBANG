@@ -88,8 +88,8 @@ public class Main22 extends Application {
 				int bulletlimit = 5;
 
 				int currentBy = 0;
-				// bullet.add(createBullet(player.getTranslateX(),
-				// player.getTranslateY()));
+				 bullet.add(createBullet(player.getTranslateX(),
+				 player.getTranslateY()));
 
 				double elapsedTime = (now - lastNanoTime) / 10000000.0;
 
