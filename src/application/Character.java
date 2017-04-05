@@ -7,16 +7,27 @@ import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 public class Character extends Pane {
-
 	ImageView imageView;
 	int count = 3;
 	int columns = 4;
 	int offsetX = 0;
 	int offsetY = 0;
-	int width = 64;
-	int height = 64;
+	int width = 90;
+	int height = 90;
+
+	//status of player
 	int score = 0;
+	int armor=100;
+	int life=3;
+	int speed=2;
+	int direction;
+
+	//direction 0 down,1 left, 2 right, 3 up
+
 	Rectangle removeRect = null;
+
+
+
 	SpriteAnimation animation;
 
 	public Character(ImageView imageView) {
@@ -37,7 +48,7 @@ public class Character extends Pane {
 //			isBonuseEat();
 		}
 	}
-	
+
 
 	public void moveY(int y) {
 		boolean down = y > 0 ? true : false;
@@ -49,20 +60,13 @@ public class Character extends Pane {
 //			isBonuseEat();
 		}
 	}
-	
+
 	public int getOffsetY() {
 		return offsetY;
 	}
 	public int getOffsetX() {
 		return offsetX;
 	}
-//	public double getWidths() {
-//		return width;
-//	}
-//	public double getHeights() {
-//		return height;
-//	}
-//	
 
 
 }
