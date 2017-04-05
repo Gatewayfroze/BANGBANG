@@ -119,6 +119,7 @@ public class Main extends Application {
                 else {
                     player.animation.stop();
                 }
+                //ควย
                 //if bullet was shoot
                 if(bullet.size()!=0) {
                     for (int i = 0; i <bullet.size() ; i++) {
