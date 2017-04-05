@@ -6,7 +6,9 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -14,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -43,20 +46,19 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         stage=primaryStage;
         Scene scene =MainMenu();
-        primaryStage.setScene(scene);
+        stage.setScene(SelectCharector());
         scene.setFill(Color.ANTIQUEWHITE);
-        primaryStage.setTitle("Game");
-        primaryStage.show();
+        stage.setTitle("Game");
+        stage.show();
     }
-
     public Scene Game() {
-//setScene
+        //setScene
         Group root = new Group();
         Scene scene=new Scene(root);
         scene.setOnKeyPressed(event -> keys.put(event.getCode(), true));
         scene.setOnKeyReleased(event -> keys.put(event.getCode(), false));
         scene.setFill(pattern);
-//setGame
+        //setGame
         Canvas canvas = new Canvas(1280, 720);
         root.getChildren().add(canvas);
         root.getChildren().addAll(player, player2);
@@ -119,7 +121,6 @@ public class Main extends Application {
                 else {
                     player.animation.stop();
                 }
-                //ควย
                 //if bullet was shoot
                 if(bullet.size()!=0) {
                     for (int i = 0; i <bullet.size() ; i++) {
@@ -135,24 +136,43 @@ public class Main extends Application {
             }
         };
         timer.start();
-
         return scene;
     }
     public Scene MainMenu(){
 
         Pane root = new Pane();
-        Button createAccountButton = new Button("create account");
+        Button createAccountButton = new Button("Game Start");
         createAccountButton.setOnAction(new EventHandler<ActionEvent>(){
             public void handle(ActionEvent t){
-                Scene scene =Game();
-                stage.setScene(scene);
+                try {
+                    Scene scene = Game();
+                    stage.setScene(scene);
+                    System.out.println("sdfdsf");
+                }catch (Exception ex){
+                    System.out.println(ex.getMessage());
+                }
+
+
             }
         });
         root.getChildren().add(createAccountButton);
 
-
         return new Scene(root);
     }
+    public Scene SelectCharector() throws Exception{
+        Parent root = FXMLLoader.load(getClass().getResource("xx.fxml"));
+        Scene scene=new Scene(root);
+
+        return scene;
+    }
+    public static Scene ee() throws Exception{
+        Parent root = FXMLLoader.load(Main.class.getResource("tt.fxml"));
+        Scene scene=new Scene(root);
+
+        return scene;
+    }
+
+
     public Sprite createBullet(double x,double y,int direction){
         Sprite bullet = new Sprite();
         if(direction==0) {
