@@ -76,7 +76,7 @@ public class xxx  {
         Scene scene=new Scene(root);
         scene.setOnKeyPressed(event -> keys.put(event.getCode(), true));
         scene.setOnKeyReleased(event -> keys.put(event.getCode(), false));
-        scene.setFill(pattern);
+
         //setGame
         Canvas canvas = new Canvas(1280, 720);
         root.getChildren().add(canvas);
