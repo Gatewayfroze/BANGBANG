@@ -30,14 +30,9 @@ public class xxx  {
     private HashMap<KeyCode, Boolean> keys = new HashMap<>();
     public static ArrayList<Rectangle> bonuses = new ArrayList<>();
     Image image = new Image("file:\\E:\\JAVA\\cowboy.png");// specify character image
+    Image map = new Image("file:\\C:\\Users\\User\\IdeaProjects\\Game\\map.png");
     ImageView imageView = new ImageView(image);// show image
     Character player = new Character(imageView);
-    Image map = new Image("file:\\C:\\Users\\User\\IdeaProjects\\Game\\map.png");
-    ImageView bg = new ImageView(map);
-    StackPane pane = new StackPane(bg);
-    Image image2 = new Image("file:\\E:\\JAVA\\Introduction-to-JavaFX-for-Game-Development-master\\briefcase.png");// specify character image
-    ImageView imageView2 = new ImageView(image2);// show image
-    Character player2 = new Character(imageView2);
     ImagePattern pattern = new ImagePattern(map);
 
     public boolean isPressed(KeyCode key) {
@@ -72,6 +67,9 @@ public class xxx  {
     }
     public Scene Game() {
         //setScene
+        Image image3 = new Image("file:\\E:\\JAVA\\interface_playtime.png");// specify character image
+        ImageView imageView3 = new ImageView(image3);// show image
+
         Group root = new Group();
         Scene scene=new Scene(root);
         scene.setOnKeyPressed(event -> keys.put(event.getCode(), true));
@@ -80,23 +78,24 @@ public class xxx  {
         //setGame
         Canvas canvas = new Canvas(1280, 720);
         root.getChildren().add(canvas);
-        root.getChildren().addAll(player, player2);
+        root.getChildren().addAll(player);
+        root.getChildren().addAll(imageView3);
+
         player.setTranslateY(300);
         player.setTranslateX(20);
-        player2.setTranslateX(800);
-        player2.setTranslateY(300);
-        ArrayList<Sprite> blockList = new ArrayList<>();
+        ArrayList<Block> blockList = new ArrayList<>();
         ArrayList<Sprite> bullet=new ArrayList<>();
 
         int []directionOffset={0,180,90,270};
-
+        //generate All block;
         for (int i = 0; i < 6; i++) {
-            Sprite moneybag = new Sprite();
-            moneybag.setImage("file:\\C:\\Users\\User\\IdeaProjects\\Game\\Dirt.png");
+            Block block = new Block();
+            block.setImage("file:\\C:\\Users\\User\\IdeaProjects\\Game\\Dirt.png");
+            block.setDurabillity(3);
             int px = (int) (800 * Math.random()) + 10;
             int py = (int) (600 * Math.random()) + 10;
-            moneybag.setPosition((double) px, (double) py);
-            blockList.add(moneybag);
+            block.setPosition((double) px, (double) py);
+            blockList.add(block);
         }
         GraphicsContext gc = canvas.getGraphicsContext2D();
         //render obj
@@ -133,7 +132,7 @@ public class xxx  {
                     player.animation.setOffsetY(directionOffset[1]);
                     player.moveX(-2);
                     player.direction=1;
-                }else if (isPressed(KeyCode.SLASH)&&Rate>=0.5) {
+                }else if (isPressed(KeyCode.SLASH)&&Rate>=1) {
                     bullet.add(createBullet((player.getTranslateX()+40),player.getTranslateY()+40,player.direction));
                     count=0;
                 }
@@ -152,6 +151,11 @@ public class xxx  {
                 for (Sprite b : bullet )b.render( gc );
                 for (Sprite moneybag : blockList)moneybag.render(gc);
                 System.out.println(blockList.size());
+
+
+
+
+
             }
         };
         timer.start();
@@ -161,10 +165,12 @@ public class xxx  {
         Sprite bullet = new Sprite();
         if(direction==0) {
             bullet.setImage("file:\\E:\\JAVA\\bullet_DOWN.png");
+
             bullet.setVelocity(0,3);
         }else
         if(direction==1) {
             bullet.setImage("file:\\E:\\JAVA\\bullet_RIGHT.png");
+
             bullet.setVelocity(-3,0);
         }else
         if(direction==2) {
@@ -178,7 +184,7 @@ public class xxx  {
         bullet.setPosition(x,y);
         return bullet;
     }
-    public boolean collision(Character m, ArrayList<Sprite> t, String direct) {
+    public boolean collision(Character m, ArrayList<Block> t, String direct) {
         if (direct.equals("LEFT")) {
             for (int i = 0; i < t.size(); i++) {
                 if (m.getTranslateX() - 3 < t.get(i).getPositionX() + t.get(i).getWidth()
@@ -233,11 +239,13 @@ public class xxx  {
         return true;
 
     }
-    public void detect(ArrayList<Sprite> t,ArrayList<Sprite> m){
+    public void detect(ArrayList<Sprite> t,ArrayList<Block> m){
         for (int i = 0; i <t.size() ; i++) {
             for (int j = 0; j <m.size() ; j++) {
                 if(t.get(i).intersects(m.get(j))){
                     t.remove(i);
+                    m.get(j).hti(1);
+                    if(m.get(j).getDurabillity()<=0)
                     m.remove(j);
                     break;
 

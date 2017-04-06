@@ -30,7 +30,6 @@ public class Sprite {
 		Image i = new Image(filename);
 		setImage(i);
 	}
-
 	public void setPosition(double x, double y) {
 		positionX = x;
 		positionY = y;
