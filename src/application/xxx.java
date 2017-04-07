@@ -30,7 +30,7 @@ public class xxx  {
     private HashMap<KeyCode, Boolean> keys = new HashMap<>();
     public static ArrayList<Rectangle> bonuses = new ArrayList<>();
     Image image = new Image("file:\\E:\\JAVA\\cowboy.png");// specify character image
-    Image map = new Image("file:\\C:\\Users\\User\\IdeaProjects\\Game\\map.png");
+    Image map = new Image("file:\\E:\\JAVA\\BG1.png");
     ImageView imageView = new ImageView(image);// show image
     Character player = new Character(imageView);
     ImagePattern pattern = new ImagePattern(map);
@@ -61,7 +61,7 @@ public class xxx  {
         Scene scene = Game();
         appStage = (Stage) btnBeginTargeting.getScene().getWindow();
         appStage.setScene(scene);
-        System.out.println("sdfdsf");
+
 
 
     }
@@ -76,7 +76,7 @@ public class xxx  {
         scene.setOnKeyReleased(event -> keys.put(event.getCode(), false));
 
         //setGame
-        Canvas canvas = new Canvas(1280, 720);
+        Canvas canvas = new Canvas(1548 , 871);
         root.getChildren().add(canvas);
         root.getChildren().addAll(player);
         root.getChildren().addAll(imageView3);
@@ -88,12 +88,25 @@ public class xxx  {
 
         int []directionOffset={0,180,90,270};
         //generate All block;
+        int xx=100;
         for (int i = 0; i < 6; i++) {
             Block block = new Block();
             block.setImage("file:\\C:\\Users\\User\\IdeaProjects\\Game\\Dirt.png");
             block.setDurabillity(3);
-            int px = (int) (800 * Math.random()) + 10;
-            int py = (int) (600 * Math.random()) + 10;
+            xx+=block.getHeight();
+            int px =400;
+            int py = xx;
+            block.setPosition((double) px, (double) py);
+            blockList.add(block);
+        }
+        xx=400;
+        for (int i = 0; i < 6; i++) {
+            Block block = new Block();
+            block.setImage("file:\\C:\\Users\\User\\IdeaProjects\\Game\\Dirt.png");
+            block.setDurabillity(3);
+            xx+=block.getWidth();
+            int px =xx;
+            int py = 300;
             block.setPosition((double) px, (double) py);
             blockList.add(block);
         }
@@ -122,7 +135,7 @@ public class xxx  {
                     player.animation.setOffsetY(directionOffset[0]);
                     player.moveY(2);
                     player.direction=0;
-                } else if (isPressed(KeyCode.RIGHT) && collision(player, blockList, "RIGHT")&&player.getTranslateX()<800) {
+                } else if (isPressed(KeyCode.RIGHT) && collision(player, blockList, "RIGHT")) {
                     player.animation.play();
                     player.animation.setOffsetY(directionOffset[2]);
                     player.moveX(2);
@@ -187,7 +200,7 @@ public class xxx  {
     public boolean collision(Character m, ArrayList<Block> t, String direct) {
         if (direct.equals("LEFT")) {
             for (int i = 0; i < t.size(); i++) {
-                if (m.getTranslateX() - 3 < t.get(i).getPositionX() + t.get(i).getWidth()
+                if (m.getTranslateX() - 3.5 < t.get(i).getPositionX() + t.get(i).getWidth()
                         && m.getTranslateX() + m.getWidth() > t.get(i).getPositionX() + t.get(i).getWidth()
                         && m.getTranslateY() < t.get(i).getPositionY() + t.get(i).getHeight()
                         && m.getTranslateY() + m.getHeight() > t.get(i).getPositionY()) {
@@ -200,7 +213,7 @@ public class xxx  {
         }
         if (direct.equals("RIGHT")) {
             for (int i = 0; i < t.size(); i++) {
-                if (m.getTranslateX() + m.getWidth() + 3 > t.get(i).getPositionX()
+                if (m.getTranslateX() + m.getWidth() + 3.1 > t.get(i).getPositionX()
                         && m.getTranslateX() < t.get(i).getPositionX()
                         && m.getTranslateY() < t.get(i).getPositionY() + t.get(i).getHeight()
                         && m.getTranslateY() + m.getHeight() > t.get(i).getPositionY()) {
@@ -212,7 +225,7 @@ public class xxx  {
 
         } else if (direct.equals("UP")) {
             for (int i = 0; i < t.size(); i++) {
-                if (m.getTranslateY() < t.get(i).getPositionY() + t.get(i).getHeight() + 5
+                if (m.getTranslateY() < t.get(i).getPositionY() + t.get(i).getHeight() + 5.1
                         && m.getTranslateY() + m.getHeight() > t.get(i).getPositionY() + t.get(i).getHeight()
                         && m.getTranslateX() < t.get(i).getPositionX() + t.get(i).getWidth()
                         && m.getTranslateX() + m.getWidth() > t.get(i).getPositionX()) {
@@ -224,7 +237,7 @@ public class xxx  {
 
         } else if (direct.equals("DOWN")) {
             for (int i = 0; i < t.size(); i++) {
-                if (m.getTranslateY() + m.getHeight() + 3 > t.get(i).getPositionY()
+                if (m.getTranslateY() + m.getHeight() + 3.2 > t.get(i).getPositionY()
                         && m.getTranslateY() < t.get(i).getPositionY()
                         && m.getTranslateX() < t.get(i).getPositionX() + t.get(i).getWidth()
                         && m.getTranslateX() + m.getWidth() > t.get(i).getPositionX()) {
