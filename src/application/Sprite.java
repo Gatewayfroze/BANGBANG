@@ -63,6 +63,7 @@ public class Sprite {
 
 	public void render(GraphicsContext gc) {
 		gc.drawImage(image, positionX, positionY);
+
 	}
 
 	public Rectangle2D getBoundary() {

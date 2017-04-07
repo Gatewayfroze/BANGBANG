@@ -9,6 +9,12 @@ public class Block extends Sprite {
 
     }
 
+    public Block(int x,int y,int durabillity,String name) {
+        super.setPosition(x,y);
+        super.setImage(name);
+        this.durabillity = durabillity;
+    }
+
     public void setDurabillity(int durabillity) {
         this.durabillity = durabillity;
     }

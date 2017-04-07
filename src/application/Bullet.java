@@ -19,15 +19,15 @@ public class Bullet extends Sprite{
             this.setVelocity(0,speed);
         }else
         if(direction==1) {
-            this.setImage("file:\\E:\\JAVA\\bullet_RIGHT.png");
+            this.setImage("bullet_RIGHT.png");
             this.setVelocity(-speed,0);
         }else
         if(direction==2) {
-            this.setImage("file:\\E:\\JAVA\\bullet_LEFT.png");
+            this.setImage("bullet_LEFT.png");
             this.setVelocity(+speed,0);
         }else
         if(direction==3) {
-            this.setImage("file:\\E:\\JAVA\\bullet_UP.png");
+            this.setImage("bullet_UP.png");
             this.setVelocity(0,-speed);
         }
 
