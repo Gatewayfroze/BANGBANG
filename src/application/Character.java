@@ -20,6 +20,7 @@ public class Character extends Pane {
 	int armor=100;
 	int life=3;
 	int speed=2;
+	int bullet;
 	int direction;
 
 	//direction 0 down,1 left, 2 right, 3 up
@@ -65,5 +66,52 @@ public class Character extends Pane {
 
 	public int getDirection() {
 		return direction;
+	}
+
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
+	}
+
+	public int getArmor() {
+		return armor;
+	}
+
+	public void setArmor(int armor) {
+		this.armor = armor;
+	}
+
+	public int getLife() {
+		return life;
+	}
+
+	public void setLife(int life) {
+		this.life = life;
+	}
+
+	public int getSpeed() {
+		return speed;
+	}
+
+	public void setSpeed(int speed) {
+		this.speed = speed;
+	}
+
+	public int getBullet() {
+		return bullet;
+	}
+
+	public void setBullet(int bullet) {
+		this.bullet = bullet;
+	}
+	public void shoot(){
+		this.bullet--;
+	}
+
+	public void setDirection(int direction) {
+		this.direction = direction;
 	}
 }

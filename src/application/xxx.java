@@ -79,14 +79,20 @@ public class xxx  {
 
         root.getChildren().addAll(canvas,player,player2,imageView3);
 
-        player.setTranslateY(300);
-        player.setTranslateX(20);
-        player2.setTranslateX(500);
-        player2.setTranslateY(500);
+
 
         ArrayList<Block> blockList = new ArrayList<>();
         ArrayList<Bullet> bullet=new ArrayList<>();
         int []directionOffset={0,180,90,270};
+
+        //set status player
+        player.setTranslateY(300);
+        player.setTranslateX(20);
+        player.setBullet(10);
+        player2.setTranslateX(500);
+        player2.setTranslateY(500);
+        player2.setBullet(10);
+
 
         //generate All block;
         int xx=100;
@@ -115,7 +121,6 @@ public class xxx  {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         for (Sprite block : blockList)
             block.render(gc);
-
         //Animation
         AnimationTimer timer = new AnimationTimer() {
             double lastNanoTime = System.nanoTime() ;
@@ -148,9 +153,11 @@ public class xxx  {
                     player.animation.setOffsetY(directionOffset[1]);
                     player.moveX(-2);
                     player.direction=1;
-                }else if (isPressed(KeyCode.R)&&Rate>=1) {
+                }else if (isPressed(KeyCode.R)&&Rate>=1/*&&player.getBullet()!=0*/) {
                     bullet.add(createBullet((player.getTranslateX()+40),player.getTranslateY()+40,player.direction,1));
+                    player.shoot();
                     count=0;
+
                 }
                 else {
                     player.animation.stop();
@@ -177,9 +184,10 @@ public class xxx  {
                     player2.animation.setOffsetY(directionOffset[1]);
                     player2.moveX(-2);
                     player2.direction=1;
-                }else if (isPressed(KeyCode.SLASH)&&Rate2>=1) {
+                }else if (isPressed(KeyCode.SLASH)&&Rate2>=1/*&&player2.getBullet()!=0*/) {
                     bullet.add(createBullet((player2.getTranslateX()+40),player2.getTranslateY()+40,player2.direction,2));
                     count2=0;
+                    player2.shoot();
                 }
                 else {
                     player2.animation.stop();
@@ -192,12 +200,32 @@ public class xxx  {
                         bullet.get(i).render(gc);
                         bullet.get(i).update(elapsedTime);
                         //bullet of player 1
+                        if(bullet.get(i).getPositionX()>scene.getWidth()||bullet.get(i).getPositionX()<0||
+                           bullet.get(i).getPositionY()<0||bullet.get(i).getPositionY()>scene.getHeight()){
+                            bullet.remove(i);
+                        }else
                         if(bullet.get(i).intersects(player2)&&bullet.get(i).getType()==1) {
                             bullet.remove(i);
-                            System.out.println("hit!!!");
+                            System.out.println("1-------hit!!!");
+                        }else
+                        if(bullet.get(i).intersects(player)&&bullet.get(i).getType()==2) {
+                            bullet.remove(i);
+                            System.out.println("2-------hit!!!");
+                        }else{
+                            for (int j = 0; j <bullet.size() ; j++) {
+                                if(bullet.get(i).intersects(bullet.get(j))&&bullet.get(i).type!=bullet.get(j).type) {
+                                    if(i>j) {
+                                        bullet.remove(j);
+                                        bullet.remove(i-1);
+                                    }else {bullet.remove(j);
+                                    bullet.remove(i);}
+                                    break;
+                                }
+                            }
                         }
 
                     }
+                    System.out.println(bullet.size());
                     detect(bullet,blockList );
                 }
                 gc.clearRect(0, 0, 1548,871);
