@@ -26,8 +26,6 @@ public class Character extends Pane {
 
 	Rectangle removeRect = null;
 
-
-
 	SpriteAnimation animation;
 
 	public Character(ImageView imageView) {
@@ -45,10 +43,8 @@ public class Character extends Pane {
 				this.setTranslateX(this.getTranslateX() + 2);
 			else
 				this.setTranslateX(this.getTranslateX() - 2);
-//			isBonuseEat();
 		}
 	}
-
 
 	public void moveY(int y) {
 		boolean down = y > 0 ? true : false;
@@ -57,16 +53,17 @@ public class Character extends Pane {
 				this.setTranslateY(this.getTranslateY() + 2);
 			else
 				this.setTranslateY(this.getTranslateY() - 2);
-//			isBonuseEat();
 		}
 	}
-
-	public int getOffsetY() {
-		return offsetY;
-	}
-	public int getOffsetX() {
-		return offsetX;
+	public Rectangle2D getBoundary() {
+		return new Rectangle2D(this.getTranslateX(),this.getTranslateY(), width, height);
 	}
 
+	public boolean intersects(Character s) {
+		return s.getBoundary().intersects(this.getBoundary());
+	}
 
+	public int getDirection() {
+		return direction;
+	}
 }

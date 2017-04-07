@@ -72,7 +72,9 @@ public class Sprite {
 	public boolean intersects(Sprite s) {
 		return s.getBoundary().intersects(this.getBoundary());
 	}
-
+	public boolean intersects(Character s) {
+		return s.getBoundary().intersects(this.getBoundary());
+	}
 	public String toString() {
 		return " Position: [" + positionX + "," + positionY + "]" + " Velocity: [" + velocityX + "," + velocityY + "]";
 	}
