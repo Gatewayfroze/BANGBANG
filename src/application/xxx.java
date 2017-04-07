@@ -154,11 +154,15 @@ public class xxx  {
                     player.animation.setOffsetY(directionOffset[1]);
                     player.moveX(-2);
                     player.direction=1;
-                }else if (isPressed(KeyCode.R)&&Rate>=4/*&&player.getBullet()!=0*/) {
+                }else if (isPressed(KeyCode.F)&&Rate>=4/*&&player.getBullet()!=0*/) {
                     bullet.add(createBullet((player.getTranslateX()+40),player.getTranslateY()+40,player.direction,1));
                     player.shoot();
                     count=0;
 
+                }else if (isPressed(KeyCode.R)&&RateAll%4==0/*&&player2.getBullet()!=0*/) {
+                    Block newBlock=build(player);
+                    if(checkRender(blockList,newBlock)) System.out.println("intersect");  else
+                        blockList.add(newBlock);
                 }
                 else {
                     player.animation.stop();
@@ -189,8 +193,10 @@ public class xxx  {
                     bullet.add(createBullet((player2.getTranslateX()+40),player2.getTranslateY()+40,player2.direction,2));
                     count2=0;
                     player2.shoot();
-                }else if (isPressed(KeyCode.SEMICOLON)&&RateAll%4==0/*&&player2.getBullet()!=0*/) {
-                   blockList.add(build(player2));
+                }else if (isPressed(KeyCode.CONTROL)&&RateAll%4==0/*&&player2.getBullet()!=0*/) {
+                    Block newBlock=build(player2);
+                    if(checkRender(blockList,newBlock)) System.out.println("intersect");  else
+                        blockList.add(newBlock);
                 }
                 else {
                     player2.animation.stop();
@@ -268,27 +274,31 @@ public class xxx  {
     }
     public Block build(Character player){
         int bx=0,by=0;
-        if(player.getDirection()==0) {
-            //DOWN
-            by=(int) player.getTranslateY()+90;
-            bx=(int) player.getTranslateX()+45;
-        }
-        if(player.getDirection()==3){
-            //UP
-            by=(int) player.getTranslateY()-100;
-            bx=(int) player.getTranslateX()+45;
-        }
-        if(player.getDirection()==1){
-            //LEFT
-            bx=(int) player.getTranslateX()-100;
-            by=(int) player.getTranslateY()+45;
-        }
-        if(player.getDirection()==2){
-            //RIGHT
-            bx=(int) player.getTranslateX()+90;
-            by=(int) player.getTranslateY()+45;
-        }
-        Block block =new Block(bx,by,3,"block.png");
+        Block block =new Block();
+
+            if (player.getDirection() == 0) {
+                //DOWN
+                by = (int) player.getTranslateY() + 90;
+                bx = (int) player.getTranslateX();
+            }
+            if (player.getDirection() == 3) {
+                //UP
+                by = (int) player.getTranslateY() - 100;
+                bx = (int) player.getTranslateX();
+            }
+            if (player.getDirection() == 1) {
+                //LEFT
+                bx = (int) player.getTranslateX() - 100;
+                by = (int) player.getTranslateY();
+            }
+            if (player.getDirection() == 2) {
+                //RIGHT
+                bx = (int) player.getTranslateX() + 90;
+                by = (int) player.getTranslateY();
+            }
+
+            block=new Block(bx,by,3,"block.png");
+
             return block;
     }
     public boolean collision(Character m, ArrayList<Block> t, String direct) {
@@ -361,14 +371,20 @@ public class xxx  {
 
     }
     public boolean checkRender(ArrayList<Block> block,ArrayList<Weapon> weaponslist,Weapon weapon){
-            for (int j = 0; j <block.size() ; j++) {
-                if(weapon.intersects(block.get(j))) return true;
-            }
-            for (int j = 0; j <weaponslist.size() ; j++) {
-                if(weapon.intersects(weaponslist.get(j))) return true;
-            }
+        for (int j = 0; j <block.size() ; j++) {
+            if(weapon.intersects(block.get(j))) return true;
+        }
+        for (int j = 0; j <weaponslist.size() ; j++) {
+            if(weapon.intersects(weaponslist.get(j))) return true;
+        }
 
         return false;
+    }
+    public boolean checkRender(ArrayList<Block> blockList,Block block){
+        for (int j = 0; j <blockList.size() ; j++) {
+            if(block.intersects(blockList.get(j))) return true;
+        }
+         return false;
     }
 
 }
