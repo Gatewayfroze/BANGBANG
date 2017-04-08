@@ -18,7 +18,7 @@ public class Block extends Sprite {
     public void setDurabillity(int durabillity) {
         this.durabillity = durabillity;
     }
-    public void hti(int damage){
+    public void hit(int damage){
         this.durabillity-=damage;
     }
     public int getDurabillity() {

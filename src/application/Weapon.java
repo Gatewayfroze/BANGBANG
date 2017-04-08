@@ -7,13 +7,21 @@ public class Weapon extends Sprite {
     private int type;
     private double fireRate;
     private int damage;
+    private int bullet;
 
     public Weapon() {
     }
-    public Weapon(int type, double fireRate, int damage) {
+    public Weapon(int type,String filename,int bullet){
+        super.setImage(filename);
+        this.type = type;
+        this.bullet=bullet;
+    }
+    public Weapon(int type,String filename, double fireRate, int damage) {
+        super.setImage(filename);
         this.type = type;
         this.fireRate = fireRate;
         this.damage = damage;
+
     }
     public int getType() {
         return type;
@@ -26,5 +34,12 @@ public class Weapon extends Sprite {
     }
     public void setFireRate(double fireRate) {
         this.fireRate = fireRate;
+    }
+    public int getDamage() {
+        return damage;
+    }
+
+    public int getBullet() {
+        return bullet;
     }
 }

@@ -65,9 +65,15 @@ public class xxx  {
     }
     public Scene Game() {
         //setScene
+
+        ImageView    imageView = new ImageView(image);// show image
+        ImageView    imageView2= new ImageView(image2);
+        Character    player = new Character(imageView,1,100,3,100,10,
+                    0,3,1.5,3,10,1);
+        Character    player2 = new Character(imageView2,2,100,3,100,5,
+                0,3,1.5,1,10,1);
         Image image3 = new Image("file:\\E:\\JAVA\\interface_playtime.png");// specify character image
         ImageView imageView3 = new ImageView(image3);// show image
-
         Group root = new Group();
         Scene scene=new Scene(root);
         scene.setOnKeyPressed(event -> keys.put(event.getCode(), true));
@@ -76,8 +82,9 @@ public class xxx  {
         scene.setFill(pattern);
         //setGame
         Canvas canvas = new Canvas(1548 , 871);
+        Canvas layout = new Canvas(1548 , 871);
 
-        root.getChildren().addAll(canvas,player,player2,imageView3);
+        root.getChildren().addAll(canvas,player,player2,imageView3,layout);
 
 
 
@@ -96,31 +103,10 @@ public class xxx  {
         player2.setBullet(10);
 
 
-        //generate All block;
-        int xx=100;
-        for (int i = 0; i < 6; i++) {
-            Block block = new Block();
-            block.setImage("file:\\C:\\Users\\User\\IdeaProjects\\Game\\Dirt.png");
-            block.setDurabillity(3);
-            xx+=block.getHeight();
-            int px =400;
-            int py = xx;
-            block.setPosition((double) px, (double) py);
-            blockList.add(block);
-        }
-        xx=400;
-        for (int i = 0; i < 6; i++) {
-            Block block = new Block();
-            block.setImage("file:\\C:\\Users\\User\\IdeaProjects\\Game\\Dirt.png");
-            block.setDurabillity(3);
-            xx+=block.getWidth();
-            int px =xx;
-            int py = 300;
-            block.setPosition((double) px, (double) py);
-            blockList.add(block);
-        }
         //render obj
         GraphicsContext gc = canvas.getGraphicsContext2D();
+        GraphicsContext ly = layout.getGraphicsContext2D();
+
         for (Sprite block : blockList)
             block.render(gc);
         //Animation
@@ -134,34 +120,34 @@ public class xxx  {
                 count++;  count2++; countWeapon++; countAll++;
                 double Rate=count/10.0,Rate2=count2/10.0,RateWeapon=countWeapon/10.0,RateAll=countAll/10.0;
 
-                if (isPressed(KeyCode.W) && collision(player, blockList, "UP")&&player.getTranslateY()>0) {
+                if (isPressed(KeyCode.W) && collision(player, blockList, "UP")&&player.getTranslateY()>76) {
                     player.animation.play();
                     player.animation.setOffsetY(directionOffset[3]);
-                    player.moveY(-2);
+                    player.moveY(-player.getSpeed());
                     player.direction=3;
-                } else if (isPressed(KeyCode.S) && collision(player, blockList, "DOWN")&&player.getTranslateY()+90<scene.getHeight()) {
+                } else if (isPressed(KeyCode.S) && collision(player, blockList, "DOWN")&&player.getTranslateY()+90<scene.getHeight()-76) {
                     player.animation.play();
                     player.animation.setOffsetY(directionOffset[0]);
-                    player.moveY(2);
+                    player.moveY(player.getSpeed());
                     player.direction=0;
-                } else if (isPressed(KeyCode.D) && collision(player, blockList, "RIGHT")&&player.getTranslateX()+90<scene.getWidth()) {
+                } else if (isPressed(KeyCode.D) && collision(player, blockList, "RIGHT")&&player.getTranslateX()+90<scene.getWidth()-95) {
                     player.animation.play();
                     player.animation.setOffsetY(directionOffset[2]);
-                    player.moveX(2);
+                    player.moveX(player.getSpeed());
                     player.direction=2;
-                } else if (isPressed(KeyCode.A) && collision(player, blockList, "LEFT")&&player.getTranslateX()>0) {
+                } else if (isPressed(KeyCode.A) && collision(player, blockList, "LEFT")&&player.getTranslateX()>95) {
                     player.animation.play();
                     player.animation.setOffsetY(directionOffset[1]);
-                    player.moveX(-2);
+                    player.moveX(-player.getSpeed());
                     player.direction=1;
-                }else if (isPressed(KeyCode.F)&&Rate>=4/*&&player.getBullet()!=0*/) {
-                    bullet.add(createBullet((player.getTranslateX()+40),player.getTranslateY()+40,player.direction,1));
+                }else if (isPressed(KeyCode.F)&&Rate>=player.getFireRate()&&player.getBullet()!=0) {
+                    bullet.add(createBullet((player.getTranslateX()+40),player.getTranslateY()+40,player.direction,player));
                     player.shoot();
                     count=0;
 
-                }else if (isPressed(KeyCode.R)&&RateAll%4==0/*&&player2.getBullet()!=0*/) {
+                }else if (isPressed(KeyCode.R)&&RateAll%4==0) {
                     Block newBlock=build(player);
-                    if(checkRender(blockList,newBlock)) System.out.println("intersect");  else
+                    if(checkRender(blockList,weaponsList,newBlock)) System.out.println("intersect");  else
                         blockList.add(newBlock);
                 }
                 else {
@@ -169,33 +155,33 @@ public class xxx  {
                 }
                 //////////////////control player 2
 
-                if (isPressed(KeyCode.UP) && collision(player2, blockList, "UP")&&player2.getTranslateY()>0) {
+                if (isPressed(KeyCode.UP) && collision(player2, blockList, "UP")&&player2.getTranslateY()>76) {
                     player2.animation.play();
                     player2.animation.setOffsetY(directionOffset[3]);
-                    player2.moveY(-2);
+                    player2.moveY(-player2.getSpeed());
                     player2.direction=3;
-                } else if (isPressed(KeyCode.DOWN) && collision(player2, blockList, "DOWN")&&player2.getTranslateY()+90<scene.getHeight()) {
+                } else if (isPressed(KeyCode.DOWN) && collision(player2, blockList, "DOWN")&&player2.getTranslateY()+90<scene.getHeight()-76) {
                     player2.animation.play();
                     player2.animation.setOffsetY(directionOffset[0]);
-                    player2.moveY(2);
+                    player2.moveY(player2.getSpeed());
                     player2.direction=0;
-                } else if (isPressed(KeyCode.RIGHT) && collision(player2, blockList, "RIGHT")&&player2.getTranslateX()+90<scene.getWidth()) {
+                } else if (isPressed(KeyCode.RIGHT) && collision(player2, blockList, "RIGHT")&&player2.getTranslateX()+90<scene.getWidth()-95) {
                     player2.animation.play();
                     player2.animation.setOffsetY(directionOffset[2]);
-                    player2.moveX(2);
+                    player2.moveX(player2.getSpeed());
                     player2.direction=2;
-                } else if (isPressed(KeyCode.LEFT) && collision(player2, blockList, "LEFT")&&player2.getTranslateX()>0) {
+                } else if (isPressed(KeyCode.LEFT) && collision(player2, blockList, "LEFT")&&player2.getTranslateX()>95) {
                     player2.animation.play();
                     player2.animation.setOffsetY(directionOffset[1]);
-                    player2.moveX(-2);
+                    player2.moveX(-player2.getSpeed());
                     player2.direction=1;
-                }else if (isPressed(KeyCode.SLASH)&&Rate2>=4/*&&player2.getBullet()!=0*/) {
-                    bullet.add(createBullet((player2.getTranslateX()+40),player2.getTranslateY()+40,player2.direction,2));
+                }else if (isPressed(KeyCode.SLASH)&&Rate2>=player2.getFireRate()&&player2.getBullet()!=0) {
+                    bullet.add(createBullet((player2.getTranslateX()+40),player2.getTranslateY()+40,player2.direction,player2));
                     count2=0;
                     player2.shoot();
-                }else if (isPressed(KeyCode.CONTROL)&&RateAll%4==0/*&&player2.getBullet()!=0*/) {
+                }else if (isPressed(KeyCode.CONTROL)&&RateAll%4==0) {
                     Block newBlock=build(player2);
-                    if(checkRender(blockList,newBlock)) System.out.println("intersect");  else
+                    if(checkRender(blockList,weaponsList,newBlock)) System.out.println("intersect");  else
                         blockList.add(newBlock);
                 }
                 else {
@@ -204,40 +190,54 @@ public class xxx  {
 
                 //this is a random weapon
 
-        /*  if(RateWeapon>10){
-                    Weapon weapon=new Weapon(1,2,3);
-                    weapon.setImage("weapon1.png");
+                 if(RateWeapon>50){
+                    Weapon weapon=new Weapon(0,"mag.png",10);
                     int px,py;
                     do {
-                        px = (int) (800 * Math.random()) + 10;
-                        py = (int) (600 * Math.random()) + 10;
+                        px = (int) (1548 * Math.random()) + 10;
+                        py = (int) (871 * Math.random()) + 10;
                         weapon.setPosition((double) px, (double) py);
-
                     }while (checkRender(blockList,weaponsList,weapon));
                     weaponsList.add(weapon);
                     countWeapon=0;
+                }
 
-                }*/
+                if(weaponsList.size()!=0) {
+                    for (int i = 0; i <weaponsList.size(); i++) {
+                        if(weaponsList.get(i).getType()==0&&player.intersects(weaponsList.get(i))) {
+                            player.getMag(weaponsList.get(i).getBullet());
+                            weaponsList.remove(i);
+                        }else
+                        if(weaponsList.get(i).getType()==0&&player2.intersects(weaponsList.get(i))) {
+                            player2.getMag(weaponsList.get(i).getBullet());
+                            weaponsList.remove(i);
+                        }
+                    }
+
+                }
                 //if bullet was shoot
                 if(bullet.size()!=0) {
                     for (int i = 0; i <bullet.size() ; i++) {
                         bullet.get(i).render(gc);
                         bullet.get(i).update(elapsedTime);
-                        //bullet of player 1
+                        //bullet out of border
                         if(bullet.get(i).getPositionX()>scene.getWidth()||bullet.get(i).getPositionX()<0||
                            bullet.get(i).getPositionY()<0||bullet.get(i).getPositionY()>scene.getHeight()){
                             bullet.remove(i);
                         }else
-                        if(bullet.get(i).intersects(player2)&&bullet.get(i).getType()==1) {
+                        //bullet hitplayer2
+                        if(bullet.get(i).intersects(player2)&&bullet.get(i).getPlayerType()==1) {
                             bullet.remove(i);
                             System.out.println("1-------hit!!!");
                         }else
-                        if(bullet.get(i).intersects(player)&&bullet.get(i).getType()==2) {
+                        //bullet hitplayer1
+                        if(bullet.get(i).intersects(player)&&bullet.get(i).getPlayerType()==2) {
                             bullet.remove(i);
                             System.out.println("2-------hit!!!");
                         }else{
+                        //bullet hit bullet
                             for (int j = 0; j <bullet.size() ; j++) {
-                                if(bullet.get(i).intersects(bullet.get(j))&&bullet.get(i).type!=bullet.get(j).type) {
+                                if(bullet.get(i).intersects(bullet.get(j))&&bullet.get(i).getPlayerType()!=bullet.get(j).getPlayerType()) {
                                     if(i>j) {
                                         bullet.remove(j);
                                         bullet.remove(i-1);
@@ -247,32 +247,25 @@ public class xxx  {
                                 }
                             }
                         }
-
                     }
 
-                    detect(bullet,blockList );
+                    detect(bullet,blockList);
                 }
                 gc.clearRect(0, 0, 1548,871);
                 for (Weapon w : weaponsList )w.render( gc );
                 for (Sprite b : bullet )b.render( gc );
                 for (Sprite moneybag : blockList)moneybag.render(gc);
-
-
-
-
-
-
             }
         };
         timer.start();
         return scene;
     }
-    public Bullet createBullet(double x,double y,int direction,int type){
-        Bullet bullet = new Bullet(type,direction,1,3);
+    public Bullet createBullet(double x,double y,int direction,Character player){
+        Bullet bullet = new Bullet(player.getType(),1,direction,player.getDamage(),3);
         bullet.setPosition(x,y);
         return bullet;
     }
-    public Block build(Character player){
+    public Block  build(Character player){
         int bx=0,by=0;
         Block block =new Block();
 
@@ -301,7 +294,7 @@ public class xxx  {
 
             return block;
     }
-    public boolean collision(Character m, ArrayList<Block> t, String direct) {
+    public boolean collision  (Character m,ArrayList<Block> t, String direct) {
         if (direct.equals("LEFT")) {
             for (int i = 0; i < t.size(); i++) {
                 if (m.getTranslateX() - 3.5 < t.get(i).getPositionX() + t.get(i).getWidth()
@@ -355,12 +348,12 @@ public class xxx  {
         return true;
 
     }
-    public void detect(ArrayList<Bullet> t,ArrayList<Block> m){
+    public void    detect     (ArrayList<Bullet> t,ArrayList<Block> m){
         for (int i = 0; i <t.size() ; i++) {
             for (int j = 0; j <m.size() ; j++) {
                 if(t.get(i).intersects(m.get(j))){
+                    m.get(j).hit(t.get(i).damage);
                     t.remove(i);
-                    m.get(j).hti(1);
                     if(m.get(j).getDurabillity()<=0)
                     m.remove(j);
                     break;
@@ -380,11 +373,13 @@ public class xxx  {
 
         return false;
     }
-    public boolean checkRender(ArrayList<Block> blockList,Block block){
+    public boolean checkRender(ArrayList<Block> blockList,ArrayList<Weapon> weaponArrayList,Block block){
         for (int j = 0; j <blockList.size() ; j++) {
             if(block.intersects(blockList.get(j))) return true;
         }
+        for (int j = 0; j <weaponArrayList.size() ; j++) {
+            if(block.intersects(weaponArrayList.get(j))) return true;
+        }
          return false;
     }
-
 }
