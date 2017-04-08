@@ -19,6 +19,10 @@ public class Sprite {
 		velocityX = 0;
 		velocityY = 0;
 	}
+	public Sprite(String filename,int x,int y) {
+		this.setImage(filename);
+		this.setPosition(x,y);
+	}
 
 	public void setImage(Image i) {
 		image = i;
