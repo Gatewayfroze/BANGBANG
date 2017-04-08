@@ -1,5 +1,7 @@
 package application;
 
+import javafx.scene.canvas.GraphicsContext;
+
 /**
  * Created by User on 4/4/2560.
  */
@@ -38,6 +40,7 @@ public class Bullet extends Sprite{
 
 
     }
+
     public int getType() {
         return type;
     }

@@ -180,6 +180,8 @@ public class Character extends Pane {
 	public void shoot(){
 		this.bullet--;
 	}
+	public void hit(int damage){this.hp-=damage;
+	}
 	public void getMag(int bullet){
 		this.bullet+=bullet;
 	}

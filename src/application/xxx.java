@@ -69,9 +69,9 @@ public class xxx  {
         ImageView    imageView = new ImageView(image);// show image
         ImageView    imageView2= new ImageView(image2);
         Character    player = new Character(imageView,1,100,3,100,10,
-                    0,3,1.5,1,10,1);
+                    0,3,1.5,1,100,1);
         Character    player2 = new Character(imageView2,2,100,3,100,10,
-                0,15,1.5,10,10,1);
+                0,15,1.5,10,100,1);
         Image image3 = new Image("file:\\E:\\JAVA\\interface_playtime.png");// specify character image
         ImageView imageView3 = new ImageView(image3);// show image
         Group root = new Group();
@@ -85,8 +85,6 @@ public class xxx  {
         Canvas layout = new Canvas(1548 , 871);
 
         root.getChildren().addAll(canvas,player,player2,imageView3,layout);
-
-
 
         ArrayList<Block> blockList = new ArrayList<>();
         ArrayList<Bullet> bullet=new ArrayList<>();
@@ -103,8 +101,8 @@ public class xxx  {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         GraphicsContext ly = layout.getGraphicsContext2D();
 
-        for (Sprite block : blockList)
-            block.render(gc);
+//        for (Sprite block : blockList)
+//            block.render(gc);
         //Animation
         AnimationTimer timer = new AnimationTimer() {
             double lastNanoTime = System.nanoTime() ;
@@ -197,7 +195,7 @@ public class xxx  {
                     weaponsList.add(weapon);
                     countWeapon=0;
                 }
-
+                //get Magazine
                 if(weaponsList.size()!=0) {
                     for (int i = 0; i <weaponsList.size(); i++) {
                         if(weaponsList.get(i).getType()==0&&player.intersects(weaponsList.get(i))) {
@@ -223,22 +221,34 @@ public class xxx  {
                         }else
                         //bullet hitplayer2
                         if(bullet.get(i).intersects(player2)&&bullet.get(i).getPlayerType()==1) {
+                            player2.hit(bullet.get(i).damage);
                             bullet.remove(i);
-                            System.out.println("1-------hit!!!");
+                            System.out.println("HP Player2 "+player2.getHp());
                         }else
                         //bullet hitplayer1
                         if(bullet.get(i).intersects(player)&&bullet.get(i).getPlayerType()==2) {
+                            player.hit(bullet.get(i).damage);
                             bullet.remove(i);
-                            System.out.println("2-------hit!!!");
+                            System.out.println("HP Player1 "+player.getHp());
                         }else{
                         //bullet hit bullet
                             for (int j = 0; j <bullet.size() ; j++) {
                                 if(bullet.get(i).intersects(bullet.get(j))&&bullet.get(i).getPlayerType()!=bullet.get(j).getPlayerType()) {
-                                    if(i>j) {
-                                        bullet.remove(j);
-                                        bullet.remove(i-1);
-                                    }else {bullet.remove(j);
-                                    bullet.remove(i);}
+                                    int oldD=bullet.get(i).damage;
+                                    bullet.get(i).damage-=bullet.get(j).damage;
+                                    bullet.get(j).damage-=oldD;
+                                    if(bullet.get(i).damage<=0&&bullet.get(j).damage<=0) {
+                                        if (i > j) {
+                                            bullet.remove(i);
+                                            bullet.remove(j);
+
+                                        } else {
+                                            bullet.remove(j);
+                                            bullet.remove(i);
+                                        }
+                                    }else
+                                    if(bullet.get(i).damage<=0)bullet.remove(i); else
+                                    if(bullet.get(j).damage<=0)bullet.remove(j);
                                     break;
                                 }
                             }
@@ -247,10 +257,21 @@ public class xxx  {
 
                     detect(bullet,blockList);
                 }
+
+                //check HP
+                if(player.getHp()<=0){player.setLife(player.getLife()-1);
+                    System.out.println("life1"+player.getLife());
+                    player.setHp(100);
+                 }
+                if(player2.getHp()<=0){
+                    player2.setLife(player2.getLife()-1);
+                    System.out.println("life2"+player2.getLife());
+                    player.setHp(100);
+                }
                 gc.clearRect(0, 0, 1548,871);
                 for (Weapon w : weaponsList )w.render( gc );
-                for (Sprite b : bullet )b.render( gc );
-                for (Sprite moneybag : blockList)moneybag.render(gc);
+                for (Bullet b : bullet )b.render( gc );
+                for (Block moneybag : blockList)moneybag.render(gc);
             }
         };
         timer.start();
@@ -353,11 +374,9 @@ public class xxx  {
                     if(m.get(j).getDurabillity()<=0)
                     m.remove(j);
                     break;
-
                 }
             }
         }
-
     }
     public boolean checkRender(ArrayList<Block> block,ArrayList<Weapon> weaponslist,Weapon weapon){
         for (int j = 0; j <block.size() ; j++) {
