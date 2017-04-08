@@ -69,9 +69,9 @@ public class xxx  {
         ImageView    imageView = new ImageView(image);// show image
         ImageView    imageView2= new ImageView(image2);
         Character    player = new Character(imageView,1,100,3,100,10,
-                    0,3,1.5,3,10,1);
-        Character    player2 = new Character(imageView2,2,100,3,100,5,
-                0,3,1.5,1,10,1);
+                    0,3,1.5,1,10,1);
+        Character    player2 = new Character(imageView2,2,100,3,100,10,
+                0,15,1.5,10,10,1);
         Image image3 = new Image("file:\\E:\\JAVA\\interface_playtime.png");// specify character image
         ImageView imageView3 = new ImageView(image3);// show image
         Group root = new Group();
@@ -95,12 +95,8 @@ public class xxx  {
         int []directionOffset={0,180,90,270};
 
         //set status player
-        player.setTranslateY(300);
-        player.setTranslateX(20);
-        player.setBullet(10);
-        player2.setTranslateX(500);
-        player2.setTranslateY(500);
-        player2.setBullet(10);
+        player.setPosition(105,700);
+        player2.setPosition(1370,80);
 
 
         //render obj
@@ -261,7 +257,7 @@ public class xxx  {
         return scene;
     }
     public Bullet createBullet(double x,double y,int direction,Character player){
-        Bullet bullet = new Bullet(player.getType(),1,direction,player.getDamage(),3);
+        Bullet bullet = new Bullet(player.getType(),1,direction,player.getDamage(),player.getSpeedBullet());
         bullet.setPosition(x,y);
         return bullet;
     }
