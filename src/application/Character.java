@@ -177,12 +177,11 @@ public class Character extends Pane {
 	public void setBullet(int bullet) {
 		this.bullet = bullet;
 	}
-	public void shoot(){
-		this.bullet--;
-	}
-	public void hit(int damage){this.hp-=damage;
-	}
-	public void getMag(int bullet){
+		public void getMag(){
+		int bullet=0;
+		if(this.getTypeWeapon()==0) {bullet=10;}
+		if(this.getTypeWeapon()==1){bullet=20;}
+		if(this.getTypeWeapon()==2){bullet=5;}
 		this.bullet+=bullet;
 	}
 
@@ -192,6 +191,24 @@ public class Character extends Pane {
 	public void setPosition(int x,int y){
 		super.setTranslateX(x);
 		super.setTranslateY(y);
+	}
+//special method
+	public void shoot(){
+		this.bullet--;
+	}
+	public void hit(int damage){this.hp-=damage;
+	}
+	public void getWeapon(Weapon weapon){
+	this.setTypeWeapon(weapon.getType());
+	this.setSpeedBullet(weapon.getSpeedBullet());
+	this.setFireRate(weapon.getFireRate());
+	this.setDamage(weapon.getDamage());
+	// 1 machineGun 2 sniper
+	if(weapon.getType()==0){this.setBullet(10);}else
+	if(weapon.getType()==1){this.setBullet(30);}else
+	if(weapon.getType()==2){this.setBullet(5);}
+
+
 	}
 
 }

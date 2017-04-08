@@ -12,6 +12,7 @@ public class Sprite {
 	private double velocityY;
 	private double width;
 	private double height;
+	private String fileName;
 
 	public Sprite() {
 		positionX = 0;
@@ -20,6 +21,7 @@ public class Sprite {
 		velocityY = 0;
 	}
 	public Sprite(String filename,int x,int y) {
+		this.fileName=filename;
 		this.setImage(filename);
 		this.setPosition(x,y);
 	}
@@ -60,6 +62,15 @@ public class Sprite {
 	public double getWidth() {
 		return width;
 	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
 	public void update(double time) {
 		positionX += velocityX * time;
 		positionY += velocityY * time;

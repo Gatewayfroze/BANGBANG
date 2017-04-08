@@ -69,10 +69,13 @@ public class xxx  {
 
         ImageView    imageView = new ImageView(image);// show image
         ImageView    imageView2= new ImageView(image2);
+        Sprite        weaponInterFace=new Sprite("inWeapon.png",8,360);
+        Sprite        weaponInterFace2=new Sprite("inWeapon.png",1425,390);
         Character    player = new Character(imageView,1,100,3,25,10,
-                    0,3,1.5,1,10,1);
+                    0,3,2,2,10,1);
         Character    player2 = new Character(imageView2,2,100,3,25,10,
-                0,15,1.5,10,10,1);
+                0,3,2,2,10,1);
+        Weapon defaultWeapon=new Weapon(0,"inweapon.png",2,3,2);
         Image image3 = new Image("file:\\E:\\JAVA\\interface_playtime.png");// specify character image
         ImageView imageView3 = new ImageView(image3);// show image
         Group root = new Group();
@@ -118,6 +121,7 @@ public class xxx  {
         AnimationTimer timer = new AnimationTimer() {
             double lastNanoTime = System.nanoTime() ;
             int count=0,count2=0,countWeapon=0,countAll=0;
+
             @Override
             public void handle(long now) {
                 double elapsedTime = (now - lastNanoTime) / 10000000.0;
@@ -199,9 +203,7 @@ public class xxx  {
                     Weapon weapon=new Weapon(0,"mag.png",10);
                     int px,py;
                     do {
-                        px = (int) (1548 * Math.random()) + 10;
-                        py = (int) (871 * Math.random()) + 10;
-                        weapon.setPosition((double) px, (double) py);
+                        weapon=createWeapon();
                     }while (checkRender(blockList,weaponsList,weapon));
                     weaponsList.add(weapon);
                     countWeapon=0;
@@ -209,18 +211,32 @@ public class xxx  {
                 //get Magazine
                 if(weaponsList.size()!=0) {
                     for (int i = 0; i <weaponsList.size(); i++) {
-                        int tt=weaponsList.get(i).getType();
-                        switch (tt) {
-                         case 0:{   if (weaponsList.get(i).getType() == 0 && player.intersects(weaponsList.get(i))) {
-                                player.getMag(weaponsList.get(i).getBullet());
+                        if (weaponsList.get(i).getType()==0){
+                            if (player.intersects(weaponsList.get(i))) {
+                                player.getMag();
                                 weaponsList.remove(i);
-                            } else if (weaponsList.get(i).getType() == 0 && player2.intersects(weaponsList.get(i))) {
-                                player2.getMag(weaponsList.get(i).getBullet());
+                            } else
+                            if (player2.intersects(weaponsList.get(i))) {
+                                player2.getMag();
                                 weaponsList.remove(i);
-                            }break;}
+                            }
+                        }else
+                        if (weaponsList.get(i).getType()!=0){
+                            if (player.intersects(weaponsList.get(i))) {
+                                player.getWeapon(weaponsList.get(i));
+                                ly.clearRect(8,360,120,120);
+                                weaponInterFace.setImage("in"+weaponsList.get(i).getFileName());
+                                System.out.println(weaponsList.get(i).getFileName());
+                                weaponsList.remove(i);
+                            } else
+                            if (player2.intersects(weaponsList.get(i))) {
+                                player2.getWeapon(weaponsList.get(i));
+                                weaponInterFace2.setImage("in"+weaponsList.get(i).getFileName());
+                                ly.clearRect(1425,390,120,120);
+                                weaponsList.remove(i);
+                            }
                         }
                     }
-
                 }
                 //if bullet was shoot
                 if(bullet.size()!=0) {
@@ -270,7 +286,18 @@ public class xxx  {
 
                     detect(bullet,blockList);
                 }
+                //default weapon
+                if(player.getBullet()<=0&&player.getTypeWeapon()!=0){
+                    player.getWeapon(defaultWeapon);
+                    ly.clearRect(8,360,120,120);
+                    weaponInterFace.setImage("inweapon.png");
+                 }
+                if(player2.getBullet()<=0&&player2.getTypeWeapon()!=0){
+                    player2.getWeapon(defaultWeapon);
+                    ly.clearRect(1425,390,120,120);
+                    weaponInterFace2.setImage("inweapon.png");
 
+                }
                 //check HP
                 if(player.getHp()<=0){player.setLife(player.getLife()-1);
                     System.out.println("life1"+player.getLife());
@@ -291,6 +318,8 @@ public class xxx  {
                 for (Weapon w : weaponsList )w.render( gc );
                 for (Bullet b : bullet )b.render( gc );
                 for (Block moneybag : blockList)moneybag.render(gc);
+                weaponInterFace.render(ly);
+                weaponInterFace2.render(ly);
 
                 //show status
                 Font theFont = Font.font( "Arial Narrow", FontWeight.BOLD, 30 );
@@ -320,19 +349,19 @@ public class xxx  {
         //random 0-2 | 0=bullet ,1=machineGun,2= sniper
         int type=(int)(3*Math.random());
         int px,py;
-        px = (int) (1548 * Math.random()) + 10;
-        py = (int) (871 * Math.random()) + 10;
+        px = (int) (1200 * Math.random()) + 100;
+        py = (int) (650 * Math.random()) + 100;
         switch (type){
             case 0:{
                 weapon=new Weapon(0,"mag.png",10);
                 break;
             }
             case 1:{
-                weapon=new Weapon(1,"mag.png",0.5,2);
+                weapon=new Weapon(1,"weapon1.png",0.5,3,2);
                 break;
             }
             case 2:{
-                weapon=new Weapon(1,"mag.png",4,10);
+                weapon=new Weapon(2,"weapon2.png",7,10,10);
                 break;
             }
             case 3:{
@@ -341,6 +370,7 @@ public class xxx  {
 
         }
         weapon.setPosition((double) px, (double) py);
+        System.out.println("weapon rand "+type);
         return weapon;
     }
     public Block   build(Character player){
