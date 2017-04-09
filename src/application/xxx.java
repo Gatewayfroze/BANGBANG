@@ -28,7 +28,7 @@ public class xxx  {
     public static ArrayList<Rectangle> bonuses = new ArrayList<>();
     Image        image = new Image("scout_fix.png");// specify character image
     Image        map = new Image("BG1.png");
-    Image        image2 =new Image("oldchar_fix.png");
+    Image        image2 =new Image("oldchar_fix2.png");
 
     ImageView    imageView = new ImageView(image);// show image
     ImageView    imageView2= new ImageView(image2);
@@ -69,7 +69,7 @@ public class xxx  {
 
         ImageView    imageView        = new ImageView(image);// show image
         ImageView    imageView2       = new ImageView(image2);
-        Sprite       weaponInterFace  = new Sprite("inWeapon.png",8,360);
+        Sprite       weaponInterFace  = new Sprite("inWeapon.png",0,300);
         Sprite       weaponInterFace2 = new Sprite("inWeapon.png",1425,390);
         Character    player           = new Character(imageView,1,100,3,25,10,
                                             0,3,2,2,10,1);
@@ -107,7 +107,7 @@ public class xxx  {
             x+=50;
         }
 
-        int []directionOffset={0,180,90,270};
+        int []directionOffset={0,140,70,210};
 
         //set status player
         player.setPosition(105,600);
@@ -130,22 +130,22 @@ public class xxx  {
                 count++;  count2++; countWeapon++; countAll++;
                 double Rate=count/10.0,Rate2=count2/10.0,RateWeapon=countWeapon/10.0,RateAll=countAll/10.0;
 
-                if (isPressed(KeyCode.W) && collision(player, blockList, "UP")&&player.getTranslateY()>76) {
+                if (isPressed(KeyCode.W) && collision(player, blockList, "UP")&&player.getTranslateY()>63) {
                     player.animation.play();
                     player.animation.setOffsetY(directionOffset[3]);
                     player.moveY(-player.getSpeed());
                     player.direction=3;
-                } else if (isPressed(KeyCode.S) && collision(player, blockList, "DOWN")&&player.getTranslateY()+73<scene.getHeight()-76) {
+                } else if (isPressed(KeyCode.S) && collision(player, blockList, "DOWN")&&player.getTranslateY()+70<scene.getHeight()-63) {
                     player.animation.play();
                     player.animation.setOffsetY(directionOffset[0]);
                     player.moveY(player.getSpeed());
                     player.direction=0;
-                } else if (isPressed(KeyCode.D) && collision(player, blockList, "RIGHT")&&player.getTranslateX()+73<scene.getWidth()-95) {
+                } else if (isPressed(KeyCode.D) && collision(player, blockList, "RIGHT")&&player.getTranslateX()+57<scene.getWidth()-80) {
                     player.animation.play();
                     player.animation.setOffsetY(directionOffset[2]);
                     player.moveX(player.getSpeed());
                     player.direction=2;
-                } else if (isPressed(KeyCode.A) && collision(player, blockList, "LEFT")&&player.getTranslateX()>95) {
+                } else if (isPressed(KeyCode.A) && collision(player, blockList, "LEFT")&&player.getTranslateX()>63) {
                     player.animation.play();
                     player.animation.setOffsetY(directionOffset[1]);
                     player.moveX(-player.getSpeed());
@@ -165,22 +165,22 @@ public class xxx  {
                 }
                 //////////////////control player 2
 
-                if (isPressed(KeyCode.UP) && collision(player2, blockList, "UP")&&player2.getTranslateY()>76) {
+                if (isPressed(KeyCode.UP) && collision(player2, blockList, "UP")&&player2.getTranslateY()>63) {
                     player2.animation.play();
                     player2.animation.setOffsetY(directionOffset[3]);
                     player2.moveY(-player2.getSpeed());
                     player2.direction=3;
-                } else if (isPressed(KeyCode.DOWN) && collision(player2, blockList, "DOWN")&&player2.getTranslateY()+73<scene.getHeight()-76) {
+                } else if (isPressed(KeyCode.DOWN) && collision(player2, blockList, "DOWN")&&player2.getTranslateY()+70<scene.getHeight()-63) {
                     player2.animation.play();
                     player2.animation.setOffsetY(directionOffset[0]);
                     player2.moveY(player2.getSpeed());
                     player2.direction=0;
-                } else if (isPressed(KeyCode.RIGHT) && collision(player2, blockList, "RIGHT")&&player2.getTranslateX()+73<scene.getWidth()-95) {
+                } else if (isPressed(KeyCode.RIGHT) && collision(player2, blockList, "RIGHT")&&player2.getTranslateX()+57   <scene.getWidth()-80) {
                     player2.animation.play();
                     player2.animation.setOffsetY(directionOffset[2]);
                     player2.moveX(player2.getSpeed());
                     player2.direction=2;
-                } else if (isPressed(KeyCode.LEFT) && collision(player2, blockList, "LEFT")&&player2.getTranslateX()>95) {
+                } else if (isPressed(KeyCode.LEFT) && collision(player2, blockList, "LEFT")&&player2.getTranslateX()>63) {
                     player2.animation.play();
                     player2.animation.setOffsetY(directionOffset[1]);
                     player2.moveX(-player2.getSpeed());
