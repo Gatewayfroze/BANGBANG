@@ -33,7 +33,7 @@ public class CreditControl {
 
     @FXML
     public void loadMenu(ActionEvent event) throws IOException {
-        AnchorPane pane = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("xx.fxml"));
 
         rootPane2.getChildren().setAll(pane);
 

@@ -5,8 +5,6 @@
 #startbtn{
 -fx-background-image: url("/startbt.png");
 -fx-opacity: 0.7;
--fx-filter:blur ;
-
 }
 
 #backbtn{

@@ -2,8 +2,10 @@ package application;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -19,6 +21,10 @@ public class Main extends Application {
     public Scene SelectCharector() throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("xx.fxml"));
         Scene scene=new Scene(root);
+        Image cursor = new Image("cursor.png");
+        scene.setCursor(new ImageCursor(cursor,
+                cursor.getWidth() / 2,
+                cursor.getHeight() /2));
 
         return scene;
     }
