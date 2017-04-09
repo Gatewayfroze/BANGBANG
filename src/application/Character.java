@@ -182,6 +182,7 @@ public class Character extends Pane {
 		if(this.getTypeWeapon()==0) {bullet=10;}
 		if(this.getTypeWeapon()==1){bullet=20;}
 		if(this.getTypeWeapon()==2){bullet=5;}
+		if(this.getTypeWeapon()==3){bullet=12;}
 		this.bullet+=bullet;
 	}
 
@@ -206,8 +207,8 @@ public class Character extends Pane {
 	// 1 machineGun 2 sniper
 	if(weapon.getType()==0){this.setBullet(10);}else
 	if(weapon.getType()==1){this.setBullet(30);}else
-	if(weapon.getType()==2){this.setBullet(5);}
-
+	if(weapon.getType()==2){this.setBullet(5);}else
+	if(weapon.getType()==3){this.setBullet(21);}
 
 	}
 

@@ -42,12 +42,12 @@ public class Sprite {
 		positionY = y;
 	}
 
-	public void setVelocity(double x, double y) {
+	public void   setVelocity(double x, double y) {
 		velocityX = x;
 		velocityY = y;
 	}
 
-	public void addVelocity(double x, double y) {
+	public void   addVelocity(double x, double y) {
 		velocityX += x;
 		velocityY += y;
 	}
@@ -57,35 +57,37 @@ public class Sprite {
 	public double getPositionY() {
 		return positionY;
 	}
+	public double getVelocityX() {return velocityX; }
+	public double getVelocityY() {return velocityY;}
+	public void   setVelocityX(double velocityX) {
+		this.velocityX = velocityX;
+	}
+	public void   setVelocityY(double velocityY) {
+		this.velocityY = velocityY;
+	}
 	public double getHeight() {
 		return height;
 	}
 	public double getWidth() {
 		return width;
 	}
-
-	public void setFileName(String fileName) {
+	public void   setFileName(String fileName) {
 		this.fileName = fileName;
 	}
-
 	public String getFileName() {
 		return fileName;
 	}
-
-	public void update(double time) {
+	public void   update(double time) {
 		positionX += velocityX * time;
 		positionY += velocityY * time;
 	}
-
-	public void render(GraphicsContext gc) {
+	public void   render(GraphicsContext gc) {
 		gc.drawImage(image, positionX, positionY);
 
 	}
-
 	public Rectangle2D getBoundary() {
 		return new Rectangle2D(positionX, positionY, width, height);
 	}
-
 	public boolean intersects(Sprite s) {
 		return s.getBoundary().intersects(this.getBoundary());
 	}
