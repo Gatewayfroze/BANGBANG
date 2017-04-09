@@ -93,9 +93,9 @@ public class xxx  {
         ImageView    imageView2       = new ImageView(image2);
         Sprite       weaponInterFace  = new Sprite("inWeapon.png",0,300);
         Sprite       weaponInterFace2 = new Sprite("inWeapon.png",1180,320);
-        Character    player           = new Character(imageView,1,100,3,25,20,
+        Character    player           = new Character(imageView,1,100,3,25,6,
                                             0,3,2,2,10,1);
-        Character    player2          = new Character(imageView2,2,100,3,25,5,
+        Character    player2          = new Character(imageView2,2,100,3,25,6,
                                             0,3,2,2,10,1);
         Weapon       defaultWeapon    = new Weapon(0,"inweapon.png",2,3,2);
         Image        image3           = new Image("interface_new.png");// specify character image
@@ -118,6 +118,7 @@ public class xxx  {
         ArrayList<Weapon> weaponsList=new ArrayList<>();
         ArrayList<Sprite> viewLife=new ArrayList<>();
         ArrayList<Sprite> viewLife2=new ArrayList<>();
+        genMap(blockList);
         int x=320;
         for (int i = 0; i <player.getLife() ; i++) {
             viewLife.add(new Sprite("heart.png",x,50));
@@ -181,8 +182,13 @@ public class xxx  {
                     player.animation.stop();
                 }
                 if (isPressed(KeyCode.F)&&Rate>=player.getFireRate()&&player.getBullet()!=0) {
-                    bullet.add(createBullet((player.getTranslateX()+23),player.getTranslateY()+30,player.direction,player));
-                    player.shoot();
+                    if(player.getTypeWeapon()==3) {
+                        createBulletShotGun((player.getTranslateX() + 23), player.getTranslateY() + 30,player,bullet);
+                    }else {
+                        bullet.add(createBullet((player.getTranslateX() + 23), player.getTranslateY() + 30, player));
+                        player.shoot();
+                    }
+
                     count=0;
 
                 }
@@ -217,9 +223,13 @@ public class xxx  {
                     player2.animation.stop();
                 }
                 if (isPressed(KeyCode.SLASH)&&Rate2>=player2.getFireRate()&&player2.getBullet()!=0) {
-                    bullet.add(createBullet((player2.getTranslateX()+23),player2.getTranslateY()+30,player2.direction,player2));
+                    if(player2.getTypeWeapon()==3) {
+                        createBulletShotGun((player2.getTranslateX() + 23), player2.getTranslateY() + 30,player2,bullet);
+                    }else {
+                        bullet.add(createBullet((player2.getTranslateX() + 23), player2.getTranslateY() + 30, player2));
+                        player2.shoot();
+                    }
                     count2=0;
-                    player2.shoot();
                 }
 
                 //this is a random weapon
@@ -364,18 +374,37 @@ public class xxx  {
         timer.start();
         return scene;
     }
-    public Bullet  createBullet(double x,double y,int direction,Character player){
-        Bullet bullet = new Bullet(player.getType(),1,direction,player.getDamage(),player.getSpeedBullet());
+    public Bullet  createBullet(double x,double y,Character player){
+        Bullet bullet = new Bullet(player.getType(),1,player.getDirection(),player.getDamage(),player.getSpeedBullet());
         bullet.setPosition(x,y);
         return bullet;
     }
+    public void  createBulletShotGun(double x,double y,Character player,ArrayList<Bullet> bb){
+        for (int i = 0; i <3 ; i++) {
+            Bullet bullet = new Bullet(player.getType(),1,player.getDirection(),player.getDamage(),player.getSpeedBullet());
+            bullet.setPosition(x,y);
+            if(i==0){
+                if(bullet.getVelocityX()==0)bullet.setVelocityX(1);
+                if(bullet.getVelocityY()==0)bullet.setVelocityY(1);
+            }
+            if(i==2){
+                if(bullet.getVelocityX()==0)bullet.setVelocityX(-1);
+                if(bullet.getVelocityY()==0)bullet.setVelocityY(-1);
+            }
+            player.shoot();
+            bb.add(bullet);
+        }
+
+
+
+    }
     public Weapon  createWeapon(){
         Weapon weapon=new Weapon();
-        //random 0-2 | 0=bullet ,1=machineGun,2= sniper
-        int type=(int)(3*Math.random());
+        //random 0-2 | 0=bullet ,1=machineGun,2= sniper,3= shotGun
+        int type=(int)(4*Math.random());
         int px,py;
-        px = (int) (1100 * Math.random()) + 100;
-        py = (int) (620 * Math.random()) + 100;
+        px = (int) (1000 * Math.random()) + 100;
+        py = (int) (520 * Math.random()) + 100;
         switch (type){
             case 0:{
                 weapon=new Weapon(0,"mag.png",10);
@@ -390,6 +419,7 @@ public class xxx  {
                 break;
             }
             case 3:{
+                weapon=new Weapon(3,"weapon3.png",10,8,3);
                 break;
             }
 
@@ -404,28 +434,45 @@ public class xxx  {
 
             if (player.getDirection() == 0) {
                 //DOWN
-                by = (int) player.getTranslateY() + 90;
+                by = (int) player.getTranslateY() + 70;
                 bx = (int) player.getTranslateX();
             }
             if (player.getDirection() == 3) {
                 //UP
-                by = (int) player.getTranslateY() - 100;
+                by = (int) player.getTranslateY() - 60;
                 bx = (int) player.getTranslateX();
             }
             if (player.getDirection() == 1) {
                 //LEFT
-                bx = (int) player.getTranslateX() - 100;
+                bx = (int) player.getTranslateX() - 60;
                 by = (int) player.getTranslateY();
             }
             if (player.getDirection() == 2) {
                 //RIGHT
-                bx = (int) player.getTranslateX() + 90;
+                bx = (int) player.getTranslateX() + 70;
                 by = (int) player.getTranslateY();
             }
 
             block=new Block(bx,by,3,"block.png");
 
             return block;
+    }
+    public void    genMap(ArrayList<Block> blocks){
+        int px=70,py=64,count=0,index=0;
+        int []bb={3,5,6,7,18,20,21,22,23,63,72,91,110,200};
+        for (int i = 0; i <=9 ; i++) {
+            for (int j = 0; j <=18 ; j++) {
+                if (index==bb.length)break;
+                if(count==bb[index]){
+                    blocks.add(new Block(px,py,3,"block.png"));
+                    index++;
+                }
+                count++;
+                px+=60;
+            }
+            py+=60;
+            px=70;
+        }
     }
     public boolean collision  (Character m,ArrayList<Block> t, String direct) {
         if (direct.equals("LEFT")) {

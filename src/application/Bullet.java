@@ -10,8 +10,7 @@ public class Bullet extends Sprite{
     int type;
     int direction;
     int damage;
-    final static String [][]nameImage={{"bullet_DOWN.png","bullet_RIGHT.png","bullet_LEFT.png","bullet_UP.png"},
-            {                       }};
+    final static String []nameImage={"bullet_DOWN.png","bullet_RIGHT.png","bullet_LEFT.png","bullet_UP.png"};
 
     public Bullet() {
     }
@@ -22,19 +21,19 @@ public class Bullet extends Sprite{
         this.damage = damage;
 
         if(direction==0) {
-            this.setImage(nameImage[0][0]);
+            this.setImage(nameImage[0]);
             this.setVelocity(0,speed);
         }else
         if(direction==1) {
-            this.setImage(nameImage[0][1]);
+            this.setImage(nameImage[1]);
             this.setVelocity(-speed,0);
         }else
         if(direction==2) {
-            this.setImage(nameImage[0][2]);
+            this.setImage(nameImage[2]);
             this.setVelocity(+speed,0);
         }else
         if(direction==3) {
-            this.setImage(nameImage[0][3]);
+            this.setImage(nameImage[3]);
             this.setVelocity(0,-speed);
         }
 
