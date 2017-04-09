@@ -15,7 +15,7 @@ public class Main extends Application {
         stage.setTitle("Game");
         stage.show();
     }
-
+//พ่องมึงดิสัส
     public Scene SelectCharector() throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("xx.fxml"));
         Scene scene=new Scene(root);
