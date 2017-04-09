@@ -15,7 +15,7 @@ public class Character extends Pane {
 	int columns = 4;
 	int offsetX = 0;
 	int offsetY = 0;
-	int width = 90;
+	int width = 74;
 	int height = 90;
 
 	//status of player

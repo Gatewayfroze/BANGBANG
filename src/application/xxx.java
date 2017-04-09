@@ -26,9 +26,9 @@ import java.util.HashMap;
 public class xxx  {
     private HashMap<KeyCode, Boolean> keys = new HashMap<>();
     public static ArrayList<Rectangle> bonuses = new ArrayList<>();
-    Image        image = new Image("cowboy.png");// specify character image
+    Image        image = new Image("scout_fix.png");// specify character image
     Image        map = new Image("BG1.png");
-    Image        image2 =new Image("oldman.png");
+    Image        image2 =new Image("oldchar_fix.png");
 
     ImageView    imageView = new ImageView(image);// show image
     ImageView    imageView2= new ImageView(image2);
@@ -67,26 +67,27 @@ public class xxx  {
     public Scene Game() {
         //setScene
 
-        ImageView    imageView = new ImageView(image);// show image
-        ImageView    imageView2= new ImageView(image2);
-        Sprite        weaponInterFace=new Sprite("inWeapon.png",8,360);
-        Sprite        weaponInterFace2=new Sprite("inWeapon.png",1425,390);
-        Character    player = new Character(imageView,1,100,3,25,10,
-                    0,3,2,2,10,1);
-        Character    player2 = new Character(imageView2,2,100,3,25,10,
-                0,3,2,2,10,1);
-        Weapon defaultWeapon=new Weapon(0,"inweapon.png",2,3,2);
-        Image image3 = new Image("interface_playtime.png");// specify character image
-        ImageView imageView3 = new ImageView(image3);// show image
-        Group root = new Group();
-        Scene scene=new Scene(root);
-        scene.setOnKeyPressed(event -> keys.put(event.getCode(), true));
+        ImageView    imageView        = new ImageView(image);// show image
+        ImageView    imageView2       = new ImageView(image2);
+        Sprite       weaponInterFace  = new Sprite("inWeapon.png",8,360);
+        Sprite       weaponInterFace2 = new Sprite("inWeapon.png",1425,390);
+        Character    player           = new Character(imageView,1,100,3,25,10,
+                                            0,3,2,2,10,1);
+        Character    player2          = new Character(imageView2,2,100,3,25,10,
+                                            0,3,2,2,10,1);
+        Weapon       defaultWeapon    = new Weapon(0,"inweapon.png",2,3,2);
+        Image        image3           = new Image("interface_new.png");// specify character image
+        ImageView    imageView3       = new ImageView(image3);// show image
+        Group        root             = new Group();
+        Scene        scene            = new Scene(root);
+
+        scene.setOnKeyPressed (event -> keys.put(event.getCode(), true));
         scene.setOnKeyReleased(event -> keys.put(event.getCode(), false));
         //set BG
         scene.setFill(pattern);
         //setGame
-        Canvas canvas = new Canvas(1548 , 871);
-        Canvas layout = new Canvas(1548 , 871);
+        Canvas canvas = new Canvas(1280 , 720);
+        Canvas layout = new Canvas(1280 , 720);
 
         root.getChildren().addAll(canvas,player,player2,imageView3,layout);
 
@@ -109,8 +110,8 @@ public class xxx  {
         int []directionOffset={0,180,90,270};
 
         //set status player
-        player.setPosition(105,700);
-        player2.setPosition(1370,80);
+        player.setPosition(105,600);
+        player2.setPosition(1200,80);
 
 
         //render obj
@@ -134,12 +135,12 @@ public class xxx  {
                     player.animation.setOffsetY(directionOffset[3]);
                     player.moveY(-player.getSpeed());
                     player.direction=3;
-                } else if (isPressed(KeyCode.S) && collision(player, blockList, "DOWN")&&player.getTranslateY()+90<scene.getHeight()-76) {
+                } else if (isPressed(KeyCode.S) && collision(player, blockList, "DOWN")&&player.getTranslateY()+73<scene.getHeight()-76) {
                     player.animation.play();
                     player.animation.setOffsetY(directionOffset[0]);
                     player.moveY(player.getSpeed());
                     player.direction=0;
-                } else if (isPressed(KeyCode.D) && collision(player, blockList, "RIGHT")&&player.getTranslateX()+90<scene.getWidth()-95) {
+                } else if (isPressed(KeyCode.D) && collision(player, blockList, "RIGHT")&&player.getTranslateX()+73<scene.getWidth()-95) {
                     player.animation.play();
                     player.animation.setOffsetY(directionOffset[2]);
                     player.moveX(player.getSpeed());
@@ -169,12 +170,12 @@ public class xxx  {
                     player2.animation.setOffsetY(directionOffset[3]);
                     player2.moveY(-player2.getSpeed());
                     player2.direction=3;
-                } else if (isPressed(KeyCode.DOWN) && collision(player2, blockList, "DOWN")&&player2.getTranslateY()+90<scene.getHeight()-76) {
+                } else if (isPressed(KeyCode.DOWN) && collision(player2, blockList, "DOWN")&&player2.getTranslateY()+73<scene.getHeight()-76) {
                     player2.animation.play();
                     player2.animation.setOffsetY(directionOffset[0]);
                     player2.moveY(player2.getSpeed());
                     player2.direction=0;
-                } else if (isPressed(KeyCode.RIGHT) && collision(player2, blockList, "RIGHT")&&player2.getTranslateX()+90<scene.getWidth()-95) {
+                } else if (isPressed(KeyCode.RIGHT) && collision(player2, blockList, "RIGHT")&&player2.getTranslateX()+73<scene.getWidth()-95) {
                     player2.animation.play();
                     player2.animation.setOffsetY(directionOffset[2]);
                     player2.moveX(player2.getSpeed());
@@ -310,8 +311,8 @@ public class xxx  {
                     if(player2.getLife()>=0)viewLife2.remove(viewLife2.size()-1);
                     player2.setHp(25);
                 }
-                gc.clearRect(0, 0, 1548,871);
-                ly.clearRect(0, 0, 1548,871);
+                gc.clearRect(0, 0, 1280,720);
+                ly.clearRect(0, 0, 1280,720);
                 //render All
                 for (Sprite com : viewLife )com.render( ly );
                 for (Sprite com : viewLife2 )com.render( ly );
