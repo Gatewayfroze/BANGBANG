@@ -76,7 +76,7 @@ public class xxx  {
         Character    player2          = new Character(imageView2,2,100,3,25,10,
                                             0,3,2,2,10,1);
         Weapon       defaultWeapon    = new Weapon(0,"inweapon.png",2,3,2);
-        Image        image3           = new Image("interface_playtime.png");// specify character image
+        Image        image3           = new Image("interface_new.png");// specify character image
         ImageView    imageView3       = new ImageView(image3);// show image
         Group        root             = new Group();
         Scene        scene            = new Scene(root);
@@ -86,8 +86,8 @@ public class xxx  {
         //set BG
         scene.setFill(pattern);
         //setGame
-        Canvas canvas = new Canvas(1548 , 871);
-        Canvas layout = new Canvas(1548 , 871);
+        Canvas canvas = new Canvas(1280 , 720);
+        Canvas layout = new Canvas(1280 , 720);
 
         root.getChildren().addAll(canvas,player,player2,imageView3,layout);
 
@@ -110,8 +110,8 @@ public class xxx  {
         int []directionOffset={0,180,90,270};
 
         //set status player
-        player.setPosition(105,700);
-        player2.setPosition(1370,80);
+        player.setPosition(105,600);
+        player2.setPosition(1200,80);
 
 
         //render obj
@@ -311,8 +311,8 @@ public class xxx  {
                     if(player2.getLife()>=0)viewLife2.remove(viewLife2.size()-1);
                     player2.setHp(25);
                 }
-                gc.clearRect(0, 0, 1548,871);
-                ly.clearRect(0, 0, 1548,871);
+                gc.clearRect(0, 0, 1280,720);
+                ly.clearRect(0, 0, 1280,720);
                 //render All
                 for (Sprite com : viewLife )com.render( ly );
                 for (Sprite com : viewLife2 )com.render( ly );
