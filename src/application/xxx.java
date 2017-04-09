@@ -92,10 +92,10 @@ public class xxx  {
         ImageView    imageView        = new ImageView(image);// show image
         ImageView    imageView2       = new ImageView(image2);
         Sprite       weaponInterFace  = new Sprite("inWeapon.png",0,300);
-        Sprite       weaponInterFace2 = new Sprite("inWeapon.png",1425,390);
-        Character    player           = new Character(imageView,1,100,3,25,10,
+        Sprite       weaponInterFace2 = new Sprite("inWeapon.png",1180,320);
+        Character    player           = new Character(imageView,1,100,3,25,5,
                                             0,3,2,2,10,1);
-        Character    player2          = new Character(imageView2,2,100,3,25,10,
+        Character    player2          = new Character(imageView2,2,100,3,25,5,
                                             0,3,2,2,10,1);
         Weapon       defaultWeapon    = new Weapon(0,"inweapon.png",2,3,2);
         Image        image3           = new Image("interface_new.png");// specify character image
@@ -118,15 +118,15 @@ public class xxx  {
         ArrayList<Weapon> weaponsList=new ArrayList<>();
         ArrayList<Sprite> viewLife=new ArrayList<>();
         ArrayList<Sprite> viewLife2=new ArrayList<>();
-        int x=375;
+        int x=320;
         for (int i = 0; i <player.getLife() ; i++) {
-            viewLife.add(new Sprite("heart.png",x,65));
-            x+=50;
+            viewLife.add(new Sprite("heart.png",x,50));
+            x+=40;
         }
-        x=1020;
+        x=835;
         for (int i = 0; i <player2.getLife() ; i++) {
-            viewLife2.add(new Sprite("heart.png",x,770));
-            x+=50;
+            viewLife2.add(new Sprite("heart.png",x,635));
+            x+=40;
         }
 
         int []directionOffset={0,140,70,210};
@@ -172,18 +172,19 @@ public class xxx  {
                     player.animation.setOffsetY(directionOffset[1]);
                     player.moveX(-player.getSpeed());
                     player.direction=1;
-                }else if (isPressed(KeyCode.F)&&Rate>=player.getFireRate()&&player.getBullet()!=0) {
-                    bullet.add(createBullet((player.getTranslateX()+40),player.getTranslateY()+40,player.direction,player));
-                    player.shoot();
-                    count=0;
-
-                }else if (isPressed(KeyCode.R)&&RateAll%4==0) {
+                } else if (isPressed(KeyCode.R)&&RateAll%4==0) {
                     Block newBlock=build(player);
                     if(checkRender(blockList,weaponsList,newBlock)) System.out.println("intersect");  else
                         blockList.add(newBlock);
                 }
                 else {
                     player.animation.stop();
+                }
+                if (isPressed(KeyCode.F)&&Rate>=player.getFireRate()&&player.getBullet()!=0) {
+                    bullet.add(createBullet((player.getTranslateX()+40),player.getTranslateY()+40,player.direction,player));
+                    player.shoot();
+                    count=0;
+
                 }
                 //////////////////control player 2
 
@@ -207,17 +208,18 @@ public class xxx  {
                     player2.animation.setOffsetY(directionOffset[1]);
                     player2.moveX(-player2.getSpeed());
                     player2.direction=1;
-                }else if (isPressed(KeyCode.SLASH)&&Rate2>=player2.getFireRate()&&player2.getBullet()!=0) {
-                    bullet.add(createBullet((player2.getTranslateX()+40),player2.getTranslateY()+40,player2.direction,player2));
-                    count2=0;
-                    player2.shoot();
-                }else if (isPressed(KeyCode.CONTROL)&&RateAll%4==0) {
+                } else if (isPressed(KeyCode.CONTROL)&&RateAll%4==0) {
                     Block newBlock=build(player2);
                     if(checkRender(blockList,weaponsList,newBlock)) System.out.println("intersect");  else
                         blockList.add(newBlock);
                 }
                 else {
                     player2.animation.stop();
+                }
+                if (isPressed(KeyCode.SLASH)&&Rate2>=player2.getFireRate()&&player2.getBullet()!=0) {
+                    bullet.add(createBullet((player2.getTranslateX()+40),player2.getTranslateY()+40,player2.direction,player2));
+                    count2=0;
+                    player2.shoot();
                 }
 
                 //this is a random weapon
@@ -352,10 +354,10 @@ public class xxx  {
                 String hp1 = "HP Player1: " + (player.getHp());
                 String hp2 = (player2.getHp())+" :Player2 HP ";
                 String bullet=""+player.getBullet(),bullet2=""+player2.getBullet();
-                ly.fillText( bullet, 130, 460 );
-                ly.fillText(bullet2,1380,420);
-                ly.fillText( hp2, 950, 840 );
-                ly.fillText( hp1, 360, 36 );
+                ly.fillText( bullet, 110, 385 );
+                ly.fillText(bullet2,1140,355);
+                ly.fillText( hp2, 800, 705 );
+                ly.fillText( hp1, 310, 30 );
 
             }
         };
@@ -372,8 +374,8 @@ public class xxx  {
         //random 0-2 | 0=bullet ,1=machineGun,2= sniper
         int type=(int)(3*Math.random());
         int px,py;
-        px = (int) (1200 * Math.random()) + 100;
-        py = (int) (650 * Math.random()) + 100;
+        px = (int) (1100 * Math.random()) + 100;
+        py = (int) (620 * Math.random()) + 100;
         switch (type){
             case 0:{
                 weapon=new Weapon(0,"mag.png",10);
@@ -384,7 +386,7 @@ public class xxx  {
                 break;
             }
             case 2:{
-                weapon=new Weapon(2,"weapon2.png",7,10,10);
+                weapon=new Weapon(2,"weapon2.png",15,20,10);
                 break;
             }
             case 3:{
