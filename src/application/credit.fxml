@@ -10,7 +10,7 @@
 
 <AnchorPane fx:id="rootPane2" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.CreditControl">
    <children>
-      <ImageView fitHeight="717.0" fitWidth="1297.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="717.0" fitWidth="1297.0" layoutY="-11.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../credit.jpg" />
          </image>
@@ -34,12 +34,12 @@
             <Font name="Rockwell" size="24.0" />
          </font>
       </Label>
-      <Label layoutX="386.0" layoutY="543.0" prefHeight="41.0" prefWidth="536.0" text="Character &amp;  Level  Design :  Thawin  Booncheon" textFill="WHITE">
+      <Label layoutX="386.0" layoutY="543.0" prefHeight="41.0" prefWidth="536.0" text="Character   Design :  Thawin  Booncheon" textFill="WHITE">
          <font>
             <Font name="Rockwell" size="24.0" />
          </font>
       </Label>
-      <Label layoutX="386.0" layoutY="598.0" prefHeight="41.0" prefWidth="620.0" text="Artwork &amp;  Level  Design :  Nutthapoom  Suwanwitwait " textFill="WHITE">
+      <Label layoutX="386.0" layoutY="598.0" prefHeight="41.0" prefWidth="620.0" text="Artwork &amp;  Map  Design :  Nutthapoom  Suwanwitwait " textFill="WHITE">
          <font>
             <Font name="Rockwell" size="24.0" />
          </font>
