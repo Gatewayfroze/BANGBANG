@@ -76,7 +76,7 @@ public class xxx  {
         Character    player2 = new Character(imageView2,2,100,3,25,10,
                 0,3,2,2,10,1);
         Weapon defaultWeapon=new Weapon(0,"inweapon.png",2,3,2);
-        Image image3 = new Image("file:\\E:\\JAVA\\interface_playtime.png");// specify character image
+        Image image3 = new Image("interface_playtime.png");// specify character image
         ImageView imageView3 = new ImageView(image3);// show image
         Group root = new Group();
         Scene scene=new Scene(root);
