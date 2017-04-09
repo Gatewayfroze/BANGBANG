@@ -34,6 +34,7 @@ public class Sprite {
 
 	public void setImage(String filename) {
 		Image i = new Image(filename);
+
 		setImage(i);
 	}
 	public void setPosition(double x, double y) {

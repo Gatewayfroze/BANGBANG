@@ -96,7 +96,7 @@ public class xxx  {
         ImageView    imageView2       = new ImageView(image2);
         Sprite       weaponInterFace  = new Sprite("inWeapon.png",0,300);
         Sprite       weaponInterFace2 = new Sprite("inWeapon.png",1180,320);
-        Character    player           = new Character(imageView,1,100,3,25,5,
+        Character    player           = new Character(imageView,1,100,3,25,20,
                                             0,3,2,2,10,1);
         Character    player2          = new Character(imageView2,2,100,3,25,5,
                                             0,3,2,2,10,1);
@@ -189,7 +189,7 @@ public class xxx  {
                     player.animation.stop();
                 }
                 if (isPressed(KeyCode.F)&&Rate>=player.getFireRate()&&player.getBullet()!=0) {
-                    bullet.add(createBullet((player.getTranslateX()+40),player.getTranslateY()+40,player.direction,player));
+                    bullet.add(createBullet((player.getTranslateX()+23),player.getTranslateY()+30,player.direction,player));
                     player.shoot();
                     count=0;
 
@@ -225,7 +225,7 @@ public class xxx  {
                     player2.animation.stop();
                 }
                 if (isPressed(KeyCode.SLASH)&&Rate2>=player2.getFireRate()&&player2.getBullet()!=0) {
-                    bullet.add(createBullet((player2.getTranslateX()+40),player2.getTranslateY()+40,player2.direction,player2));
+                    bullet.add(createBullet((player2.getTranslateX()+23),player2.getTranslateY()+30,player2.direction,player2));
                     count2=0;
                     player2.shoot();
                 }
