@@ -1,0 +1,54 @@
+
+
+
+
+#startbtn{
+-fx-background-image: url("/startbt.png");
+-fx-opacity: 0.7;
+
+}
+
+#backbtn{
+-fx-background-image : url("/backbt.png");
+-fx-opacity: 0.7;
+}
+
+#backbtn:hover{
+-fx-background-image : url("/backbt.png");
+-fx-opacity: 1;
+}
+
+
+#startbtn:pressed{
+-fx-border-style: solid ;
+}
+#howbtn{
+-fx-background-image: url("/HTPbt.png");
+-fx-opacity: 0.7;
+
+}
+#about{
+-fx-background-image: url("/Aboutusbt.png");
+-fx-opacity: 0.7;
+
+
+}
+
+#startbtn:hover{
+-fx-background-image: url("/startbt.png");
+
+-fx-opacity: 1;
+
+
+}
+#howbtn:hover{
+-fx-background-image: url("/HTPbt.png");
+-fx-opacity: 1;
+
+
+}
+#about:hover{
+-fx-background-image: url("/Aboutusbt.png");
+-fx-border-style: solid;
+-fx-opacity: 1;
+}
