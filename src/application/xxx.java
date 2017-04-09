@@ -13,12 +13,15 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -63,6 +66,24 @@ public class xxx  {
         Scene scene = Game();
         appStage = (Stage) btnBeginTargeting.getScene().getWindow();
         appStage.setScene(scene);
+
+    }
+    @FXML
+    private AnchorPane rootPane;
+
+
+
+
+    @FXML
+    public void loadHowto(ActionEvent event) throws IOException {
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("howto.fxml"));
+        rootPane.getChildren().setAll(pane);
+
+    }
+    @FXML
+    public void loadCredit(ActionEvent event) throws IOException{
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("credit.fxml"));
+        rootPane.getChildren().setAll(pane);
 
     }
     public Scene Game() {

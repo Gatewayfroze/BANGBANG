@@ -1,32 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
 <?import javafx.scene.effect.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
-<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.effect.Blend?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.Label?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.78" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.xxx">
+<AnchorPane id="root" fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.xxx">
    <children>
-      <ImageView fitHeight="720.0" fitWidth="1287.0" layoutY="1.0" pickOnBounds="true">
+      <ImageView fitHeight="736.0" fitWidth="1280.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../home.jpg" />
+            <Image url="@../../../Menu/src/bg%20fixed.jpg" />
          </image>
       </ImageView>
-      <Button fx:id="btnBeginTargeting" layoutX="552.0" layoutY="539.0" mnemonicParsing="false" onAction="#buttonClicked" text="START" textOverrun="LEADING_ELLIPSIS">
-         <font>
-            <Font size="40.0" />
-         </font></Button>
+      <ImageView fitHeight="564.0" fitWidth="938.0" layoutX="171.0" layoutY="-38.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../bangbang.png" />
+         </image>
+      </ImageView>
+      <Button id="startbtn" fx:id="btnBeginTargeting" layoutX="539.0" layoutY="375.0" mnemonicParsing="false" onAction="#buttonClicked" opacity="0.73" prefHeight="96.0" prefWidth="202.0" style="-fx-cursor: hand;" stylesheets="@menu.css">
+         <cursor>
+            <Cursor fx:constant="CROSSHAIR" />
+         </cursor></Button>
+      <Button id="howbtn" layoutX="539.0" layoutY="490.0" mnemonicParsing="false" onAction="#loadHowto" opacity="0.78" prefHeight="96.0" prefWidth="202.0" style="-fx-cursor: hand;" stylesheets="@menu.css">
+         <cursor>
+            <Cursor fx:constant="CROSSHAIR" />
+         </cursor>
+      </Button>
+      <Button id="about" layoutX="539.0" layoutY="603.0" mnemonicParsing="false" onAction="#loadCredit" opacity="0.73" prefHeight="96.0" prefWidth="202.0" style="-fx-cursor: hand;" stylesheets="@menu.css">
+         <cursor>
+            <Cursor fx:constant="CROSSHAIR" />
+         </cursor>
+      </Button>
    </children>
-   <effect>
-      <Blend />
-   </effect>
-</Pane>
+</AnchorPane>

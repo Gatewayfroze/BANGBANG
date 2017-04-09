@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
+<?import javafx.scene.media.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import java.lang.*?>
@@ -7,7 +10,7 @@
 
 <AnchorPane fx:id="rootPane2" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.CreditControl">
    <children>
-      <ImageView fitHeight="720.0" fitWidth="1280.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="717.0" fitWidth="1297.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../credit.jpg" />
          </image>
@@ -17,11 +20,29 @@
             <Image url="@../logo.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="99.0" fitWidth="170.0" layoutX="28.0" layoutY="610.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../back.png" />
-         </image>
-      </ImageView>
-      <Button layoutX="35.0" layoutY="610.0" mnemonicParsing="false" onAction="#loadMenu" opacity="0.0" prefHeight="79.0" prefWidth="152.0" text="Button" />
+      <Button id="backbtn" layoutX="35.0" layoutY="610.0" mnemonicParsing="false" onAction="#loadMenu" opacity="0.0" prefHeight="96.0" prefWidth="202.0" stylesheets="@menu.css">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <Label layoutX="386.0" layoutY="438.0" prefHeight="41.0" prefWidth="509.0" text="Coding-GameWorld : Nitinon Penglao" textFill="WHITE">
+         <font>
+            <Font name="Rockwell" size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="386.0" layoutY="492.0" prefHeight="41.0" prefWidth="509.0" text="Coding-Menu &amp; Interface : Panot Sodsri" textFill="WHITE">
+         <font>
+            <Font name="Rockwell" size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="386.0" layoutY="543.0" prefHeight="41.0" prefWidth="536.0" text="Character &amp;  Level  Design :  Thawin  Booncheon" textFill="WHITE">
+         <font>
+            <Font name="Rockwell" size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="386.0" layoutY="598.0" prefHeight="41.0" prefWidth="620.0" text="Artwork &amp;  Level  Design :  Nutthapoom  Suwanwitwait " textFill="WHITE">
+         <font>
+            <Font name="Rockwell" size="24.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
