@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+
+<AnchorPane id="root" fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller">
+   <children>
+      <ImageView fitHeight="736.0" fitWidth="1280.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../bg fixed.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="564.0" fitWidth="938.0" layoutX="171.0" layoutY="-38.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../bangbang.png" />
+         </image>
+      </ImageView>
+      <Button id="startbtn" layoutX="539.0" layoutY="375.0" mnemonicParsing="false" opacity="0.73" prefHeight="96.0" prefWidth="202.0" style="-fx-cursor: hand;" stylesheets="@menu.css">
+         <cursor>
+            <Cursor fx:constant="CROSSHAIR" />
+         </cursor></Button>
+      <Button id="howbtn" layoutX="539.0" layoutY="490.0" mnemonicParsing="false" onAction="#loadHowto" opacity="0.78" prefHeight="96.0" prefWidth="202.0" style="-fx-cursor: hand;" stylesheets="@menu.css">
+         <cursor>
+            <Cursor fx:constant="CROSSHAIR" />
+         </cursor>
+      </Button>
+      <Button id="about" layoutX="539.0" layoutY="603.0" mnemonicParsing="false" onAction="#loadCredit" opacity="0.73" prefHeight="96.0" prefWidth="202.0" style="-fx-cursor: hand;" stylesheets="@menu.css">
+         <cursor>
+            <Cursor fx:constant="CROSSHAIR" />
+         </cursor>
+      </Button>
+   </children>
+</AnchorPane>

@@ -46,6 +46,7 @@ public class xxx  {
     @FXML
 
     private Main main=new Main();
+
     @FXML
     public void buttonClicked(ActionEvent event) throws Exception {
 
