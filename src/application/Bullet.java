@@ -7,42 +7,37 @@ import javafx.scene.canvas.GraphicsContext;
  */
 public class Bullet extends Sprite{
     int playerType;
-    int type;
     int direction;
     int damage;
-    final static String []nameImage={"bullet_DOWN.png","bullet_RIGHT.png","bullet_LEFT.png","bullet_UP.png"};
+    final static String []nameImage={"bullet_DOWN","bullet_RIGHT","bullet_LEFT","bullet_UP"};
 
     public Bullet() {
     }
-    public Bullet(int playerType,int type, int direction, int damage, int speed) {
+    public Bullet(int playerType, int direction, int damage, int speed) {
         this.playerType=playerType;
-        this.type = type;
         this.direction = direction;
         this.damage = damage;
-
+        String pre="bullet/",sub[]={"",".png","2.png"};
         if(direction==0) {
-            this.setImage(nameImage[0]);
+            this.setImage(pre+nameImage[0]+sub[playerType]);
             this.setVelocity(0,speed);
         }else
         if(direction==1) {
-            this.setImage(nameImage[1]);
+            this.setImage(pre+nameImage[1]+sub[playerType]);
             this.setVelocity(-speed,0);
         }else
         if(direction==2) {
-            this.setImage(nameImage[2]);
+            this.setImage(pre+nameImage[2]+sub[playerType]);
             this.setVelocity(+speed,0);
         }else
         if(direction==3) {
-            this.setImage(nameImage[3]);
+            this.setImage(pre+nameImage[3]+sub[playerType]);
             this.setVelocity(0,-speed);
         }
 
 
     }
 
-    public int getType() {
-        return type;
-    }
 
     public int getPlayerType() {
         return playerType;

@@ -20,7 +20,7 @@ public class Character extends Pane {
 
 	//status of player
 	private int type;
-	private int armor;
+
 	private int life;
 	private int hp;
 	private int speed;
@@ -36,9 +36,9 @@ public class Character extends Pane {
 	Rectangle removeRect = null;
 	SpriteAnimation animation;
 
-	public Character(ImageView imageView,int type, int armor, int life, int hp, int speed, int typeWeapon, int speedBullet, double fireRate, int damage, int bullet, int direction) {
+	public Character(ImageView imageView,int type,int life, int hp, int speed, int typeWeapon, int speedBullet, double fireRate, int damage, int bullet, int direction) {
 		this.type = type;
-		this.armor = armor;
+
 		this.life = life;
 		this.hp = hp;
 		this.speed = speed;
@@ -49,6 +49,7 @@ public class Character extends Pane {
 		this.bullet = bullet;
 		this.direction = direction;
 		this.imageView = imageView;
+		this.stackBlock=new ArrayList<>();
 		this.imageView.setViewport(new Rectangle2D(offsetX, offsetY, width, height));
 		animation = new SpriteAnimation(imageView, Duration.millis(200), count, columns, offsetX, offsetY, width,
 				height);
@@ -104,14 +105,6 @@ public class Character extends Pane {
 
 	public void setType(int type) {
 		this.type = type;
-	}
-
-	public int getArmor() {
-		return armor;
-	}
-
-	public void setArmor(int armor) {
-		this.armor = armor;
 	}
 
 	public int getLife() {
@@ -185,7 +178,20 @@ public class Character extends Pane {
 		if(this.getTypeWeapon()==3){bullet=12;}
 		this.bullet+=bullet;
 	}
-
+	public void getBlock(Block block){
+			stackBlock.add(block);
+	}
+	public String getNameFirstBlock(){
+		return this.stackBlock.get(0).getFileName();
+	}
+	public Block buildBlock(){
+		Block block=this.stackBlock.get(0);
+		stackBlock.remove(0);
+		return block;
+	}
+	public int getNumOfBlock(){
+		return this.stackBlock.size();
+	}
 	public void setDirection(int direction) {
 		this.direction = direction;
 	}

@@ -5,7 +5,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
-import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -39,7 +38,6 @@ public class xxx  {
     Character    player = new Character(imageView);
     Character    player2= new Character(imageView2);
     ImagePattern pattern = new ImagePattern(map);
-
 
     public boolean isPressed(KeyCode key) {
         return keys.getOrDefault(key, false);
@@ -91,7 +89,6 @@ public class xxx  {
     public Scene Game() {
         //setScene
 
-
         ImageView    imageView        = new ImageView(image);// show image
         ImageView    imageView2       = new ImageView(image2);
         Sprite       weaponInterFace  = new Sprite("inWeapon.png",0,300);
@@ -105,11 +102,6 @@ public class xxx  {
         ImageView    imageView3       = new ImageView(image3);// show image
         Group        root             = new Group();
         Scene        scene            = new Scene(root);
-
-        Image cursor = new Image("cursor.png");
-        scene.setCursor(new ImageCursor(cursor,
-                cursor.getWidth() / 2,
-                cursor.getHeight() /2));
 
         scene.setOnKeyPressed (event -> keys.put(event.getCode(), true));
         scene.setOnKeyReleased(event -> keys.put(event.getCode(), false));
