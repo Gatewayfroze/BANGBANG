@@ -91,17 +91,22 @@ public class xxx  {
 
         ImageView    imageView        = new ImageView(image);// show image
         ImageView    imageView2       = new ImageView(image2);
-        Sprite       weaponInterFace  = new Sprite("inWeapon.png",0,300);
-        Sprite       weaponInterFace2 = new Sprite("inWeapon.png",1180,320);
-        Character    player           = new Character(imageView,1,100,3,25,6,
+        Sprite       weaponInterFace  = new Sprite   ("inWeapon.png",0,300);
+        Sprite       weaponInterFace2 = new Sprite   ("inWeapon.png",1180,320);
+        Sprite       blockInterFace  = new Sprite   ("block.png",15,195);
+        Sprite       blockInterFace2 = new Sprite   ("block.png",1190,445);
+        Character    player           = new Character(imageView,1,3,25,6,
                                             0,3,2,2,10,1);
-        Character    player2          = new Character(imageView2,2,100,3,25,6,
+        Character    player2          = new Character(imageView2,2,3,25,6,
                                             0,3,2,2,10,1);
-        Weapon       defaultWeapon    = new Weapon(0,"inweapon.png",2,3,2);
-        Image        image3           = new Image("interface_new.png");// specify character image
+        Weapon       defaultWeapon    = new Weapon   (0,"inweapon.png",2,3,2);
+        Image        image3           = new Image    ("interface_playtime.png");// specify character image
         ImageView    imageView3       = new ImageView(image3);// show image
         Group        root             = new Group();
         Scene        scene            = new Scene(root);
+        //set status player
+        player .setPosition(105,600);
+        player2.setPosition(1145,70);
 
         scene.setOnKeyPressed (event -> keys.put(event.getCode(), true));
         scene.setOnKeyReleased(event -> keys.put(event.getCode(), false));
@@ -132,11 +137,6 @@ public class xxx  {
 
         int []directionOffset={0,140,70,210};
 
-        //set status player
-        player.setPosition(105,600);
-        player2.setPosition(1200,80);
-
-
         //render obj
         GraphicsContext gc = canvas.getGraphicsContext2D();
         GraphicsContext ly = layout.getGraphicsContext2D();
@@ -151,7 +151,7 @@ public class xxx  {
                 double elapsedTime = (now - lastNanoTime) / 10000000.0;
                 lastNanoTime = now;
                 count++;  count2++; countWeapon++; countAll++;
-                double Rate=count/10.0,Rate2=count2/10.0,RateWeapon=countWeapon/10.0,RateAll=countAll/10.0;
+                double Rate=count/10.0,Rate2=count2/10.0,RateWeapon=countWeapon/60.0,RateAll=countAll/10.0;
 
                 if (isPressed(KeyCode.W) && collision(player, blockList, "UP")&&player.getTranslateY()>63) {
                     player.animation.play();
@@ -174,9 +174,12 @@ public class xxx  {
                     player.moveX(-player.getSpeed());
                     player.direction=1;
                 } else if (isPressed(KeyCode.R)&&RateAll%4==0) {
-                    Block newBlock=build(player);
-                    if(checkRender(blockList,weaponsList,newBlock)) System.out.println("intersect");  else
-                        blockList.add(newBlock);
+                    if (player.getNumOfBlock()!=0) {
+                        Block newBlock = build(player);
+                        if (checkRender(blockList, weaponsList, newBlock)) System.out.println("intersect");
+                        else
+                            blockList.add(newBlock);
+                    }else System.out.println("player 1 don't have block");
                 }
                 else {
                     player.animation.stop();
@@ -215,9 +218,12 @@ public class xxx  {
                     player2.moveX(-player2.getSpeed());
                     player2.direction=1;
                 } else if (isPressed(KeyCode.CONTROL)&&RateAll%4==0) {
-                    Block newBlock=build(player2);
-                    if(checkRender(blockList,weaponsList,newBlock)) System.out.println("intersect");  else
-                        blockList.add(newBlock);
+                    if (player2.getNumOfBlock()!=0) {
+                        Block newBlock = build(player2);
+                        if (checkRender(blockList, weaponsList, newBlock)) System.out.println("intersect");
+                        else
+                            blockList.add(newBlock);
+                    }else System.out.println("don't have block");
                 }
                 else {
                     player2.animation.stop();
@@ -234,14 +240,14 @@ public class xxx  {
 
                 //this is a random weapon
 
-                 if(RateWeapon>50){
+                 if(RateWeapon>20){
                     Weapon weapon=new Weapon(0,"mag.png",10);
                     int px,py;
                     do {
                         weapon=createWeapon();
                     }while (checkRender(blockList,weaponsList,weapon));
                     weaponsList.add(weapon);
-                    countWeapon=0;
+                   countWeapon=0;
                 }
                 //get Magazine
                 if(weaponsList.size()!=0) {
@@ -319,43 +325,58 @@ public class xxx  {
                         }
                     }
 
-                    detect(bullet,blockList);
+                    //detect(bullet,blockList);
+                    detect(bullet,blockList,player,player2);
+
                 }
                 //default weapon
                 if(player.getBullet()<=0&&player.getTypeWeapon()!=0){
                     player.getWeapon(defaultWeapon);
-                    ly.clearRect(8,360,120,120);
+                  //  ly.clearRect(8,360,120,120);
                     weaponInterFace.setImage("inweapon.png");
                  }
                 if(player2.getBullet()<=0&&player2.getTypeWeapon()!=0){
                     player2.getWeapon(defaultWeapon);
-                    ly.clearRect(1425,390,120,120);
+                   // ly.clearRect(1425,390,120,120);
                     weaponInterFace2.setImage("inweapon.png");
 
                 }
                 //check HP
-                if(player.getHp()<=0){player.setLife(player.getLife()-1);
+                if(player.getHp()<=0){
+                    player.setLife(player.getLife()-1);
                     System.out.println("life1"+player.getLife());
+                    if(player.getLife()<=0)player.setSpeed(0);
                     if(player.getLife()>=0)viewLife.remove(viewLife.size()-1);
                     player.setHp(25);
+
                  }
                 if(player2.getHp()<=0){
                     player2.setLife(player2.getLife()-1);
                     System.out.println("life2"+player2.getLife());
+                    if(player.getLife()<=0)player.setSpeed(0);
                     if(player2.getLife()>=0)viewLife2.remove(viewLife2.size()-1);
                     player2.setHp(25);
                 }
                 gc.clearRect(0, 0, 1280,720);
                 ly.clearRect(0, 0, 1280,720);
+
+
+
                 //render All
                 for (Sprite com : viewLife )com.render( ly );
                 for (Sprite com : viewLife2 )com.render( ly );
                 for (Weapon w : weaponsList )w.render( gc );
                 for (Bullet b : bullet )b.render( gc );
                 for (Block moneybag : blockList)moneybag.render(gc);
+                //check went render block
+                if (player .getNumOfBlock()!=0)blockInterFace .setImage(player.getNameFirstBlock());else
+                    blockInterFace .setImage("noblock.png");
+                if (player2.getNumOfBlock()!=0)blockInterFace2.setImage(player2.getNameFirstBlock());else
+                    blockInterFace2.setImage("noblock.png");
                 weaponInterFace.render(ly);
                 weaponInterFace2.render(ly);
-
+                blockInterFace.render(ly);
+                blockInterFace2.render(ly);
                 //show status
                 Font theFont = Font.font( "Arial Narrow", FontWeight.BOLD, 30 );
                 ly.setFont( theFont );
@@ -364,7 +385,9 @@ public class xxx  {
                 String hp1 = "HP Player1: " + (player.getHp());
                 String hp2 = (player2.getHp())+" :Player2 HP ";
                 String bullet=""+player.getBullet(),bullet2=""+player2.getBullet();
-                ly.fillText( bullet, 110, 385 );
+                ly.fillText(player .getNumOfBlock()+"", 130, 270 );
+                ly.fillText(player2.getNumOfBlock()+"",1140,470);
+                ly.fillText( bullet, 113, 385 );
                 ly.fillText(bullet2,1140,355);
                 ly.fillText( hp2, 800, 705 );
                 ly.fillText( hp1, 310, 30 );
@@ -375,13 +398,19 @@ public class xxx  {
         return scene;
     }
     public Bullet  createBullet(double x,double y,Character player){
-        Bullet bullet = new Bullet(player.getType(),1,player.getDirection(),player.getDamage(),player.getSpeedBullet());
+        Bullet bullet = new Bullet(player.getType(),player.getDirection(),player.getDamage(),player.getSpeedBullet());
         bullet.setPosition(x,y);
+        //for machinGun
+//        if(player.getTypeWeapon()==1){
+//            double speedO=(Math.floor((Math.random() * 2)) > 0 ? 1 : -1) * (Math.random());
+//            if(bullet.getVelocityX()==0)bullet.setVelocityX(speedO);
+//            if(bullet.getVelocityY()==0)bullet.setVelocityY(speedO);
+//        }
         return bullet;
     }
     public void  createBulletShotGun(double x,double y,Character player,ArrayList<Bullet> bb){
         for (int i = 0; i <3 ; i++) {
-            Bullet bullet = new Bullet(player.getType(),1,player.getDirection(),player.getDamage(),player.getSpeedBullet());
+            Bullet bullet = new Bullet(player.getType(),player.getDirection(),player.getDamage(),player.getSpeedBullet());
             bullet.setPosition(x,y);
             if(i==0){
                 if(bullet.getVelocityX()==0)bullet.setVelocityX(1);
@@ -453,25 +482,31 @@ public class xxx  {
                 by = (int) player.getTranslateY();
             }
 
-            block=new Block(bx,by,3,"block.png");
+            block=player.buildBlock();
+        System.out.println("block du "+block.getDurabillity());
+            block.setPosition(bx,by);
 
             return block;
     }
     public void    genMap(ArrayList<Block> blocks){
-        int px=70,py=64,count=0,index=0;
-        int []bb={3,5,6,7,18,20,21,22,23,63,72,91,110,200};
+        int px=75,py=64,count=0,index=0;
+        // 15 block
+
+        int []bb= new int[]{0,1,2,3,4,5,6,7,8,9,10,11,12,29,44,59,74,89,99,103,104,113,114};
         for (int i = 0; i <=9 ; i++) {
-            for (int j = 0; j <=18 ; j++) {
+            for (int j = 0; j <=14 ; j++) {
                 if (index==bb.length)break;
                 if(count==bb[index]){
-                    blocks.add(new Block(px,py,3,"block.png"));
+                    //set type of block is here
+                    int type=(int)(Math.random()*2);
+                    blocks.add(new Block(type,px,py));
                     index++;
                 }
                 count++;
-                px+=60;
+                px+=75;
             }
-            py+=60;
-            px=70;
+            py+=75;
+            px=75;
         }
     }
     public boolean collision  (Character m,ArrayList<Block> t, String direct) {
@@ -528,18 +563,35 @@ public class xxx  {
         return true;
 
     }
-    public void    detect     (ArrayList<Bullet> t,ArrayList<Block> m){
+    public boolean    detect     (ArrayList<Bullet> t,ArrayList<Block> m,Character player,Character player2){
+        Bullet saveBullet;
         for (int i = 0; i <t.size() ; i++) {
             for (int j = 0; j <m.size() ; j++) {
                 if(t.get(i).intersects(m.get(j))){
                     m.get(j).hit(t.get(i).damage);
+                    saveBullet=t.get(i);
                     t.remove(i);
-                    if(m.get(j).getDurabillity()<=0)
-                    m.remove(j);
+                    if(m.get(j).getDurabillity()<=0) {
+                        if(saveBullet.getPlayerType()==1){
+                            m.get(j).setDurabillity(m.get(j).getMaxDurabillity());
+                            player.getBlock(m.get(j));
+
+
+                        }
+                        if(saveBullet.getPlayerType()==2){
+                            m.get(j).setDurabillity(m.get(j).getMaxDurabillity());
+                            player2.getBlock(m.get(j));
+
+                        }
+                        m.remove(j);
+                        return true;
+                    }
                     break;
+
                 }
             }
         }
+        return false;
     }
     public boolean checkRender(ArrayList<Block> block,ArrayList<Weapon> weaponslist,Weapon weapon){
         for (int j = 0; j <block.size() ; j++) {
