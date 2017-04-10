@@ -3,11 +3,13 @@ package application;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -37,36 +39,140 @@ public class Main extends Application {
         return keys.getOrDefault(key, false);
     }
 
-    private Stage stage;
+    public Stage stage;
     @Override
     public void start(Stage primaryStage) throws Exception {
-        stage=primaryStage;
-        stage.setScene(SelectCharector());
+        this.stage=primaryStage;
+        stage.setScene(menu());
         stage.setTitle("Game");
         stage.show();
     }
-    public Scene SelectCharector() throws Exception{
+    public Scene menu() throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         Scene scene=new Scene(root);
 
         return scene;
     }
+    public Scene SelectCha(Stage s){
+
+        Group root = new Group();
+        Scene scene=new Scene(root);
+        Canvas canvas = new Canvas( 1280, 720 );
+        ArrayList<Sprite> imageChar =new ArrayList<>();
+        ArrayList<Sprite> imageChar2=new ArrayList<>();
+        ArrayList<Sprite> imageDis =new ArrayList<>();
+        ArrayList<Sprite> imageDis2=new ArrayList<>();
+
+        String pre="charector/",name="char",sub=".png";
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        root.getChildren().add(canvas);
+        Button []charector =new Button[4];
+        Button []charector2=new Button[4];
+        Button []select    =new Button[2];
+        Button enterGame   =new Button("enter");
+        scene.setFill(new ImagePattern (new Image("select.png")));
+        for (int i = 0; i <4 ; i++) {
+            imageDis .add(new Sprite(pre+"dis"+name+(i+1)+sub,350,300));
+            imageDis2.add(new Sprite(pre+"dis"+name+(i+1)+sub,810,300));
+        }
+        int cX=14,cY=194;
+        for (int i = 0; i <charector.length ; i++) {
+
+            charector[i]=new Button("char "+i);
+            charector[i].relocate(cX,cY);
+            imageChar.add(new Sprite(pre+name+(i+1)+sub,cX,cY));
+            charector[i].setPrefSize(200,90);
+            charector[i].setOpacity(0);
+            root.getChildren().add(charector[i]);
+            cY+=112;
+        }
+        cX=1070; cY=194;
+        for (int i = 0; i <charector2.length ; i++) {
+            charector2[i]=new Button("char1 "+i);
+            charector2[i].relocate(cX,cY);
+            imageChar2.add(new Sprite(pre+name+(i+1)+"_2"+sub,cX,cY));
+            charector2[i].setPrefSize(200,90);
+            charector2[i].setOpacity(0);
+            root.getChildren().add(charector2[i]);
+            cY+=112;
+        }
+        enterGame.relocate(1280/2,650);
+        root.getChildren().add(enterGame);
+
+
+        AnimationTimer timer = new AnimationTimer() {
+            double lastNanoTime = System.nanoTime() ;
+            int select[]={0,0};
+            @Override
+            public void handle(long now) {
+              double elapsedTime = (now - lastNanoTime) / 10000000.0;
+              lastNanoTime = now;
+
+
+
+                charector [0].setOnAction(e -> {
+                    select[0]=0;
+                });
+                charector [1].setOnAction(e -> {
+                    select[0]=1;
+                });
+                charector [2].setOnAction(e -> {
+                    select[0]=2;
+                });
+                charector [3].setOnAction(e -> {
+                    select[0]=3;
+                });
+                charector2[0].setOnAction(e -> {
+                    select[1]=0;
+                });
+                charector2[1].setOnAction(e -> {
+                    select[1]=1;
+                });
+                charector2[2].setOnAction(e -> {
+                    select[1]=2;
+                });
+                charector2[3].setOnAction(e -> {
+                    select[1]=3;
+                });
+
+                enterGame.setOnAction(e -> {
+                  stage=s;
+                  stage.setScene(Game());
+                  stage.show();
+              });
+                gc.clearRect(0, 0, 1280,720);
+                for (Sprite c:imageChar) {
+                    c.render(gc);
+                }
+                for (Sprite c:imageChar2) {
+                    c.render(gc);
+                }
+                imageDis.get(select[0]).render(gc);
+                imageDis2.get(select[1]).render(gc);
+            }
+        };
+        timer.start();
+
+
+
+        return scene;
+    }
     public Scene Game() {
         //setScene
-        ImageView imageView        = new ImageView(image);// show image
+        ImageView imageView           = new ImageView(image);// show image
         ImageView    imageView2       = new ImageView(image2);
         Sprite       weaponInterFace  = new Sprite   ("inWeapon.png",0,300);
         Sprite       weaponInterFace2 = new Sprite   ("inWeapon.png",1180,320);
-        Sprite       blockInterFace  = new Sprite   ("block.png",15,195);
-        Sprite       blockInterFace2 = new Sprite   ("block.png",1190,445);
+        Sprite       blockInterFace   = new Sprite   ("block.png",15,195);
+        Sprite       blockInterFace2  = new Sprite   ("block.png",1190,445);
         Character    player           = new Character(imageView,1,3,25,6,
                 0,3,2,2,10,1);
         Character    player2          = new Character(imageView2,2,3,25,6,
                 0,3,2,2,10,1);
         Weapon       defaultWeapon    = new Weapon   (0,"inweapon.png",2,3,2);
-        Image image3           = new Image    ("interface_playtime.png");// specify character image
+        Image image3                  = new Image    ("interface_playtime.png");// specify character image
         ImageView    imageView3       = new ImageView(image3);// show image
-        Group root             = new Group();
+        Group root                    = new Group();
         Scene        scene            = new Scene(root);
         //set status player
         player .setPosition(90,590);
@@ -141,8 +247,10 @@ public class Main extends Application {
                     if (player.getNumOfBlock()!=0) {
                         Block newBlock = build(player);
                         if (checkRender(blockList, weaponsList, newBlock)) System.out.println("intersect");
-                        else
+                        else{
                             blockList.add(newBlock);
+                            player.removeBlock();
+                        }
                     }else System.out.println("player 1 don't have block");
                 }
                 else {
@@ -185,8 +293,11 @@ public class Main extends Application {
                     if (player2.getNumOfBlock()!=0) {
                         Block newBlock = build(player2);
                         if (checkRender(blockList, weaponsList, newBlock)) System.out.println("intersect");
-                        else
+                        else{
                             blockList.add(newBlock);
+                            player2.removeBlock();
+                        }
+
                     }else System.out.println("don't have block");
                 }
                 else {
@@ -447,12 +558,11 @@ public class Main extends Application {
         }
 
         block=player.buildBlock();
-        System.out.println("block du "+block.getDurabillity());
         block.setPosition(bx,by);
 
         return block;
     }
-    public void    genMap(ArrayList<Block> blocks){
+    public void    genMap     (ArrayList<Block> blocks){
         int px=75,py=64,count=0,index=0;
         // 15 block
 
@@ -570,10 +680,7 @@ public class Main extends Application {
         }
         return false;
     }
-
-
-    public static void main(String[] args) {
+    public static void main   (String[] args) {
         launch(args);
     }
-
 }

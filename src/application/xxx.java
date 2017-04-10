@@ -18,10 +18,10 @@ public class xxx  {
     @FXML
     public void buttonClicked(ActionEvent event) throws Exception {
 
-        Stage appStage;
-        Scene scene = main.Game();
+        Stage appStage=new Stage();
+
         appStage = (Stage) btnBeginTargeting.getScene().getWindow();
-        appStage.setScene(scene);
+        appStage.setScene(main.SelectCha(appStage));
     }
     @FXML
     private AnchorPane rootPane;
