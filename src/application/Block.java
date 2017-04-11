@@ -43,4 +43,8 @@ public class Block extends Sprite {
     public int getMaxDurabillity() {
         return maxDurabillity;
     }
+
+    public int getType() {
+        return type;
+    }
 }

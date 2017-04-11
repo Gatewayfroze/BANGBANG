@@ -59,10 +59,18 @@ public class Main extends Application {
     }
 
     public void playSoundWeapon(int type , double volume){
-        String [] typegun = {"src/sfx/handgun.mp3","src/sfx/machinegun.wav","src/sfx/shotgun.wav","src/sfx/sniper.wav"} ;
+        String [] typegun = {"src/sfx/handgun.wav","src/sfx/machinegun.wav","src/sfx/sniper.wav","src/sfx/shotgun.wav","src/sfx/reload.wav"} ;
         Media sound = new Media(new File(typegun[type]).toURI().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(sound);
         mediaPlayer.play();
+    }
+
+    public void playSoundCreateblock(int type , double volume){
+        String [] blocktype = {"src/sfx/grass.wav","src/sfx/stone.wav","src/sfx/ice.wav"} ;
+        Media sound = new Media(new File(blocktype[type]).toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.play();
+
     }
     public Scene SelectCha(Stage s){
 
@@ -259,6 +267,7 @@ public class Main extends Application {
                         Block newBlock = build(player);
                         if (checkRender(blockList, weaponsList, newBlock)) System.out.println("intersect");
                         else{
+                            playSoundCreateblock(newBlock.getType(),0.5);
                             blockList.add(newBlock);
                             player.removeBlock();
                         }
@@ -307,6 +316,7 @@ public class Main extends Application {
                         Block newBlock = build(player2);
                         if (checkRender(blockList, weaponsList, newBlock)) System.out.println("intersect");
                         else{
+                            playSoundCreateblock(newBlock.getType(),0.5);
                             blockList.add(newBlock);
                             player2.removeBlock();
                         }
@@ -343,16 +353,19 @@ public class Main extends Application {
                     for (int i = 0; i <weaponsList.size(); i++) {
                         if (weaponsList.get(i).getType()==0){
                             if (player.intersects(weaponsList.get(i))) {
+                                playSoundWeapon(4,0.2);
                                 player.getMag();
                                 weaponsList.remove(i);
                             } else
                             if (player2.intersects(weaponsList.get(i))) {
+                                playSoundWeapon(4,0.2);
                                 player2.getMag();
                                 weaponsList.remove(i);
                             }
                         }else
                         if (weaponsList.get(i).getType()!=0){
                             if (player.intersects(weaponsList.get(i))) {
+                                playSoundWeapon(4,0.2);
                                 player.getWeapon(weaponsList.get(i));
                                 ly.clearRect(8,360,120,120);
                                 weaponInterFace.setImage("in"+weaponsList.get(i).getFileName());
@@ -360,6 +373,7 @@ public class Main extends Application {
                                 weaponsList.remove(i);
                             } else
                             if (player2.intersects(weaponsList.get(i))) {
+                                playSoundWeapon(4,0.2);
                                 player2.getWeapon(weaponsList.get(i));
                                 weaponInterFace2.setImage("in"+weaponsList.get(i).getFileName());
                                 ly.clearRect(1425,390,120,120);
