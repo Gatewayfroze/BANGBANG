@@ -106,9 +106,6 @@ public class Main extends Application {
             public void handle(long now) {
               double elapsedTime = (now - lastNanoTime) / 10000000.0;
               lastNanoTime = now;
-
-
-
                 charector [0].setOnAction(e -> {
                     select[0]=0;
                     seleP1=0;
