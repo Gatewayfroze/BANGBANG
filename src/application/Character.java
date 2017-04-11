@@ -186,8 +186,10 @@ public class Character extends Pane {
 	}
 	public Block buildBlock(){
 		Block block=this.stackBlock.get(0);
-		stackBlock.remove(0);
 		return block;
+	}
+	public void removeBlock(){
+		this.stackBlock.remove(0);
 	}
 	public int getNumOfBlock(){
 		return this.stackBlock.size();
