@@ -8,7 +8,7 @@
 
 <AnchorPane id="root" fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.xxx">
    <children>
-      <ImageView fitHeight="727.0" fitWidth="1280.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="747.0" fitWidth="1280.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../bgfixed.jpg" />
          </image>
@@ -16,6 +16,21 @@
       <ImageView fitHeight="564.0" fitWidth="938.0" layoutX="171.0" layoutY="-38.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../bangbang.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="566.0" fitWidth="566.0" layoutX="806.0" layoutY="157.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../charOld.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="387.0" fitWidth="687.0" layoutX="-148.0" layoutY="336.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../girll.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="377.0" fitWidth="672.0" layoutX="630.0" layoutY="349.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../scout.png" />
          </image>
       </ImageView>
       <Button id="startbtn" fx:id="btnBeginTargeting" layoutX="539.0" layoutY="375.0" mnemonicParsing="false" onAction="#buttonClicked" opacity="0.73" prefHeight="96.0" prefWidth="202.0" style="-fx-cursor: hand;" stylesheets="@menu.css">
@@ -32,10 +47,5 @@
             <Cursor fx:constant="CROSSHAIR" />
          </cursor>
       </Button>
-      <ImageView fitHeight="566.0" fitWidth="566.0" layoutX="806.0" layoutY="157.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../charOld.png" />
-         </image>
-      </ImageView>
    </children>
 </AnchorPane>

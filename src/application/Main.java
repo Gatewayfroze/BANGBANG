@@ -13,12 +13,16 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -538,14 +542,14 @@ public class Main extends Application {
     public Bullet  createBullet(double x,double y,Character player){
         Bullet bullet = new Bullet(player.getType(),player.getDirection(),player.getDamage(),player.getSpeedBullet());
         bullet.setPosition(x,y);
-        //for machinGun
-//        if(player.getTypeWeapon()==1){
-//            double speedO=(Math.floor((Math.random() * 2)) > 0 ? 1 : -1) * (Math.random());
-//            if(bullet.getVelocityX()==0)bullet.setVelocityX(speedO);
-//            if(bullet.getVelocityY()==0)bullet.setVelocityY(speedO);
-//        }
         return bullet;
     }
+    public void playSoundWeapon(int type , double volume){
+                String [] typegun = {"src/sfx/handgun.mp3","src/sfx/machinegun.wav","src/sfx/shotgun.wav","src/sfx/sniper.wav"} ;
+                Media sound = new Media(new File(typegun[type]).toURI().toString());
+                MediaPlayer mediaPlayer = new MediaPlayer(sound);
+                mediaPlayer.play();
+            }
     public void    createBulletShotGun(double x,double y,Character player,ArrayList<Bullet> bb){
         for (int i = 0; i <3 ; i++) {
             Bullet bullet = new Bullet(player.getType(),player.getDirection(),player.getDamage(),player.getSpeedBullet());
