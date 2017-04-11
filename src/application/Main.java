@@ -13,12 +13,16 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -52,6 +56,13 @@ public class Main extends Application {
         Scene scene=new Scene(root);
 
         return scene;
+    }
+
+    public void playSoundWeapon(int type , double volume){
+        String [] typegun = {"src/sfx/handgun.mp3","src/sfx/machinegun.wav","src/sfx/shotgun.wav","src/sfx/sniper.wav"} ;
+        Media sound = new Media(new File(typegun[type]).toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.play();
     }
     public Scene SelectCha(Stage s){
 
@@ -257,6 +268,8 @@ public class Main extends Application {
                     player.animation.stop();
                 }
                 if (isPressed(KeyCode.F)&&Rate>=player.getFireRate()&&player.getBullet()!=0) {
+                    playSoundWeapon(player.getTypeWeapon(),0.3);
+
                     if(player.getTypeWeapon()==3) {
                         createBulletShotGun((player.getTranslateX() + 23), player.getTranslateY() + 30,player,bullet);
                     }else {
@@ -304,6 +317,7 @@ public class Main extends Application {
                     player2.animation.stop();
                 }
                 if (isPressed(KeyCode.SLASH)&&Rate2>=player2.getFireRate()&&player2.getBullet()!=0) {
+                    playSoundWeapon(player2.getTypeWeapon(),0.3);
                     if(player2.getTypeWeapon()==3) {
                         createBulletShotGun((player2.getTranslateX() + 23), player2.getTranslateY() + 30,player2,bullet);
                     }else {
