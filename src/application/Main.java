@@ -13,30 +13,23 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
-
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Main extends Application {
     private HashMap<KeyCode, Boolean> keys = new HashMap<>();
     public static ArrayList<Rectangle> bonuses = new ArrayList<>();
-    Image        image = new Image("scout_fix.png");// specify character image
-    Image        map = new Image("BG1.png");
-    Image        image2 =new Image("oldchar_fix2.png");
 
-    ImageView    imageView = new ImageView(image);// show image
-    ImageView    imageView2= new ImageView(image2);
-    Character    player = new Character(imageView);
-    Character    player2= new Character(imageView2);
+    Image        map = new Image("BG1.png");
+
+
+
     ImagePattern pattern = new ImagePattern(map);
 
     public boolean isPressed(KeyCode key) {
@@ -57,21 +50,6 @@ public class Main extends Application {
 
         return scene;
     }
-
-    public void playSoundWeapon(int type , double volume){
-        String [] typegun = {"src/sfx/handgun.wav","src/sfx/machinegun.wav","src/sfx/sniper.wav","src/sfx/shotgun.wav","src/sfx/reload.wav"} ;
-        Media sound = new Media(new File(typegun[type]).toURI().toString());
-        MediaPlayer mediaPlayer = new MediaPlayer(sound);
-        mediaPlayer.play();
-    }
-
-    public void playSoundCreateblock(int type , double volume){
-        String [] blocktype = {"src/sfx/grass.wav","src/sfx/stone.wav","src/sfx/ice.wav"} ;
-        Media sound = new Media(new File(blocktype[type]).toURI().toString());
-        MediaPlayer mediaPlayer = new MediaPlayer(sound);
-        mediaPlayer.play();
-
-    }
     public Scene SelectCha(Stage s){
 
         Group root = new Group();
@@ -89,10 +67,11 @@ public class Main extends Application {
         Button []charector2=new Button[4];
         Button []select    =new Button[2];
         Button enterGame   =new Button("enter");
+
         scene.setFill(new ImagePattern (new Image("select.png")));
         for (int i = 0; i <4 ; i++) {
-            imageDis .add(new Sprite(pre+"dis"+name+(i+1)+sub,350,300));
-            imageDis2.add(new Sprite(pre+"dis"+name+(i+1)+sub,810,300));
+            imageDis .add(new Sprite(pre+"dis"+name+(i)+sub,350,300));
+            imageDis2.add(new Sprite(pre+"dis"+name+(i)+sub,810,300));
         }
         int cX=14,cY=194;
         for (int i = 0; i <charector.length ; i++) {
@@ -122,6 +101,7 @@ public class Main extends Application {
         AnimationTimer timer = new AnimationTimer() {
             double lastNanoTime = System.nanoTime() ;
             int select[]={0,0};
+            int seleP1=0,seleP2=0;
             @Override
             public void handle(long now) {
               double elapsedTime = (now - lastNanoTime) / 10000000.0;
@@ -131,32 +111,40 @@ public class Main extends Application {
 
                 charector [0].setOnAction(e -> {
                     select[0]=0;
+                    seleP1=0;
                 });
                 charector [1].setOnAction(e -> {
                     select[0]=1;
+                    seleP1=1;
                 });
                 charector [2].setOnAction(e -> {
                     select[0]=2;
+                    seleP1=2;
                 });
                 charector [3].setOnAction(e -> {
                     select[0]=3;
+                    seleP1=3;
                 });
                 charector2[0].setOnAction(e -> {
                     select[1]=0;
+                    seleP2=0;
                 });
                 charector2[1].setOnAction(e -> {
                     select[1]=1;
+                    seleP2=1;
                 });
                 charector2[2].setOnAction(e -> {
                     select[1]=2;
+                    seleP2=2;
                 });
                 charector2[3].setOnAction(e -> {
                     select[1]=3;
+                    seleP2=3;
                 });
 
                 enterGame.setOnAction(e -> {
                   stage=s;
-                  stage.setScene(Game());
+                  stage.setScene(Game(seleP1,seleP2));
                   stage.show();
               });
                 gc.clearRect(0, 0, 1280,720);
@@ -176,19 +164,21 @@ public class Main extends Application {
 
         return scene;
     }
-    public Scene Game() {
+    public Scene Game(int seleP1,int seleP2) {
         //setScene
-        ImageView imageView           = new ImageView(image);// show image
-        ImageView    imageView2       = new ImageView(image2);
-        Sprite       weaponInterFace  = new Sprite   ("inWeapon.png",0,300);
-        Sprite       weaponInterFace2 = new Sprite   ("inWeapon.png",1180,320);
+        Weapon       defaultWeapon    = setDefaultWeapon(seleP1);
+        Weapon       defaultWeapon2   = setDefaultWeapon(seleP2);
+
+        Character    player           = setCharector(seleP1,1,defaultWeapon);
+        System.out.println(player.getSpeed());
+        Character    player2          = setCharector(seleP2,2,defaultWeapon2);
+        System.out.println(player2.getSpeed());
+        Sprite       weaponInterFace  = new Sprite   (defaultWeapon .getFileName(),0,300);
+        Sprite       weaponInterFace2 = new Sprite   (defaultWeapon2.getFileName(),1180,320);
         Sprite       blockInterFace   = new Sprite   ("block.png",15,195);
         Sprite       blockInterFace2  = new Sprite   ("block.png",1190,445);
-        Character    player           = new Character(imageView,1,3,25,6,
-                0,3,2,2,10,1);
-        Character    player2          = new Character(imageView2,2,3,25,6,
-                0,3,2,2,10,1);
-        Weapon       defaultWeapon    = new Weapon   (0,"inweapon.png",2,3,2);
+
+
         Image image3                  = new Image    ("interface_playtime.png");// specify character image
         ImageView    imageView3       = new ImageView(image3);// show image
         Group root                    = new Group();
@@ -267,7 +257,6 @@ public class Main extends Application {
                         Block newBlock = build(player);
                         if (checkRender(blockList, weaponsList, newBlock)) System.out.println("intersect");
                         else{
-                            playSoundCreateblock(newBlock.getType(),0.5);
                             blockList.add(newBlock);
                             player.removeBlock();
                         }
@@ -277,17 +266,13 @@ public class Main extends Application {
                     player.animation.stop();
                 }
                 if (isPressed(KeyCode.F)&&Rate>=player.getFireRate()&&player.getBullet()!=0) {
-                    playSoundWeapon(player.getTypeWeapon(),0.3);
-
-                    if(player.getTypeWeapon()==3) {
+                    if(player.getTypeWeapon()==1) {
                         createBulletShotGun((player.getTranslateX() + 23), player.getTranslateY() + 30,player,bullet);
                     }else {
                         bullet.add(createBullet((player.getTranslateX() + 23), player.getTranslateY() + 30, player));
                         player.shoot();
                     }
-
                     count=0;
-
                 }
                 //////////////////control player 2
 
@@ -316,7 +301,6 @@ public class Main extends Application {
                         Block newBlock = build(player2);
                         if (checkRender(blockList, weaponsList, newBlock)) System.out.println("intersect");
                         else{
-                            playSoundCreateblock(newBlock.getType(),0.5);
                             blockList.add(newBlock);
                             player2.removeBlock();
                         }
@@ -327,8 +311,7 @@ public class Main extends Application {
                     player2.animation.stop();
                 }
                 if (isPressed(KeyCode.SLASH)&&Rate2>=player2.getFireRate()&&player2.getBullet()!=0) {
-                    playSoundWeapon(player2.getTypeWeapon(),0.3);
-                    if(player2.getTypeWeapon()==3) {
+                    if(player2.getTypeWeapon()==1) {
                         createBulletShotGun((player2.getTranslateX() + 23), player2.getTranslateY() + 30,player2,bullet);
                     }else {
                         bullet.add(createBullet((player2.getTranslateX() + 23), player2.getTranslateY() + 30, player2));
@@ -337,51 +320,6 @@ public class Main extends Application {
                     count2=0;
                 }
 
-                //this is a random weapon
-
-                if(RateWeapon>20){
-                    Weapon weapon=new Weapon(0,"mag.png",10);
-                    int px,py;
-                    do {
-                        weapon=createWeapon();
-                    }while (checkRender(blockList,weaponsList,weapon));
-                    weaponsList.add(weapon);
-                    countWeapon=0;
-                }
-                //get Magazine
-                if(weaponsList.size()!=0) {
-                    for (int i = 0; i <weaponsList.size(); i++) {
-                        if (weaponsList.get(i).getType()==0){
-                            if (player.intersects(weaponsList.get(i))) {
-                                playSoundWeapon(4,0.2);
-                                player.getMag();
-                                weaponsList.remove(i);
-                            } else
-                            if (player2.intersects(weaponsList.get(i))) {
-                                playSoundWeapon(4,0.2);
-                                player2.getMag();
-                                weaponsList.remove(i);
-                            }
-                        }else
-                        if (weaponsList.get(i).getType()!=0){
-                            if (player.intersects(weaponsList.get(i))) {
-                                playSoundWeapon(4,0.2);
-                                player.getWeapon(weaponsList.get(i));
-                                ly.clearRect(8,360,120,120);
-                                weaponInterFace.setImage("in"+weaponsList.get(i).getFileName());
-                                System.out.println(weaponsList.get(i).getFileName());
-                                weaponsList.remove(i);
-                            } else
-                            if (player2.intersects(weaponsList.get(i))) {
-                                playSoundWeapon(4,0.2);
-                                player2.getWeapon(weaponsList.get(i));
-                                weaponInterFace2.setImage("in"+weaponsList.get(i).getFileName());
-                                ly.clearRect(1425,390,120,120);
-                                weaponsList.remove(i);
-                            }
-                        }
-                    }
-                }
                 //if bullet was shoot
                 if(bullet.size()!=0) {
                     for (int i = 0; i <bullet.size() ; i++) {
@@ -432,16 +370,63 @@ public class Main extends Application {
                     detect(bullet,blockList,player,player2);
 
                 }
-                //default weapon
-                if(player.getBullet()<=0&&player.getTypeWeapon()!=0){
-                    player.getWeapon(defaultWeapon);
-                    //  ly.clearRect(8,360,120,120);
-                    weaponInterFace.setImage("inweapon.png");
+
+                //this is a random weapon
+                if(RateWeapon>10){
+                    Weapon weapon=new Weapon(0,"mag.png",10);
+                    int px,py;
+                    do {
+                        weapon=createWeapon();
+                    }while (checkRender(blockList,weaponsList,weapon));
+                    weaponsList.add(weapon);
+                    countWeapon=0;
                 }
-                if(player2.getBullet()<=0&&player2.getTypeWeapon()!=0){
-                    player2.getWeapon(defaultWeapon);
+
+                //get Weapon && Magazine
+                if(weaponsList.size()!=0) {
+                    for (int i = 0; i <weaponsList.size(); i++) {
+                        if (weaponsList.get(i).getType()>=4){
+                            if (player.intersects(weaponsList.get(i))) {
+                                player.getMag();
+                                weaponsList.remove(i);
+                            } else
+                            if (player2.intersects(weaponsList.get(i))) {
+                                player2.getMag();
+                                weaponsList.remove(i);
+                            }
+                        }else
+                        if (weaponsList.get(i).getType()<4){
+                            if (player.intersects(weaponsList.get(i))) {
+                                if(player.getTypeWeapon()!=weaponsList.get(i).getType()) {
+                                    player.getWeapon(weaponsList.get(i));
+                                    ly.clearRect(8, 360, 120, 120);
+                                    weaponInterFace.setImage("in" + weaponsList.get(i).getFileName());
+                                    System.out.println(weaponsList.get(i).getFileName());
+                                }
+                                weaponsList.remove(i);
+                            } else
+                            if (player2.intersects(weaponsList.get(i))) {
+                                if(player2.getTypeWeapon()!=weaponsList.get(i).getType()) {
+                                    player2.getWeapon(weaponsList.get(i));
+                                    weaponInterFace2.setImage("in" + weaponsList.get(i).getFileName());
+                                    ly.clearRect(1425, 390, 120, 120);
+                                }
+                                weaponsList.remove(i);
+                            }
+                        }
+                    }
+                }
+
+                //default weapon
+                if(player.getBullet()<=0&&player.getTypeWeapon()!=defaultWeapon.getType()){
+                    player.getWeapon(defaultWeapon );
+                    //  ly.clearRect(8,360,120,120);
+                    weaponInterFace.setImage(defaultWeapon .getFileName());
+                }
+                if(player2.getBullet()<=0&&player2.getTypeWeapon()!=defaultWeapon2.getType()){
+                    player2.getWeapon(defaultWeapon2);
                     // ly.clearRect(1425,390,120,120);
-                    weaponInterFace2.setImage("inweapon.png");
+                    weaponInterFace2.setImage(defaultWeapon2.getFileName());
 
                 }
                 //check HP
@@ -500,6 +485,59 @@ public class Main extends Application {
         timer.start();
         return scene;
     }
+    public Character setCharector(int playerType,int playerNum,Weapon weapon){
+        String name="charector/playchar"+playerType+".png";
+        System.out.println(name);
+        Image        image = new Image(name);// specify character image
+        ImageView    imageView = new ImageView(image);// show image
+        Character    player=new Character();
+        if(playerType==0){
+            //scout
+            player =new Character(imageView,playerNum,3,25,6,
+                    playerType,3,2,2,10,1);
+        }else
+        if(playerType==1){
+            //old man
+            player =new Character(imageView,playerNum,5,25,4,
+                    playerType,3,2,2,10,1);
+        }else
+        if(playerType==2){
+            //cow girl
+            player =new Character(imageView,playerNum,2,25,8,
+                    playerType,3,2,2,10,1);
+        }else
+        if(playerType==3){
+            //agent
+            player =new Character(imageView,playerNum,3,25,6,
+                    playerType,3,2,2,10,1);
+        }
+        player.getWeapon(weapon);
+        System.out.println(playerNum+" "+player.getTypeWeapon());
+
+            return player;
+    }
+    public Weapon setDefaultWeapon(int playerType){
+        Weapon weapon=new Weapon();
+        if(playerType==0){
+            //scout
+            weapon =new Weapon(playerType,"inweapon"+playerType+".png",15,25,5);
+        }
+        if(playerType==1){
+            //old man
+            weapon =new Weapon(playerType,"inweapon"+playerType+".png",10,8,3);
+        }
+        if(playerType==2){
+            //cow girl
+            weapon =new Weapon(playerType,"inweapon"+playerType+".png",5,15,5);
+        }
+        if(playerType==3){
+            //agent
+
+            weapon =new Weapon(playerType,"inweapon"+playerType+".png",0.5,7,1);
+        }
+
+        return weapon;
+    }
     public Bullet  createBullet(double x,double y,Character player){
         Bullet bullet = new Bullet(player.getType(),player.getDirection(),player.getDamage(),player.getSpeedBullet());
         bullet.setPosition(x,y);
@@ -511,7 +549,7 @@ public class Main extends Application {
 //        }
         return bullet;
     }
-    public void  createBulletShotGun(double x,double y,Character player,ArrayList<Bullet> bb){
+    public void    createBulletShotGun(double x,double y,Character player,ArrayList<Bullet> bb){
         for (int i = 0; i <3 ; i++) {
             Bullet bullet = new Bullet(player.getType(),player.getDirection(),player.getDamage(),player.getSpeedBullet());
             bullet.setPosition(x,y);
@@ -532,26 +570,30 @@ public class Main extends Application {
     }
     public Weapon  createWeapon(){
         Weapon weapon=new Weapon();
-        //random 0-2 | 0=bullet ,1=machineGun,2= sniper,3= shotGun
-        int type=(int)(4*Math.random());
+        //random 0-2 | 0=handgun ,1=machineGun,2= sniper,3= shotGun
+        int type=(int)(6*Math.random());
         int px,py;
         px = (int) (1000 * Math.random()) + 100;
         py = (int) (520 * Math.random()) + 100;
         switch (type){
-            case 0:{
-                weapon=new Weapon(0,"mag.png",10);
-                break;
-            }
-            case 1:{
-                weapon=new Weapon(1,"weapon1.png",0.5,3,2);
-                break;
-            }
             case 2:{
-                weapon=new Weapon(2,"weapon2.png",15,20,10);
+                weapon=new Weapon(type,"weapon"+type+".png",5,15,5);
                 break;
             }
             case 3:{
-                weapon=new Weapon(3,"weapon3.png",10,8,3);
+                weapon=new Weapon(type,"weapon"+type+".png",0.5,7,1);
+                break;
+            }
+            case 0:{
+                weapon=new Weapon(type,"weapon"+type+".png",15,25,5);
+                break;
+            }
+            case 1:{
+                weapon=new Weapon(type,"weapon"+type+".png",10,8,3);
+                break;
+            }
+            default:{
+                weapon=new Weapon(type,"mag.png",10);
                 break;
             }
 
