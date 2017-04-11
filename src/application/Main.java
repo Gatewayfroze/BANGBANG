@@ -78,6 +78,8 @@ public class Main extends Application {
         ArrayList<Sprite> imageChar2=new ArrayList<>();
         ArrayList<Sprite> imageDis =new ArrayList<>();
         ArrayList<Sprite> imageDis2=new ArrayList<>();
+        ArrayList<Sprite> imageDisBack =new ArrayList<>();
+        ArrayList<Sprite> imageDis2Back=new ArrayList<>();
 
         String pre="charector/",name="char",sub=".png";
         GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -88,6 +90,11 @@ public class Main extends Application {
         Button enterGame   =new Button("enter");
 
         scene.setFill(new ImagePattern (new Image("select.png")));
+        ImageView m=new ImageView(new Image("charector/base.png"));
+        for (int i = 0; i <4 ; i++) {
+            imageDisBack .add(new Sprite(pre+"L"+(i)+sub,0,0));
+            imageDis2Back.add(new Sprite(pre+"R"+(i)+sub,640,0));
+        }
         for (int i = 0; i <4 ; i++) {
             imageDis .add(new Sprite(pre+"dis"+name+(i)+sub,350,300));
             imageDis2.add(new Sprite(pre+"dis"+name+(i)+sub,810,300));
@@ -114,7 +121,7 @@ public class Main extends Application {
             cY+=112;
         }
         enterGame.relocate(1280/2,650);
-        root.getChildren().add(enterGame);
+        root.getChildren().addAll(enterGame,m);
 
 
         AnimationTimer timer = new AnimationTimer() {
@@ -167,12 +174,15 @@ public class Main extends Application {
                     stage.show();
                 });
                 gc.clearRect(0, 0, 1280,720);
+
                 for (Sprite c:imageChar) {
                     c.render(gc);
                 }
                 for (Sprite c:imageChar2) {
                     c.render(gc);
                 }
+                imageDisBack.get(select[0]).render(gc);
+                imageDis2Back.get(select[1]).render(gc);
                 imageDis.get(select[0]).render(gc);
                 imageDis2.get(select[1]).render(gc);
             }
@@ -288,7 +298,7 @@ public class Main extends Application {
                     player.animation.stop();
                 }
                 if (isPressed(KeyCode.F)&&Rate>=player.getFireRate()&&player.getBullet()!=0) {
-                    playSoundWeapon(player.getTypeWeapon(),0.4);
+                    playSoundWeapon(player.getTypeWeapon(),0.1);
                     if(player.getTypeWeapon()==1) {
                         createBulletShotGun((player.getTranslateX() + 23), player.getTranslateY() + 30,player,bullet);
                     }else {
@@ -335,7 +345,7 @@ public class Main extends Application {
                     player2.animation.stop();
                 }
                 if (isPressed(KeyCode.SLASH)&&Rate2>=player2.getFireRate()&&player2.getBullet()!=0) {
-                    playSoundWeapon(player.getTypeWeapon(),0.4);
+                    playSoundWeapon(player2.getTypeWeapon(),0.1);
                     if(player2.getTypeWeapon()==1) {
                         createBulletShotGun((player2.getTranslateX() + 23), player2.getTranslateY() + 30,player2,bullet);
                     }else {
@@ -547,7 +557,7 @@ public class Main extends Application {
         Weapon weapon=new Weapon();
         if(playerType==0){
             //scout
-            weapon =new Weapon(playerType,"inweapon"+playerType+".png",15,25,5);
+            weapon =new Weapon(playerType,"inweapon"+playerType+".png",15,25,8);
         }
         if(playerType==1){
             //old man
@@ -607,7 +617,7 @@ public class Main extends Application {
                 break;
             }
             case 0:{
-                weapon=new Weapon(type,"weapon"+type+".png",15,25,5);
+                weapon=new Weapon(type,"weapon"+type+".png",15,25,8);
                 break;
             }
             case 1:{
@@ -658,9 +668,9 @@ public class Main extends Application {
         int px=75,py=64,count=0,index=0;
         // 15 block
 
-        int []bb= new int[]{0,1,2,3,4,5,6,7,8,9,10,11,12,29,44,59,74,89,99,103,104,113,114};
-        for (int i = 0; i <=9 ; i++) {
-            for (int j = 0; j <=14 ; j++) {
+        int []bb= new int[]{33,37,48,51,52,53,63,67};
+        for (int i = 0; i <8 ; i++) {
+            for (int j = 0; j <15 ; j++) {
                 if (index==bb.length)break;
                 if(count==bb[index]){
                     //set type of block is here
