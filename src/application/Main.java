@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
@@ -23,6 +24,7 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -54,19 +56,19 @@ public class Main extends Application {
 
         return scene;
     }
-    //
-    MediaPlayer mediaPlayer;
+
     public void playSoundWeapon(int type , double volume){
         String [] typegun = {"src/sfx/sniper.wav","src/sfx/shotgun.wav","src/sfx/handgun.wav","src/sfx/machinegun.wav","src/sfx/reload.wav"} ;
-        Media sound = new Media(new File(typegun[type]).toURI().toString());
-        MediaPlayer mediaPlayer = new MediaPlayer(sound);
+        Media hit = new Media(Paths.get(typegun[type]).toUri().toString());
+        AudioClip mediaPlayer = new AudioClip(hit.getSource());
         mediaPlayer.play();
+
     }
 
     public void playSoundCreateblock(int type , double volume){
         String [] blocktype = {"src/sfx/grass.wav","src/sfx/stone.wav","src/sfx/ice.wav"} ;
-        Media sound = new Media(new File(blocktype[type]).toURI().toString());
-        MediaPlayer mediaPlayer = new MediaPlayer(sound);
+        Media hit = new Media(Paths.get(blocktype[type]).toUri().toString());
+        AudioClip mediaPlayer = new AudioClip(hit.getSource());
         mediaPlayer.play();
 
     }
