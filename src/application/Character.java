@@ -31,7 +31,7 @@ public class Character extends Pane {
 	private int damage;
 	ArrayList<Block> stackBlock;
 	private int bullet;
-	 int direction;
+	int direction;
 	//direction 0 down,1 left, 2 right, 3 up
 	Rectangle removeRect = null;
 	SpriteAnimation animation;
@@ -170,17 +170,17 @@ public class Character extends Pane {
 	public void setBullet(int bullet) {
 		this.bullet = bullet;
 	}
-		public void getMag(){
+	public void getMag(){
 		int bullet=0;
 
 		if(this.getTypeWeapon()==0){bullet=5;}
 		if(this.getTypeWeapon()==1){bullet=12;}
 		if(this.getTypeWeapon()==2) {bullet=10;}
 		if(this.getTypeWeapon()==3){bullet=20;}
-			this.bullet+=bullet;
+		this.bullet+=bullet;
 	}
 	public void getBlock(Block block){
-			stackBlock.add(block);
+		stackBlock.add(block);
 	}
 	public String getNameFirstBlock(){
 		return this.stackBlock.get(0).getFileName();
@@ -202,23 +202,25 @@ public class Character extends Pane {
 		super.setTranslateX(x);
 		super.setTranslateY(y);
 	}
-//special method
+	//special method
 	public void shoot(){
 		this.bullet--;
 	}
 	public void hit(int damage){this.hp-=damage;
 	}
 	public void getWeapon(Weapon weapon){
-	this.setTypeWeapon(weapon.getType());
-	this.setSpeedBullet(weapon.getSpeedBullet());
-	this.setFireRate(weapon.getFireRate());
-	this.setDamage(weapon.getDamage());
-	// 1 machineGun 2 sniper
+		this.setTypeWeapon(weapon.getType());
+		this.setSpeedBullet(weapon.getSpeedBullet());
+		this.setFireRate(weapon.getFireRate());
+		this.setDamage(weapon.getDamage());
+		// 1 machineGun 2 sniper
 
-	if(weapon.getType()==0){this.setBullet(5);}else
-	if(weapon.getType()==1){this.setBullet(21);}else
-	if(weapon.getType()==2){this.setBullet(10);}else
-	if(weapon.getType()==3){this.setBullet(30);}
+		if(weapon.getType()==0){this.setBullet(5);}else
+		if(weapon.getType()==1){this.setBullet(21);}else
+		if(weapon.getType()==2){this.setBullet(10);}else
+		if(weapon.getType()==3){this.setBullet(30);}
 	}
+
+
 
 }
