@@ -54,6 +54,7 @@ public class Main extends Application {
 
         return scene;
     }
+    //
     MediaPlayer mediaPlayer;
     public void playSoundWeapon(int type , double volume){
         String [] typegun = {"src/sfx/sniper.wav","src/sfx/shotgun.wav","src/sfx/handgun.wav","src/sfx/machinegun.wav","src/sfx/reload.wav"} ;
