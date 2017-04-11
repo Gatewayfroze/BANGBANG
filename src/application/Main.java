@@ -222,15 +222,17 @@ public class Main extends Application {
         ArrayList<Sprite> viewLife=new ArrayList<>();
         ArrayList<Sprite> viewLife2=new ArrayList<>();
         genMap(blockList);
-        int x=320;
+        int x=310;
         for (int i = 0; i <player.getLife() ; i++) {
             viewLife.add(new Sprite("heart.png",x,50));
-            x+=40;
+            if(player.getLife()>3)x+=30;
+            else x+=40;
         }
-        x=835;
+        x=825;
         for (int i = 0; i <player2.getLife() ; i++) {
             viewLife2.add(new Sprite("heart.png",x,635));
-            x+=40;
+            if(player2.getLife()>3)x+=20;
+            else x+=40;
         }
 
         int []directionOffset={0,140,70,210};
@@ -568,12 +570,7 @@ public class Main extends Application {
         bullet.setPosition(x,y);
         return bullet;
     }
-    public void playSoundWeapon(int type , double volume){
-                String [] typegun = {"src/sfx/handgun.mp3","src/sfx/machinegun.wav","src/sfx/shotgun.wav","src/sfx/sniper.wav"} ;
-                Media sound = new Media(new File(typegun[type]).toURI().toString());
-                MediaPlayer mediaPlayer = new MediaPlayer(sound);
-                mediaPlayer.play();
-            }
+
     public void    createBulletShotGun(double x,double y,Character player,ArrayList<Bullet> bb){
         for (int i = 0; i <3 ; i++) {
             Bullet bullet = new Bullet(player.getType(),player.getDirection(),player.getDamage(),player.getSpeedBullet());
