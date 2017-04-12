@@ -65,7 +65,7 @@ public class Main extends Application {
     }
 
     public void playSoundCreateblock(int type , double volume){
-        String [] blocktype = {"src/sfx/grass.wav","src/sfx/stone.wav","src/sfx/ice.wav"} ;
+        String [] blocktype = {"src/sfx/ice.wav","src/sfx/grass.wav","src/sfx/sand2.mp3","src/sfx/stone.wav"} ;
         Media hit = new Media(Paths.get(blocktype[type]).toUri().toString());
         AudioClip mediaPlayer = new AudioClip(hit.getSource());
         mediaPlayer.play();
