@@ -26,7 +26,10 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Random;
 
 public class Main extends Application {
     private HashMap<KeyCode, Boolean> keys = new HashMap<>();
@@ -238,11 +241,14 @@ public class Main extends Application {
         root.getChildren().addAll(canvas,player,player2,imageView3,layout);
 
         ArrayList<Block> blockList = new ArrayList<>();
+
         ArrayList<Bullet> bullet=new ArrayList<>();
         ArrayList<Weapon> weaponsList=new ArrayList<>();
         ArrayList<Sprite> viewLife=new ArrayList<>();
         ArrayList<Sprite> viewLife2=new ArrayList<>();
         genMap(blockList);
+
+
         int x=310;
         for (int i = 0; i <player.getLife() ; i++) {
             viewLife.add(new Sprite("heart.png",x,50));
@@ -252,7 +258,7 @@ public class Main extends Application {
         x=825;
         for (int i = 0; i <player2.getLife() ; i++) {
             viewLife2.add(new Sprite("heart.png",x,635));
-            if(player2.getLife()>3)x+=20;
+            if(player2.getLife()>3)x+=30;
             else x+=40;
         }
 
@@ -261,7 +267,10 @@ public class Main extends Application {
         //render obj
         GraphicsContext gc = canvas.getGraphicsContext2D();
         GraphicsContext ly = layout.getGraphicsContext2D();
-
+//        for (int i = 0; i <blockList.size() ; i++) {
+//            blockList.get(i).render(gc);
+//            System.out.println(blockList.get(i).getDurabillity());
+//        }
         //Animation
         AnimationTimer timer = new AnimationTimer() {
             double lastNanoTime = System.nanoTime() ;
@@ -275,12 +284,12 @@ public class Main extends Application {
                 double Rate=count/10.0,Rate2=count2/10.0,RateWeapon=countWeapon/60.0,RateAll=countAll/10.0,
                 RateB1=countB1/60.0 ,RateB2=countB2/60.0;
 
-                if (isPressed(KeyCode.W) && collision(player, blockList, "UP")&&player.getTranslateY()>63) {
+                if (isPressed(KeyCode.W) && collision(player, blockList, "UP")&&player.getTranslateY()>55) {
                     player.animation.play();
                     player.animation.setOffsetY(directionOffset[3]);
                     player.moveY(-player.getSpeed());
                     player.direction=3;
-                } else if (isPressed(KeyCode.S) && collision(player, blockList, "DOWN")&&player.getTranslateY()+70<scene.getHeight()-63) {
+                } else if (isPressed(KeyCode.S) && collision(player, blockList, "DOWN")&&player.getTranslateY()+68<scene.getHeight()-63) {
                     player.animation.play();
                     player.animation.setOffsetY(directionOffset[0]);
                     player.moveY(player.getSpeed());
@@ -322,12 +331,12 @@ public class Main extends Application {
                 }
                 //////////////////control player 2
 
-                if (isPressed(KeyCode.UP) && collision(player2, blockList, "UP")&&player2.getTranslateY()>63) {
+                if (isPressed(KeyCode.UP) && collision(player2, blockList, "UP")&&player2.getTranslateY()>55) {
                     player2.animation.play();
                     player2.animation.setOffsetY(directionOffset[3]);
                     player2.moveY(-player2.getSpeed());
                     player2.direction=3;
-                } else if (isPressed(KeyCode.DOWN) && collision(player2, blockList, "DOWN")&&player2.getTranslateY()+70<scene.getHeight()-63) {
+                } else if (isPressed(KeyCode.DOWN) && collision(player2, blockList, "DOWN")&&player2.getTranslateY()+68<scene.getHeight()-63) {
                     player2.animation.play();
                     player2.animation.setOffsetY(directionOffset[0]);
                     player2.moveY(player2.getSpeed());
@@ -655,22 +664,22 @@ public class Main extends Application {
         if (player.getDirection() == 0) {
             //DOWN
             by = (int) player.getTranslateY() + 75;
-            bx = (int) player.getTranslateX()-10;
+            bx = (int) player.getTranslateX();
         }
         if (player.getDirection() == 3) {
             //UP
             by = (int) player.getTranslateY() - 70;
-            bx = (int) player.getTranslateX()-10;
+            bx = (int) player.getTranslateX();
         }
         if (player.getDirection() == 1) {
             //LEFT
             bx = (int) player.getTranslateX() - 75;
-            by = (int) player.getTranslateY()-8;
+            by = (int) player.getTranslateY();
         }
         if (player.getDirection() == 2) {
             //RIGHT
             bx = (int) player.getTranslateX() + 57;
-            by = (int) player.getTranslateY()-8;
+            by = (int) player.getTranslateY()-1;
         }
 
         block=player.buildBlock();
@@ -678,24 +687,37 @@ public class Main extends Application {
 
         return block;
     }
-    public void    genMap     (ArrayList<Block> blocks){
-        int px=75,py=64,count=0,index=0;
-        // 15 block
+    public void genMap     (ArrayList<Block> blocks){
+        int px=75,py=52,count=0,index=0;
+        // 15x9 block All 120
+        int type=2;
+        int [][]bb= new int[][]{{5,12,18,20,21,24,25,32,33,40,41,43,44,47,50,51,53,59,60,66,68,69,72,75,76,78,79,86,87,94,95,98,99,101,107,114},
+                {3,5,7,15,16,18,19,20,22,26,27,28,29,31,37,38,39,49,52,55,57,58,59,60,61,62,64,67,70,80,81,82,88,90,91,92,93,97,99,100,101,103,104,112,114,116},
+                {5,12,18,20,21,24,25,32,33,40,41,43,44,47,50,51,53,59,60,66,68,69,72,75,76,78,79,86,87,94,95,98,99,101,107,114},
+                {7,31,32,33,36,38,41,42,43,47,48,50,51,52,53,54,56,57,64,66,67,68,70,76,82,88,91,93,94,96,98,100,101,103,109,111,112,113,115}};
+        int primary=20,map=3;
 
-        int []bb= new int[]{33,37,48,51,52,53,63,67};
+        for (int i = 0; i <bb[map].length; i++) {
+            if(primary!=0) {
+                blocks.add(new Block(type, px, py));
+                primary--;
+            }else
+                blocks.add(new Block((int)(Math.random()*3), px, py));
+        }
+        Collections.shuffle(blocks);
+
         for (int i = 0; i <8 ; i++) {
             for (int j = 0; j <15 ; j++) {
-                if (index==bb.length)break;
-                if(count==bb[index]){
+                if (index==bb[map].length)break;
+                if(count==bb[map][index]){
                     //set type of block is here
-                    int type=(int)(Math.random()*3);
-                    blocks.add(new Block(type,px,py));
+                    blocks.get(index).setPosition(px,py);
                     index++;
                 }
                 count++;
-                px+=75;
+                px+=77;
             }
-            py+=75;
+            py+=77;
             px=75;
         }
     }
