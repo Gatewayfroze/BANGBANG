@@ -10,39 +10,19 @@
    <children>
       <ImageView fitHeight="747.0" fitWidth="1280.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../bgfixed.jpg" />
+            <Image url="@../start.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="564.0" fitWidth="938.0" layoutX="171.0" layoutY="-38.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../bangbang.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="566.0" fitWidth="566.0" layoutX="806.0" layoutY="157.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../charOld.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="387.0" fitWidth="687.0" layoutX="-148.0" layoutY="336.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../girll.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="377.0" fitWidth="672.0" layoutX="630.0" layoutY="349.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../scout.png" />
-         </image>
-      </ImageView>
-      <Button id="startbtn" fx:id="btnBeginTargeting" layoutX="539.0" layoutY="375.0" mnemonicParsing="false" onAction="#buttonClicked" opacity="0.73" prefHeight="96.0" prefWidth="202.0" style="-fx-cursor: hand;" stylesheets="@menu.css">
+      <Button id="startbtn" fx:id="btnBeginTargeting" layoutX="554.0" layoutY="375.0" mnemonicParsing="false" onAction="#buttonClicked" opacity="0.73" prefHeight="96.0" prefWidth="202.0" style="-fx-cursor: hand;" stylesheets="@menu.css">
          <cursor>
             <Cursor fx:constant="CROSSHAIR" />
          </cursor></Button>
-      <Button id="howbtn" layoutX="539.0" layoutY="490.0" mnemonicParsing="false" onAction="#loadHowto" opacity="0.78" prefHeight="96.0" prefWidth="202.0" style="-fx-cursor: hand;" stylesheets="@menu.css">
+      <Button id="howbtn" layoutX="554.0" layoutY="490.0" mnemonicParsing="false" onAction="#loadHowto" opacity="0.78" prefHeight="96.0" prefWidth="202.0" style="-fx-cursor: hand;" stylesheets="@menu.css">
          <cursor>
             <Cursor fx:constant="CROSSHAIR" />
          </cursor>
       </Button>
-      <Button id="about" layoutX="539.0" layoutY="603.0" mnemonicParsing="false" onAction="#loadCredit" opacity="0.73" prefHeight="96.0" prefWidth="202.0" style="-fx-cursor: hand;" stylesheets="@menu.css">
+      <Button id="about" layoutX="554.0" layoutY="603.0" mnemonicParsing="false" onAction="#loadCredit" opacity="0.73" prefHeight="96.0" prefWidth="202.0" style="-fx-cursor: hand;" stylesheets="@menu.css">
          <cursor>
             <Cursor fx:constant="CROSSHAIR" />
          </cursor>

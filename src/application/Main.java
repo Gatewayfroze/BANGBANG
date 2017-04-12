@@ -32,7 +32,7 @@ public class Main extends Application {
     private HashMap<KeyCode, Boolean> keys = new HashMap<>();
     public static ArrayList<Rectangle> bonuses = new ArrayList<>();
 
-    Image        map = new Image("BG1.png");
+    Image        map = new Image("bg01.png");
 
 
 
@@ -70,6 +70,14 @@ public class Main extends Application {
         Media hit = new Media(Paths.get(blocktype[type]).toUri().toString());
         AudioClip mediaPlayer = new AudioClip(hit.getSource());
         mediaPlayer.play();
+
+    }
+    public Scene gameResult(int Result){
+        Group root = new Group();
+        Scene scene=new Scene(root);
+        Canvas canvas = new Canvas( 1280, 720 );
+        root.getChildren().addAll(canvas);
+        return scene;
 
     }
     public Scene SelectCha(Stage s){
@@ -123,8 +131,8 @@ public class Main extends Application {
             root.getChildren().add(charector2[i]);
             cY+=112;
         }
-        enterGame.relocate(1280/2,650);
-        root.getChildren().addAll(enterGame,m);
+        enterGame.relocate(1280/2-50,650);
+        root.getChildren().addAll(m,enterGame);
 
 
         AnimationTimer timer = new AnimationTimer() {
@@ -257,14 +265,15 @@ public class Main extends Application {
         //Animation
         AnimationTimer timer = new AnimationTimer() {
             double lastNanoTime = System.nanoTime() ;
-            int count=0,count2=0,countWeapon=0,countAll=0;
+            int count=0,count2=0,countWeapon=0,countAll=0,countB1=0,countB2=0;
 
             @Override
             public void handle(long now) {
                 double elapsedTime = (now - lastNanoTime) / 10000000.0;
                 lastNanoTime = now;
-                count++;  count2++; countWeapon++; countAll++;
-                double Rate=count/10.0,Rate2=count2/10.0,RateWeapon=countWeapon/60.0,RateAll=countAll/10.0;
+                count++;  count2++; countWeapon++; countAll++; countB1++; countB2++;
+                double Rate=count/10.0,Rate2=count2/10.0,RateWeapon=countWeapon/60.0,RateAll=countAll/10.0,
+                RateB1=countB1/60.0 ,RateB2=countB2/60.0;
 
                 if (isPressed(KeyCode.W) && collision(player, blockList, "UP")&&player.getTranslateY()>63) {
                     player.animation.play();
@@ -286,11 +295,12 @@ public class Main extends Application {
                     player.animation.setOffsetY(directionOffset[1]);
                     player.moveX(-player.getSpeed());
                     player.direction=1;
-                } else if (isPressed(KeyCode.R)&&RateAll%4==0) {
+                } else if (isPressed(KeyCode.R)&&RateB1>1) {
                     if (player.getNumOfBlock()!=0) {
                         Block newBlock = build(player);
                         if (checkRender(blockList, weaponsList, newBlock)) System.out.println("intersect");
                         else{
+                            countB1=0;
                             playSoundCreateblock(newBlock.getType(),0.5);
                             blockList.add(newBlock);
                             player.removeBlock();
@@ -332,11 +342,12 @@ public class Main extends Application {
                     player2.animation.setOffsetY(directionOffset[1]);
                     player2.moveX(-player2.getSpeed());
                     player2.direction=1;
-                } else if (isPressed(KeyCode.CONTROL)&&RateAll%4==0) {
+                } else if (isPressed(KeyCode.CONTROL)&&RateB2>1) {
                     if (player2.getNumOfBlock()!=0) {
                         Block newBlock = build(player2);
                         if (checkRender(blockList, weaponsList, newBlock)) System.out.println("intersect");
                         else{
+                            countB2=0;
                             playSoundCreateblock(newBlock.getType(),0.5);
                             blockList.add(newBlock);
                             player2.removeBlock();
@@ -560,7 +571,7 @@ public class Main extends Application {
         Weapon weapon=new Weapon();
         if(playerType==0){
             //scout
-            weapon =new Weapon(playerType,"inweapon"+playerType+".png",15,25,8);
+            weapon =new Weapon(playerType,"inweapon"+playerType+".png",12,25,8);
         }
         if(playerType==1){
             //old man
@@ -606,7 +617,7 @@ public class Main extends Application {
     public Weapon  createWeapon(){
         Weapon weapon=new Weapon();
         //random 0-2 | 0=handgun ,1=machineGun,2= sniper,3= shotGun
-        int type=(int)(6*Math.random());
+        int type=(int)(10*Math.random());
         int px,py;
         px = (int) (1000 * Math.random()) + 100;
         py = (int) (520 * Math.random()) + 100;
@@ -620,7 +631,7 @@ public class Main extends Application {
                 break;
             }
             case 0:{
-                weapon=new Weapon(type,"weapon"+type+".png",15,25,8);
+                weapon=new Weapon(type,"weapon"+type+".png",12,25,8);
                 break;
             }
             case 1:{
