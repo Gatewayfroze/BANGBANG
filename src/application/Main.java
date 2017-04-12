@@ -35,11 +35,7 @@ public class Main extends Application {
     private HashMap<KeyCode, Boolean> keys = new HashMap<>();
     public static ArrayList<Rectangle> bonuses = new ArrayList<>();
 
-    Image        map = new Image("bg01.png");
 
-
-
-    ImagePattern pattern = new ImagePattern(map);
 
     public boolean isPressed(KeyCode key) {
         return keys.getOrDefault(key, false);
@@ -73,6 +69,60 @@ public class Main extends Application {
         Media hit = new Media(Paths.get(blocktype[type]).toUri().toString());
         AudioClip mediaPlayer = new AudioClip(hit.getSource());
         mediaPlayer.play();
+
+    }
+    public Scene stageSele(int Sele1,int Sele2){
+        Group root = new Group();
+        Scene scene=new Scene(root);
+        Canvas canvas = new Canvas( 1280, 720 );
+        root.getChildren().addAll(canvas);
+        Button []mapDis =new Button[4];
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        ArrayList<Sprite> imageMap =new ArrayList<>();
+
+        scene.setFill(new ImagePattern (new Image("stage.png")));
+        int mx=330,my=233,count=0;
+        for (int i = 0; i <2 ; i++) {
+            for (int j = 0; j <2 ; j++) {
+                mapDis[count]=new Button("map "+count);
+                mapDis[count].relocate(mx,my);
+                imageMap.add(new Sprite("map"+count+".png",mx,my));
+                mapDis[count].setPrefSize(296,167);
+                mapDis[count].setOpacity(0);
+                root.getChildren().add(mapDis[count]);
+                mx+=322;
+                count++;
+            }
+            mx=330;
+            my+=193;
+        }
+        Button enter =new Button("Game Start");
+
+
+        enter.relocate(1280/2-50,650);
+        root.getChildren().addAll(enter);
+
+
+        for (Sprite e:imageMap)e.render(gc);
+        AnimationTimer timer = new AnimationTimer() {
+            double lastNanoTime = System.nanoTime() ;
+            int map=0;
+            @Override
+            public void handle(long now) {
+                lastNanoTime = now;
+                mapDis [0].setOnAction(e -> map=0 );
+                mapDis [1].setOnAction(e -> map=1 );
+                mapDis [2].setOnAction(e -> map=2 );
+                mapDis [3].setOnAction(e -> map=3 );
+                enter.setOnAction(e -> {
+                    stage.setScene(Game(Sele1,Sele2,map));
+                    stage.show();
+                });
+            }
+        };
+        timer.start();
+
+        return scene;
 
     }
     public Scene gameResult(int Result){
@@ -146,9 +196,6 @@ public class Main extends Application {
             public void handle(long now) {
                 double elapsedTime = (now - lastNanoTime) / 10000000.0;
                 lastNanoTime = now;
-
-
-
                 charector [0].setOnAction(e -> {
                     select[0]=0;
                     seleP1=0;
@@ -184,7 +231,7 @@ public class Main extends Application {
 
                 enterGame.setOnAction(e -> {
                     stage=s;
-                    stage.setScene(Game(seleP1,seleP2));
+                    stage.setScene(stageSele(seleP1,seleP2));
                     stage.show();
                 });
                 gc.clearRect(0, 0, 1280,720);
@@ -207,8 +254,10 @@ public class Main extends Application {
 
         return scene;
     }
-    public Scene Game(int seleP1,int seleP2) {
+    public Scene Game(int seleP1,int seleP2,int map) {
         //setScene
+
+        String       nameMap          ="bg"+map+".png";
         Weapon       defaultWeapon    = setDefaultWeapon(seleP1);
         Weapon       defaultWeapon2   = setDefaultWeapon(seleP2);
 
@@ -218,22 +267,28 @@ public class Main extends Application {
         System.out.println(player2.getSpeed());
         Sprite       weaponInterFace  = new Sprite   (defaultWeapon .getFileName(),0,300);
         Sprite       weaponInterFace2 = new Sprite   (defaultWeapon2.getFileName(),1180,320);
-        Sprite       blockInterFace   = new Sprite   ("block.png",15,195);
-        Sprite       blockInterFace2  = new Sprite   ("block.png",1190,445);
+        Sprite       blockInterFace   = new Sprite   ("block0.png",15,195);
+        Sprite       blockInterFace2  = new Sprite   ("block0.png",1190,445);
 
 
         Image image3                  = new Image    ("interface_playtime.png");// specify character image
         ImageView    imageView3       = new ImageView(image3);// show image
+
+        Sprite       imageDisplay     = new Sprite("charector/char"+(seleP1+1)+".png",44,14);
+        Sprite       imageDisplay2    = new Sprite("charector/char"+(seleP2+1)+"_22.png",1038,607);
+
         Group root                    = new Group();
         Scene        scene            = new Scene(root);
+        //set BG
+        scene.setFill(new ImagePattern(new Image(nameMap)));
+
         //set status player
         player .setPosition(90,590);
         player2.setPosition(1145,65);
 
         scene.setOnKeyPressed (event -> keys.put(event.getCode(), true));
         scene.setOnKeyReleased(event -> keys.put(event.getCode(), false));
-        //set BG
-        scene.setFill(pattern);
+
         //setGame
         Canvas canvas = new Canvas(1280 , 720);
         Canvas layout = new Canvas(1280 , 720);
@@ -246,7 +301,7 @@ public class Main extends Application {
         ArrayList<Weapon> weaponsList=new ArrayList<>();
         ArrayList<Sprite> viewLife=new ArrayList<>();
         ArrayList<Sprite> viewLife2=new ArrayList<>();
-        genMap(blockList);
+        genMap(blockList,map);
 
 
         int x=310;
@@ -267,10 +322,7 @@ public class Main extends Application {
         //render obj
         GraphicsContext gc = canvas.getGraphicsContext2D();
         GraphicsContext ly = layout.getGraphicsContext2D();
-//        for (int i = 0; i <blockList.size() ; i++) {
-//            blockList.get(i).render(gc);
-//            System.out.println(blockList.get(i).getDurabillity());
-//        }
+
         //Animation
         AnimationTimer timer = new AnimationTimer() {
             double lastNanoTime = System.nanoTime() ;
@@ -278,6 +330,7 @@ public class Main extends Application {
 
             @Override
             public void handle(long now) {
+
                 double elapsedTime = (now - lastNanoTime) / 10000000.0;
                 lastNanoTime = now;
                 count++;  count2++; countWeapon++; countAll++; countB1++; countB2++;
@@ -516,6 +569,8 @@ public class Main extends Application {
                 for (Weapon w : weaponsList )w.render( gc );
                 for (Bullet b : bullet )b.render( gc );
                 for (Block moneybag : blockList)moneybag.render(gc);
+                imageDisplay .render(ly);
+                imageDisplay2.render(ly);
                 //check went render block
                 if (player .getNumOfBlock()!=0)blockInterFace .setImage(player.getNameFirstBlock());else
                     blockInterFace .setImage("noblock.png");
@@ -687,22 +742,23 @@ public class Main extends Application {
 
         return block;
     }
-    public void genMap     (ArrayList<Block> blocks){
+    public void genMap     (ArrayList<Block> blocks,int map){
         int px=75,py=52,count=0,index=0;
         // 15x9 block All 120
-        int type=2;
+        int type=map;
         int [][]bb= new int[][]{{5,12,18,20,21,24,25,32,33,40,41,43,44,47,50,51,53,59,60,66,68,69,72,75,76,78,79,86,87,94,95,98,99,101,107,114},
                 {3,5,7,15,16,18,19,20,22,26,27,28,29,31,37,38,39,49,52,55,57,58,59,60,61,62,64,67,70,80,81,82,88,90,91,92,93,97,99,100,101,103,104,112,114,116},
                 {5,12,18,20,21,24,25,32,33,40,41,43,44,47,50,51,53,59,60,66,68,69,72,75,76,78,79,86,87,94,95,98,99,101,107,114},
                 {7,31,32,33,36,38,41,42,43,47,48,50,51,52,53,54,56,57,64,66,67,68,70,76,82,88,91,93,94,96,98,100,101,103,109,111,112,113,115}};
-        int primary=20,map=3;
+        int primary=20;
+
 
         for (int i = 0; i <bb[map].length; i++) {
             if(primary!=0) {
                 blocks.add(new Block(type, px, py));
                 primary--;
             }else
-                blocks.add(new Block((int)(Math.random()*3), px, py));
+                blocks.add(new Block((int)(Math.random()*4), px, py));
         }
         Collections.shuffle(blocks);
 

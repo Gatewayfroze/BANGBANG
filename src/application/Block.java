@@ -17,16 +17,20 @@ public class Block extends Sprite {
         super.setPosition(x,y);
         //super.setImage(name);
         if(type==0){
-            super.setImage(name+".png");
-            this.maxDurabillity=5;
+            super.setImage(name+"0.png");
+            this.maxDurabillity=3;
         }
         if(type==1){
             super.setImage(name+"1.png");
-            this.maxDurabillity=10;
+            this.maxDurabillity=7;
         }
         if(type==2){
             super.setImage(name+"2.png");
-            this.maxDurabillity=3;
+            this.maxDurabillity=5;
+        }
+        if(type==3){
+            super.setImage(name+"3.png");
+            this.maxDurabillity=10;
         }
         this.durabillity = maxDurabillity;
     }
