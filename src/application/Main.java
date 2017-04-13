@@ -148,7 +148,10 @@ public class Main extends Application {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         imageResult.render(gc);
 
-        Button back =new Button("BACK");
+        Button back =new Button("");
+        back.setStyle("-fx-background-image: url(\"/backbt.png\");-fx-cursor:hand;-fx-pref-height: 96px;\n" +
+                "    -fx-pref-width: 202px;");
+        back.relocate(1280/3+120,620);
         root.getChildren().add(back);
 
         back.setOnAction(e -> {
