@@ -3,6 +3,7 @@ package application;
 import com.sun.org.apache.regexp.internal.RE;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -14,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -54,6 +56,9 @@ public class Main extends Application {
         stage.show();
     }
     public Scene menu() throws Exception{
+        Media hit = new Media(Paths.get("src/sfx/bangbang.wav").toUri().toString());
+        AudioClip mediaPlayer = new AudioClip(hit.getSource());
+        mediaPlayer.play();
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         Scene scene=new Scene(root);
 
@@ -74,6 +79,9 @@ public class Main extends Application {
 
     }
     public Scene stageSele(int Sele1,int Sele2){
+        Media hit = new Media(Paths.get("src/sfx/stage.wav").toUri().toString());
+        AudioClip mediaPlayer = new AudioClip(hit.getSource());
+        mediaPlayer.play();
         Group root = new Group();
         Scene scene=new Scene(root);
         Canvas canvas = new Canvas( 1280, 720 );
@@ -86,7 +94,7 @@ public class Main extends Application {
         int mx=330,my=233,count=0;
         for (int i = 0; i <2 ; i++) {
             for (int j = 0; j <2 ; j++) {
-                mapDis[count]=new Button("map "+count);
+                mapDis[count]=new Button();
                 mapDis[count].relocate(mx,my);
                 imageMap.add(new Sprite("map"+count+".png",mx,my));
                 mapDis[count].setPrefSize(296,167);
@@ -98,10 +106,12 @@ public class Main extends Application {
             mx=330;
             my+=193;
         }
-        Button enter =new Button("Game Start");
+        Button enter =new Button();
+        enter.setStyle("-fx-background-image: url(\"/startbt.png\");-fx-cursor:hand;-fx-pref-height: 96px;\n" +
+                                "    -fx-pref-width: 202px;");
 
 
-        enter.relocate(1280/2-50,650);
+        enter.relocate(1280/3+120,620);
         root.getChildren().addAll(enter);
 
 
@@ -111,6 +121,45 @@ public class Main extends Application {
             int map=0;
             @Override
             public void handle(long now) {
+                mapDis[0].addEventHandler(MouseEvent.MOUSE_ENTERED,new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent e) {
+                        mapDis[0].setStyle("-fx-opacity: 0.5;");
+                    }});
+                mapDis[0].addEventHandler(MouseEvent.MOUSE_EXITED,new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent e) {
+                         mapDis[0].setStyle("-fx-opacity: 0;");
+                    }});
+                mapDis[1].addEventHandler(MouseEvent.MOUSE_ENTERED,new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent e) {
+                        mapDis[1].setStyle("-fx-opacity: 0.5;");
+                    }});
+                mapDis[1].addEventHandler(MouseEvent.MOUSE_EXITED,new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent e) {
+                        mapDis[1].setStyle("-fx-opacity: 0;");
+                    }});
+                mapDis[2].addEventHandler(MouseEvent.MOUSE_ENTERED,new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent e) {
+                        mapDis[2].setStyle("-fx-opacity: 0.5;");
+                    }});
+                mapDis[2].addEventHandler(MouseEvent.MOUSE_EXITED,new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent e) {
+                        mapDis[2].setStyle("-fx-opacity: 0;");
+                    }});
+                mapDis[3].addEventHandler(MouseEvent.MOUSE_ENTERED,new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent e) {
+                        mapDis[3].setStyle("-fx-opacity: 0.5;");
+                    }});
+                mapDis[3].addEventHandler(MouseEvent.MOUSE_EXITED,new EventHandler<MouseEvent>() {
+                    @Override public void handle(MouseEvent e) {
+                        mapDis[3].setStyle("-fx-opacity: 0;");
+                    }});
                 lastNanoTime = now;
                 mapDis [0].setOnAction(e -> map=0 );
                 mapDis [1].setOnAction(e -> map=1 );
@@ -119,8 +168,8 @@ public class Main extends Application {
                 enter.setOnAction(e -> {
                     stage.setScene(Game(Sele1,Sele2,map));
                     stage.show();
-                });
-            }
+                                       });
+                               }
         };
         timer.start();
 
@@ -309,6 +358,11 @@ public class Main extends Application {
     }
     public Scene   Game(int seleP1,int seleP2,int map) {
         //setScene
+        String[]maps = {"src/sfx/iceHell.mp3","src/sfx/deepForest.mp3","src/sfx/armyGo.mp3","src/sfx/stoneValley.mp3",};
+                Media hit = new Media(Paths.get(maps[map]).toUri().toString());
+                AudioClip mediaPlayer = new AudioClip(hit.getSource());
+                mediaPlayer.setVolume(0.5);
+                mediaPlayer.play();
         int same=0;
         String       nameMap          ="bg"+map+".png";
         Weapon       defaultWeapon    = setDefaultWeapon(seleP1);
@@ -602,6 +656,7 @@ public class Main extends Application {
                 if(player.getHp()<=0){
                     player.setLife(player.getLife()-1);
                     if(player.getLife()<=0){
+                        mediaPlayer.stop();
                       stage.setScene(gameResult(2,seleP2));
                       stop();
                     }
@@ -613,6 +668,7 @@ public class Main extends Application {
                 if(player2.getHp()<=0){
                     player2.setLife(player2.getLife()-1);
                     if(player2.getLife()<=0){
+                        mediaPlayer.stop();
                         stage.setScene(gameResult(1,seleP1));
                         stop();
 
