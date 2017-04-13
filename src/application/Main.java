@@ -25,12 +25,15 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Main extends Application {
     private HashMap<KeyCode, Boolean> keys = new HashMap<>();
@@ -56,7 +59,6 @@ public class Main extends Application {
 
         return scene;
     }
-
     public void playSoundWeapon(int type , double volume){
         String [] typegun = {"src/sfx/sniper.wav","src/sfx/shotgun.wav","src/sfx/handgun.wav","src/sfx/machinegun.wav","src/sfx/reload.wav"} ;
         Media hit = new Media(Paths.get(typegun[type]).toUri().toString());
@@ -64,7 +66,6 @@ public class Main extends Application {
         mediaPlayer.play();
 
     }
-
     public void playSoundCreateblock(int type , double volume){
         String [] blocktype = {"src/sfx/ice.wav","src/sfx/grass.wav","src/sfx/sand2.mp3","src/sfx/stone.wav"} ;
         Media hit = new Media(Paths.get(blocktype[type]).toUri().toString());
@@ -127,18 +128,18 @@ public class Main extends Application {
 
     }
     public Scene gameResult(int Result,int type){
-
         Group root = new Group();
         Scene scene=new Scene(root);
         String nResult="";
         Sprite imageResult=new Sprite();
         if(Result==1){
-            nResult="charector/L"+(type+1)+".png";
+            nResult="charector/L"+(type)+".png";
             imageResult =new Sprite(nResult,640,0);
         }
         if(Result==2){
-            nResult="charector/R"+(type+1)+".png";
+            nResult="charector/R"+(type)+".png";
             imageResult =new Sprite(nResult,0,0);
+            System.out.println(imageResult.getFileName());
         }
 
         Canvas canvas = new Canvas( 1280, 720 );
@@ -147,6 +148,17 @@ public class Main extends Application {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         imageResult.render(gc);
 
+        Button back =new Button("BACK");
+        root.getChildren().add(back);
+
+        back.setOnAction(e -> {
+            try {
+                stage.setScene(menu());
+            } catch (Exception ex) {
+
+            }
+
+        });
         return scene;
 
     }
@@ -502,8 +514,7 @@ public class Main extends Application {
 
                 //this is a random weapon
                 if(RateWeapon>10){
-                    Weapon weapon=new Weapon(0,"mag.png",10);
-                    int px,py;
+                    Weapon weapon;
                     do {
                         weapon=createWeapon();
                     }while (checkRender(blockList,weaponsList,weapon));
@@ -562,8 +573,8 @@ public class Main extends Application {
                 if(player.getHp()<=0){
                     player.setLife(player.getLife()-1);
                     if(player.getLife()<=0){
-                        stage.setScene(gameResult(2,player2.getType()));
-
+                      stage.setScene(gameResult(2,seleP2));
+                      stop();
                     }
                     if(player.getLife()>0){
                         viewLife.remove(viewLife.size()-1);
@@ -573,7 +584,8 @@ public class Main extends Application {
                 if(player2.getHp()<=0){
                     player2.setLife(player2.getLife()-1);
                     if(player2.getLife()<=0){
-
+                        stage.setScene(gameResult(1,seleP1));
+                        stop();
 
                     }
                     if(player2.getLife()>0){
@@ -733,10 +745,10 @@ public class Main extends Application {
         // 15x9 block All 120
         int type=map;
         int [][]bb= new int[][]{{5,12,18,20,21,24,25,32,33,40,41,43,44,47,50,51,53,59,60,66,68,69,72,75,76,78,79,86,87,94,95,98,99,101,107,114},
-                {3,5,7,15,16,18,19,20,22,26,27,28,29,31,37,38,39,49,52,55,57,58,59,60,61,62,64,67,70,80,81,82,88,90,91,92,93,97,99,100,101,103,104,112,114,116},
-                {5,12,18,20,21,24,25,32,33,40,41,43,44,47,50,51,53,59,60,66,68,69,72,75,76,78,79,86,87,94,95,98,99,101,107,114},
-                {7,31,32,33,36,38,41,42,43,47,48,50,51,52,53,54,56,57,64,66,67,68,70,76,82,88,91,93,94,96,98,100,101,103,109,111,112,113,115}};
-        int primary=20;
+                                {3,5,7,15,16,18,19,20,22,26,27,28,29,31,37,38,39,49,52,55,57,58,59,60,61,62,64,67,70,80,81,82,88,90,91,92,93,97,99,100,101,103,104,112,114,116},
+                                {3,5,9,13,18,24,25,26,28,31,36,37,38,41,42,43,46,47,48,51,53,66,68,71,72,73,76,77,78,81,82,83,88,91,93,94,95,101,106,110,114,116},
+                                {7,31,32,33,36,38,41,42,43,47,48,50,51,52,53,54,56,57,64,66,67,68,70,76,82,88,91,93,94,96,98,100,101,103,109,111,112,113,115}};
+        int primary=28;
 
 
         for (int i = 0; i <bb[map].length; i++) {
