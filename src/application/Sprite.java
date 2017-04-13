@@ -14,6 +14,7 @@ public class Sprite {
 	private double height;
 	private String fileName;
 
+
 	public Sprite() {
 		positionX = 0;
 		positionY = 0;
@@ -23,7 +24,9 @@ public class Sprite {
 	public Sprite(String filename,int x,int y) {
 		this.fileName=filename;
 		this.setImage(filename);
+
 		this.setPosition(x,y);
+
 	}
 
 	public void setImage(Image i) {
@@ -51,6 +54,8 @@ public class Sprite {
 		velocityX += x;
 		velocityY += y;
 	}
+
+
 	public double getPositionX() {
 		return positionX;
 	}

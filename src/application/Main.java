@@ -162,7 +162,7 @@ public class Main extends Application {
         return scene;
 
     }
-    public Scene SelectCha(Stage s){
+    public Scene   SelectCha(Stage s){
 
         Group root = new Group();
         Scene scene=new Scene(root);
@@ -283,17 +283,16 @@ public class Main extends Application {
 
         return scene;
     }
-    public Scene Game(int seleP1,int seleP2,int map) {
+    public Scene   Game(int seleP1,int seleP2,int map) {
         //setScene
-
+        int same=0;
         String       nameMap          ="bg"+map+".png";
         Weapon       defaultWeapon    = setDefaultWeapon(seleP1);
         Weapon       defaultWeapon2   = setDefaultWeapon(seleP2);
+        if(seleP1==seleP2)same=1;
+        Character    player           = setCharector(seleP1,1,defaultWeapon,0);
+        Character    player2          = setCharector(seleP2,2,defaultWeapon2,same);
 
-        Character    player           = setCharector(seleP1,1,defaultWeapon);
-        System.out.println(player.getSpeed());
-        Character    player2          = setCharector(seleP2,2,defaultWeapon2);
-        System.out.println(player2.getSpeed());
         Sprite       weaponInterFace  = new Sprite   (defaultWeapon .getFileName(),0,300);
         Sprite       weaponInterFace2 = new Sprite   (defaultWeapon2.getFileName(),1180,320);
         Sprite       blockInterFace   = new Sprite   ("block0.png",15,195);
@@ -356,15 +355,15 @@ public class Main extends Application {
         AnimationTimer timer = new AnimationTimer() {
             double lastNanoTime = System.nanoTime() ;
             int count=0,count2=0,countWeapon=0,countAll=0,countB1=0,countB2=0;
-
+            int countLimitWeapon=0;
             @Override
             public void handle(long now) {
 
                 double elapsedTime = (now - lastNanoTime) / 10000000.0;
                 lastNanoTime = now;
                 count++;  count2++; countWeapon++; countAll++; countB1++; countB2++;
-                double Rate=count/10.0,Rate2=count2/10.0,RateWeapon=countWeapon/60.0,RateAll=countAll/10.0,
-                RateB1=countB1/60.0 ,RateB2=countB2/60.0;
+                double Rate  =count/10.0,   Rate2 =count2/10.0,RateWeapon=countWeapon/60.0,RateAll=countAll/10.0,
+                       RateB1=countB1/60.0 ,RateB2=countB2/60.0;
 
                 if (isPressed(KeyCode.W) && collision(player, blockList, "UP")&&player.getTranslateY()>55) {
                     player.animation.play();
@@ -513,12 +512,14 @@ public class Main extends Application {
                 }
 
                 //this is a random weapon
-                if(RateWeapon>10){
+                if(RateWeapon>7&&countLimitWeapon<=5){
                     Weapon weapon;
                     do {
                         weapon=createWeapon();
                     }while (checkRender(blockList,weaponsList,weapon));
                     weaponsList.add(weapon);
+                    countLimitWeapon++;
+                    System.out.println(countLimitWeapon);
                     countWeapon=0;
                 }
 
@@ -529,10 +530,12 @@ public class Main extends Application {
                             if (player.intersects(weaponsList.get(i))) {
                                 playSoundWeapon(4,0.4);
                                 player.getMag();
+                                countLimitWeapon--;
                                 weaponsList.remove(i);
                             } else
                             if (player2.intersects(weaponsList.get(i))) {
                                 player2.getMag();
+                                countLimitWeapon--;
                                 weaponsList.remove(i);
                             }
                         }else
@@ -544,6 +547,7 @@ public class Main extends Application {
                                     weaponInterFace.setImage("in" + weaponsList.get(i).getFileName());
                                     System.out.println(weaponsList.get(i).getFileName());
                                 }
+                                countLimitWeapon--;
                                 weaponsList.remove(i);
                             } else
                             if (player2.intersects(weaponsList.get(i))) {
@@ -553,6 +557,7 @@ public class Main extends Application {
                                     weaponInterFace2.setImage("in" + weaponsList.get(i).getFileName());
                                     ly.clearRect(1425, 390, 120, 120);
                                 }
+                                countLimitWeapon--;
                                 weaponsList.remove(i);
                             }
                         }
@@ -636,10 +641,12 @@ public class Main extends Application {
         timer.start();
         return scene;
     }
-    public Character setCharector(int playerType,int playerNum,Weapon weapon){
-        String name="charector/playchar"+playerType+".png";
-        System.out.println(name);
-        Image        image = new Image(name);// specify character image
+    public Character setCharector(int playerType,int playerNum,Weapon weapon,int same){
+
+        String pre="charector/",name="playchar"+playerType+".png";
+        if(same==1)name="2_"+name;
+
+        Image        image = new Image(pre+name);// specify character image
         ImageView    imageView = new ImageView(image);// show image
         Character    player=new Character();
         if(playerType==0){
@@ -667,7 +674,7 @@ public class Main extends Application {
 
         return player;
     }
-    public Weapon setDefaultWeapon(int playerType){
+    public Weapon  setDefaultWeapon(int playerType){
         Weapon weapon=new Weapon();
         weapon =new Weapon(playerType,"inweapon"+playerType+".png");
         return weapon;
@@ -737,10 +744,10 @@ public class Main extends Application {
 
         block=player.buildBlock();
         block.setPosition(bx,by);
-
+        block.setChange(0);
         return block;
     }
-    public void genMap     (ArrayList<Block> blocks,int map){
+    public void    genMap     (ArrayList<Block> blocks,int map){
         int px=73,py=52,count=0,index=0;
         // 15x9 block All 120
         int type=map;

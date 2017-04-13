@@ -56,7 +56,7 @@ public class Character extends Pane {
 		getChildren().addAll(imageView);
 	}
 
-	public Character(ImageView imageView) {
+	public void setImageView(ImageView imageView) {
 		this.imageView = imageView;
 		this.imageView.setViewport(new Rectangle2D(offsetX, offsetY, width, height));
 		animation = new SpriteAnimation(imageView, Duration.millis(200), count, columns, offsetX, offsetY, width,
@@ -174,12 +174,14 @@ public class Character extends Pane {
 		int bullet=0;
 
 		if(this.getTypeWeapon()==0){bullet=5;}
-		if(this.getTypeWeapon()==1){bullet=12;}
+		if(this.getTypeWeapon()==1){bullet=21;}
 		if(this.getTypeWeapon()==2) {bullet=10;}
-		if(this.getTypeWeapon()==3){bullet=20;}
-		this.bullet+=bullet;
+		if(this.getTypeWeapon()==3){bullet=30;}
+		this.bullet=bullet;
 	}
 	public void getBlock(Block block){
+		System.out.println(block.getOriginFileName());block.setImage(block.getOriginFileName());
+
 		stackBlock.add(block);
 	}
 	public String getNameFirstBlock(){

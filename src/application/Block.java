@@ -7,6 +7,8 @@ public class Block extends Sprite {
     private int type;
     private int durabillity;
     private int maxDurabillity;
+    private int change=0;
+    private String originFileName;
     public Block(){
 
     }
@@ -32,7 +34,15 @@ public class Block extends Sprite {
             super.setImage(name+"3.png");
             this.maxDurabillity=22;
         }
+        this.originFileName=this.getFileName();
         this.durabillity = maxDurabillity;
+    }
+    public String getOriginFileName() {
+        return originFileName;
+    }
+
+    public void setOriginFileName(String originFileName) {
+        this.originFileName = originFileName;
     }
 
     public void setDurabillity(int durabillity) {
@@ -43,7 +53,20 @@ public class Block extends Sprite {
     }
     public void hit(int damage){
         this.durabillity-=damage;
+        if(change==0&&this.durabillity<this.maxDurabillity/2){
+            this.setImage("2_"+this.getFileName());
+            change=1;
+        }
     }
+
+    public int getChange() {
+        return change;
+    }
+
+    public void setChange(int change) {
+        this.change = change;
+    }
+
     public int getMaxDurabillity() {
         return maxDurabillity;
     }
