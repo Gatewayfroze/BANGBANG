@@ -17,13 +17,37 @@ public class Weapon extends Sprite {
         this.type = type;
         this.bullet=bullet;
     }
-    public Weapon(int type,String filename, double fireRate,int speedBullet, int damage) {
+    public Weapon(int type,String filename) {
         super.setImage(filename);
         super.setFileName(filename);
         this.type = type;
-        this.speedBullet=speedBullet;
-        this.fireRate = fireRate;
-        this.damage = damage;
+        switch (type){
+            case 0:{
+                this.fireRate=12;
+                this.speedBullet=25;
+                this.damage=100;
+                break;
+            }
+            case 1:{
+                this.fireRate=10;
+                this.speedBullet=8;
+                this.damage=3;
+                break;
+            }
+            case 2:{
+                this.fireRate=5;
+                this.speedBullet=15;
+                this.damage=5;
+                break;
+            }
+            case 3:{
+                this.fireRate=0.5;
+                this.speedBullet=7;
+                this.damage=1;
+                break;
+            }
+        }
+
 
     }
     public int getType() {

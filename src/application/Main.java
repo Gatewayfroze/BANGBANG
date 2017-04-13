@@ -1,5 +1,6 @@
 package application;
 
+import com.sun.org.apache.regexp.internal.RE;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -125,11 +126,27 @@ public class Main extends Application {
         return scene;
 
     }
-    public Scene gameResult(int Result){
+    public Scene gameResult(int Result,int type){
+
         Group root = new Group();
         Scene scene=new Scene(root);
+        String nResult="";
+        Sprite imageResult=new Sprite();
+        if(Result==1){
+            nResult="charector/L"+(type+1)+".png";
+            imageResult =new Sprite(nResult,640,0);
+        }
+        if(Result==2){
+            nResult="charector/R"+(type+1)+".png";
+            imageResult =new Sprite(nResult,0,0);
+        }
+
         Canvas canvas = new Canvas( 1280, 720 );
         root.getChildren().addAll(canvas);
+        scene.setFill(new ImagePattern(new Image("result"+ Result+".png")));
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        imageResult.render(gc);
+
         return scene;
 
     }
@@ -347,7 +364,7 @@ public class Main extends Application {
                     player.animation.setOffsetY(directionOffset[0]);
                     player.moveY(player.getSpeed());
                     player.direction=0;
-                } else if (isPressed(KeyCode.D) && collision(player, blockList, "RIGHT")&&player.getTranslateX()+57<scene.getWidth()-80) {
+                } else if (isPressed(KeyCode.D) && collision(player, blockList, "RIGHT")&&player.getTranslateX()+57<scene.getWidth()-70) {
                     player.animation.play();
                     player.animation.setOffsetY(directionOffset[2]);
                     player.moveX(player.getSpeed());
@@ -379,6 +396,7 @@ public class Main extends Application {
                     }else {
                         bullet.add(createBullet((player.getTranslateX() + 23), player.getTranslateY() + 30, player));
                         player.shoot();
+
                     }
                     count=0;
                 }
@@ -394,7 +412,7 @@ public class Main extends Application {
                     player2.animation.setOffsetY(directionOffset[0]);
                     player2.moveY(player2.getSpeed());
                     player2.direction=0;
-                } else if (isPressed(KeyCode.RIGHT) && collision(player2, blockList, "RIGHT")&&player2.getTranslateX()+57   <scene.getWidth()-80) {
+                } else if (isPressed(KeyCode.RIGHT) && collision(player2, blockList, "RIGHT")&&player2.getTranslateX()+57<scene.getWidth()-70) {
                     player2.animation.play();
                     player2.animation.setOffsetY(directionOffset[2]);
                     player2.moveX(player2.getSpeed());
@@ -533,30 +551,36 @@ public class Main extends Application {
                 //default weapon
                 if(player.getBullet()<=0&&player.getTypeWeapon()!=defaultWeapon.getType()){
                     player.getWeapon(defaultWeapon );
-                    //  ly.clearRect(8,360,120,120);
                     weaponInterFace.setImage(defaultWeapon .getFileName());
                 }
                 if(player2.getBullet()<=0&&player2.getTypeWeapon()!=defaultWeapon2.getType()){
                     player2.getWeapon(defaultWeapon2);
-                    // ly.clearRect(1425,390,120,120);
                     weaponInterFace2.setImage(defaultWeapon2.getFileName());
 
                 }
                 //check HP
                 if(player.getHp()<=0){
                     player.setLife(player.getLife()-1);
-                    System.out.println("life1"+player.getLife());
-                    if(player.getLife()<=0)player.setSpeed(0);
-                    if(player.getLife()>=0)viewLife.remove(viewLife.size()-1);
-                    player.setHp(25);
+                    if(player.getLife()<=0){
+                        stage.setScene(gameResult(2,player2.getType()));
 
+                    }
+                    if(player.getLife()>0){
+                        viewLife.remove(viewLife.size()-1);
+                        player.setHp(25);
+                    }
                 }
                 if(player2.getHp()<=0){
                     player2.setLife(player2.getLife()-1);
-                    System.out.println("life2"+player2.getLife());
-                    if(player.getLife()<=0)player.setSpeed(0);
-                    if(player2.getLife()>=0)viewLife2.remove(viewLife2.size()-1);
-                    player2.setHp(25);
+                    if(player2.getLife()<=0){
+
+
+                    }
+                    if(player2.getLife()>0){
+                        viewLife2.remove(viewLife2.size()-1);
+                        player2.setHp(25);
+                    }
+
                 }
                 gc.clearRect(0, 0, 1280,720);
                 ly.clearRect(0, 0, 1280,720);
@@ -633,24 +657,7 @@ public class Main extends Application {
     }
     public Weapon setDefaultWeapon(int playerType){
         Weapon weapon=new Weapon();
-        if(playerType==0){
-            //scout
-            weapon =new Weapon(playerType,"inweapon"+playerType+".png",12,25,8);
-        }
-        if(playerType==1){
-            //old man
-            weapon =new Weapon(playerType,"inweapon"+playerType+".png",10,8,3);
-        }
-        if(playerType==2){
-            //cow girl
-            weapon =new Weapon(playerType,"inweapon"+playerType+".png",5,15,5);
-        }
-        if(playerType==3){
-            //agent
-
-            weapon =new Weapon(playerType,"inweapon"+playerType+".png",0.5,7,1);
-        }
-
+        weapon =new Weapon(playerType,"inweapon"+playerType+".png");
         return weapon;
     }
     public Bullet  createBullet(double x,double y,Character player){
@@ -685,29 +692,8 @@ public class Main extends Application {
         int px,py;
         px = (int) (1000 * Math.random()) + 100;
         py = (int) (520 * Math.random()) + 100;
-        switch (type){
-            case 2:{
-                weapon=new Weapon(type,"weapon"+type+".png",5,15,5);
-                break;
-            }
-            case 3:{
-                weapon=new Weapon(type,"weapon"+type+".png",0.5,7,1);
-                break;
-            }
-            case 0:{
-                weapon=new Weapon(type,"weapon"+type+".png",12,25,8);
-                break;
-            }
-            case 1:{
-                weapon=new Weapon(type,"weapon"+type+".png",10,8,3);
-                break;
-            }
-            default:{
-                weapon=new Weapon(type,"mag.png",10);
-                break;
-            }
-
-        }
+        if (type<4) weapon=new Weapon(type,"weapon"+type+".png");
+        else  weapon=new Weapon(type,"mag.png",10);
         weapon.setPosition((double) px, (double) py);
         System.out.println("weapon rand "+type);
         return weapon;
@@ -743,7 +729,7 @@ public class Main extends Application {
         return block;
     }
     public void genMap     (ArrayList<Block> blocks,int map){
-        int px=75,py=52,count=0,index=0;
+        int px=73,py=52,count=0,index=0;
         // 15x9 block All 120
         int type=map;
         int [][]bb= new int[][]{{5,12,18,20,21,24,25,32,33,40,41,43,44,47,50,51,53,59,60,66,68,69,72,75,76,78,79,86,87,94,95,98,99,101,107,114},
