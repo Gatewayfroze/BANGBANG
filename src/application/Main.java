@@ -166,16 +166,20 @@ public class Main extends Application {
 
         Group root = new Group();
         Scene scene=new Scene(root);
-        Canvas canvas = new Canvas( 1280, 720 );
+        Canvas canvas  = new Canvas( 1280, 720 );
+        Canvas canvas2 = new Canvas( 1280, 720 );
         ArrayList<Sprite> imageChar =new ArrayList<>();
         ArrayList<Sprite> imageChar2=new ArrayList<>();
         ArrayList<Sprite> imageDis =new ArrayList<>();
         ArrayList<Sprite> imageDis2=new ArrayList<>();
         ArrayList<Sprite> imageDisBack =new ArrayList<>();
         ArrayList<Sprite> imageDis2Back=new ArrayList<>();
+        ArrayList<Sprite> textDis =new ArrayList<>();
 
         String pre="charector/",name="char",sub=".png";
+        String pre2="layout/",name2="ly";
         GraphicsContext gc = canvas.getGraphicsContext2D();
+        GraphicsContext ly = canvas2.getGraphicsContext2D();
         root.getChildren().add(canvas);
         Button []charector =new Button[4];
         Button []charector2=new Button[4];
@@ -185,6 +189,11 @@ public class Main extends Application {
         scene.setFill(new ImagePattern (new Image("select.png")));
         ImageView m=new ImageView(new Image("charector/base.png"));
         for (int i = 0; i <4 ; i++) {
+            System.out.println(pre2+name+(i)+sub);
+            textDis.add(new Sprite(pre2+name2+(i)+sub,266,180));
+
+        }
+        for (int i = 0; i <4 ; i++) {
             imageDisBack .add(new Sprite(pre+"L"+(i)+sub,0,0));
             imageDis2Back.add(new Sprite(pre+"R"+(i)+sub,640,0));
         }
@@ -192,6 +201,7 @@ public class Main extends Application {
             imageDis .add(new Sprite(pre+"dis"+name+(i)+sub,350,300));
             imageDis2.add(new Sprite(pre+"dis"+name+(i)+sub,810,300));
         }
+        root.getChildren().addAll(m,canvas2);
         int cX=14,cY=194;
         for (int i = 0; i <charector.length ; i++) {
 
@@ -214,17 +224,23 @@ public class Main extends Application {
             cY+=112;
         }
         enterGame.relocate(1280/2-50,650);
-        root.getChildren().addAll(m,enterGame);
+        root.getChildren().addAll(enterGame);
 
 
         AnimationTimer timer = new AnimationTimer() {
             double lastNanoTime = System.nanoTime() ;
             int select[]={0,0};
             int seleP1=0,seleP2=0;
+            int rend=-1;
             @Override
             public void handle(long now) {
                 double elapsedTime = (now - lastNanoTime) / 10000000.0;
                 lastNanoTime = now;
+                charector [0].setOnMouseEntered(event -> rend=0);
+                charector [1].setOnMouseEntered(event -> rend=1);
+                charector [2].setOnMouseEntered(event -> rend=2);
+                charector [3].setOnMouseEntered(event -> rend=3);
+
                 charector [0].setOnAction(e -> {
                     select[0]=0;
                     seleP1=0;
@@ -263,8 +279,13 @@ public class Main extends Application {
                     stage.setScene(stageSele(seleP1,seleP2));
                     stage.show();
                 });
-                gc.clearRect(0, 0, 1280,720);
+                for (int i = 0; i <4 ; i++) {
+                    charector[i].setOnMouseExited(event -> rend=-1);
+                }
 
+                gc.clearRect(0, 0, 1280,720);
+                ly.clearRect(0, 0, 1280,720);
+                if(rend>=0)textDis.get(rend).render(ly);
                 for (Sprite c:imageChar) {
                     c.render(gc);
                 }
