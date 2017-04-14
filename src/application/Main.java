@@ -261,9 +261,15 @@ public class Main extends Application {
         ImageView m=new ImageView(new Image("charector/base.png"));
         for (int i = 0; i <4 ; i++) {
             System.out.println(pre2+name+(i)+sub);
-            textDis.add(new Sprite(pre2+name2+(i)+sub,266,180));
+            textDis.add(new Sprite(pre2+name2+(i)+sub,264,180));
 
         }
+        for (int i = 0; i <4 ; i++) {
+            System.out.println(pre2+name+(i)+sub);
+            textDis.add(new Sprite(pre2+name2+(i)+sub,690,180));
+
+        }
+
         for (int i = 0; i <4 ; i++) {
             imageDisBack .add(new Sprite(pre+"L"+(i)+sub,0,0));
             imageDis2Back.add(new Sprite(pre+"R"+(i)+sub,640,0));
@@ -311,6 +317,10 @@ public class Main extends Application {
                 charector [1].setOnMouseEntered(event -> rend=1);
                 charector [2].setOnMouseEntered(event -> rend=2);
                 charector [3].setOnMouseEntered(event -> rend=3);
+                charector2[0].setOnMouseEntered(event -> rend=4);
+                charector2[1].setOnMouseEntered(event -> rend=5);
+                charector2[2].setOnMouseEntered(event -> rend=6);
+                charector2[3].setOnMouseEntered(event -> rend=7);
 
                 charector [0].setOnAction(e -> {
                     select[0]=0;
@@ -352,6 +362,8 @@ public class Main extends Application {
                 });
                 for (int i = 0; i <4 ; i++) {
                     charector[i].setOnMouseExited(event -> rend=-1);
+                    charector2[i].setOnMouseExited(event -> rend=-1);
+
                 }
 
                 gc.clearRect(0, 0, 1280,720);
@@ -482,17 +494,19 @@ public class Main extends Application {
                     player.animation.setOffsetY(directionOffset[1]);
                     player.moveX(-player.getSpeed());
                     player.direction=1;
-                } else if (isPressed(KeyCode.R)&&RateB1>1) {
+                } else if (isPressed(KeyCode.R)&&RateB1>2) {
                     if (player.getNumOfBlock()!=0) {
                         Block newBlock = build(player);
                         if (checkRender(blockList, weaponsList, newBlock)) System.out.println("intersect");
                         else{
-                            countB1=0;
+
                             playSoundCreateblock(newBlock.getType(),0.5);
                             blockList.add(newBlock);
                             player.removeBlock();
                         }
+
                     }else System.out.println("player 1 don't have block");
+                    countB1=0;
                 }
                 else {
                     player.animation.stop();
@@ -535,13 +549,13 @@ public class Main extends Application {
                         Block newBlock = build(player2);
                         if (checkRender(blockList, weaponsList, newBlock)) System.out.println("intersect");
                         else{
-                            countB2=0;
                             playSoundCreateblock(newBlock.getType(),0.5);
                             blockList.add(newBlock);
                             player2.removeBlock();
                         }
 
                     }else System.out.println("don't have block");
+                    countB2=0;
                 }
                 else {
                     player2.animation.stop();
