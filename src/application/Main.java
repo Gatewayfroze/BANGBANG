@@ -7,6 +7,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -50,17 +51,23 @@ public class Main extends Application {
     public Stage stage;
     @Override
     public void start(Stage primaryStage) throws Exception {
+
         this.stage=primaryStage;
         stage.setScene(menu());
         stage.setTitle("Game");
         stage.show();
     }
     public Scene menu() throws Exception{
+//        Image image = new Image("cursor.png");
+
         Media hit = new Media(Paths.get("src/sfx/bangbang.wav").toUri().toString());
         AudioClip mediaPlayer = new AudioClip(hit.getSource());
         mediaPlayer.play();
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         Scene scene=new Scene(root);
+//        scene.setCursor(new ImageCursor(image,
+//                image.getWidth() / 2,
+//                image.getHeight() /2));
 
         return scene;
     }
@@ -121,44 +128,51 @@ public class Main extends Application {
             int map=0;
             @Override
             public void handle(long now) {
-                mapDis[0].addEventHandler(MouseEvent.MOUSE_ENTERED,new EventHandler<MouseEvent>() {
+
+//
+                mapDis[0].addEventHandler(MouseEvent.MOUSE_PRESSED,new EventHandler<MouseEvent>() {
+
                     @Override
                     public void handle(MouseEvent e) {
-                        mapDis[0].setStyle("-fx-opacity: 0.5;");
+                        mapDis[0].setStyle("-fx-opacity: 0.5;-fx-background-color:green;");
+                        mapDis[1].setStyle(null);
+                        mapDis[2].setStyle(null);
+                        mapDis[3].setStyle(null);
+
+
                     }});
-                mapDis[0].addEventHandler(MouseEvent.MOUSE_EXITED,new EventHandler<MouseEvent>() {
+
+                mapDis[1].addEventHandler(MouseEvent.MOUSE_PRESSED,new EventHandler<MouseEvent>() {
+
                     @Override
                     public void handle(MouseEvent e) {
-                         mapDis[0].setStyle("-fx-opacity: 0;");
+                        mapDis[1].setStyle("-fx-opacity: 0.5;-fx-background-color:green");
+                        mapDis[0].setStyle(null);
+                        mapDis[2].setStyle(null);
+                        mapDis[3].setStyle(null);
+
                     }});
-                mapDis[1].addEventHandler(MouseEvent.MOUSE_ENTERED,new EventHandler<MouseEvent>() {
+
+                mapDis[2].addEventHandler(MouseEvent.MOUSE_PRESSED,new EventHandler<MouseEvent>() {
+
                     @Override
                     public void handle(MouseEvent e) {
-                        mapDis[1].setStyle("-fx-opacity: 0.5;");
+                        mapDis[2].setStyle("-fx-opacity: 0.5;-fx-background-color:green");
+                        mapDis[1].setStyle(null);
+                        mapDis[0].setStyle(null);
+                        mapDis[3].setStyle(null);
+
                     }});
-                mapDis[1].addEventHandler(MouseEvent.MOUSE_EXITED,new EventHandler<MouseEvent>() {
+
+                mapDis[3].addEventHandler(MouseEvent.MOUSE_PRESSED,new EventHandler<MouseEvent>() {
+
                     @Override
                     public void handle(MouseEvent e) {
-                        mapDis[1].setStyle("-fx-opacity: 0;");
-                    }});
-                mapDis[2].addEventHandler(MouseEvent.MOUSE_ENTERED,new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent e) {
-                        mapDis[2].setStyle("-fx-opacity: 0.5;");
-                    }});
-                mapDis[2].addEventHandler(MouseEvent.MOUSE_EXITED,new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent e) {
-                        mapDis[2].setStyle("-fx-opacity: 0;");
-                    }});
-                mapDis[3].addEventHandler(MouseEvent.MOUSE_ENTERED,new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent e) {
-                        mapDis[3].setStyle("-fx-opacity: 0.5;");
-                    }});
-                mapDis[3].addEventHandler(MouseEvent.MOUSE_EXITED,new EventHandler<MouseEvent>() {
-                    @Override public void handle(MouseEvent e) {
-                        mapDis[3].setStyle("-fx-opacity: 0;");
+                        mapDis[3].setStyle("-fx-opacity: 0.5;-fx-background-color:green");
+                        mapDis[1].setStyle(null);
+                        mapDis[2].setStyle(null);
+                        mapDis[0].setStyle(null);
+
                     }});
                 lastNanoTime = now;
                 mapDis [0].setOnAction(e -> map=0 );
@@ -236,7 +250,12 @@ public class Main extends Application {
         Button []charector =new Button[4];
         Button []charector2=new Button[4];
         Button []select    =new Button[2];
-        Button enterGame   =new Button("enter");
+        Button enterGame   =new Button();
+        enterGame.setStyle("-fx-background-image: url(\"/startbt.png\");-fx-cursor:hand;-fx-pref-height: 96px;\n" +
+                "    -fx-pref-width: 202px;");
+
+
+
 
         scene.setFill(new ImagePattern (new Image("select.png")));
         ImageView m=new ImageView(new Image("charector/base.png"));
@@ -275,7 +294,7 @@ public class Main extends Application {
             root.getChildren().add(charector2[i]);
             cY+=112;
         }
-        enterGame.relocate(1280/2-50,650);
+        enterGame.relocate(1280/2-100,600);
         root.getChildren().addAll(enterGame);
 
 

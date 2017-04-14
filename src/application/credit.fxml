@@ -10,7 +10,7 @@
 
 <AnchorPane fx:id="rootPane2" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.CreditControl">
    <children>
-      <ImageView fitHeight="717.0" fitWidth="1297.0" layoutY="-11.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="807.0" fitWidth="1286.0" layoutX="-2.0" layoutY="-84.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../credit.jpg" />
          </image>
@@ -24,24 +24,24 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Label layoutX="386.0" layoutY="438.0" prefHeight="41.0" prefWidth="509.0" text="Coding-GameWorld : Nitinon Penglao" textFill="WHITE">
+      <Label ellipsisString="" layoutX="442.0" layoutY="437.0" lineSpacing="1.0" prefHeight="41.0" prefWidth="398.0" text="Coding-GameWorld : Nitinon Penglao" textFill="#f6ff00" textOverrun="CENTER_ELLIPSIS">
          <font>
-            <Font name="Rockwell" size="24.0" />
+            <Font name="Wide awake" size="29.0" />
          </font>
       </Label>
-      <Label layoutX="386.0" layoutY="492.0" prefHeight="41.0" prefWidth="509.0" text="Coding-Menu &amp; Interface : Panot Sodsri" textFill="WHITE">
+      <Label graphicTextGap="5.0" layoutX="438.0" layoutY="489.0" prefHeight="41.0" prefWidth="430.0" text="Coding-Menu &amp; media : Panot Sodsri" textFill="#f6ff00" textOverrun="CENTER_ELLIPSIS">
          <font>
-            <Font name="Rockwell" size="24.0" />
+            <Font name="Wide awake" size="29.0" />
          </font>
       </Label>
-      <Label layoutX="386.0" layoutY="543.0" prefHeight="41.0" prefWidth="536.0" text="Character   Design :  Thawin  Booncheon" textFill="WHITE">
+      <Label graphicTextGap="5.0" layoutX="419.0" layoutY="543.0" prefHeight="41.0" prefWidth="456.0" text="CharacterDesign :  Thawin  Booncheon" textFill="#f6ff00" textOverrun="CENTER_ELLIPSIS">
          <font>
-            <Font name="Rockwell" size="24.0" />
+            <Font name="Wide awake" size="29.0" />
          </font>
       </Label>
-      <Label layoutX="386.0" layoutY="598.0" prefHeight="41.0" prefWidth="620.0" text="Artwork &amp;  Map  Design :  Nutthapoom  Suwanwitwait " textFill="WHITE">
+      <Label ellipsisString="" graphicTextGap="5.0" layoutX="350.0" layoutY="590.0" prefHeight="41.0" prefWidth="651.0" text="Artwork &amp; Map Design :  Nutthapoom  SuwanwitwaJ " textFill="#f6ff00" textOverrun="CENTER_ELLIPSIS">
          <font>
-            <Font name="Rockwell" size="24.0" />
+            <Font name="Wide awake" size="29.0" />
          </font>
       </Label>
    </children>
