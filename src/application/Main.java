@@ -787,7 +787,7 @@ public class Main extends Application {
     public Weapon  createWeapon(){
         Weapon weapon=new Weapon();
         //random 0-2 | 0=handgun ,1=machineGun,2= sniper,3= shotGun
-        int type=(int)(10*Math.random());
+        int type=(int)(12*Math.random());
         int px,py;
         px = (int) (1000 * Math.random()) + 100;
         py = (int) (520 * Math.random()) + 100;
