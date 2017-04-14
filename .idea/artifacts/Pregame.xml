@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" name="Pregame">
+    <output-path>$PROJECT_DIR$/classes/artifacts/Pregame</output-path>
+    <root id="root">
+      <element id="archive" name="Pregame.jar">
+        <element id="module-output" name="Pregame" />
+      </element>
+    </root>
+  </artifact>
+</component>
