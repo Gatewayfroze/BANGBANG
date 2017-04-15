@@ -533,6 +533,8 @@ public class Main extends Application {
                     }
                     count=0;
                 }
+
+
                 //////////////////control player 2
 
                 if (isPressed(KeyCode.UP) && collision(player2, blockList, "UP")&&player2.getTranslateY()>55) {
