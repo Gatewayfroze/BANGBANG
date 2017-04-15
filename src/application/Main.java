@@ -75,13 +75,15 @@ public class Main extends Application {
         String [] typegun = {"src/sfx/sniper.wav","src/sfx/shotgun.wav","src/sfx/handgun.wav","src/sfx/machinegun.wav","src/sfx/reload.wav"} ;
         Media hit = new Media(Paths.get(typegun[type]).toUri().toString());
         AudioClip mediaPlayer = new AudioClip(hit.getSource());
+        mediaPlayer.setVolume(volume);
         mediaPlayer.play();
 
     }
     public void playSoundCreateblock(int type , double volume){
-        String [] blocktype = {"src/sfx/ice.wav","src/sfx/grass.wav","src/sfx/sand2.mp3","src/sfx/stone.wav"} ;
+        String [] blocktype = {"src/sfx/ice.wav","src/sfx/grass.wav","src/sfx/sand2.mp3","src/sfx/stone.wav","src/sfx/error.wav"} ;
         Media hit = new Media(Paths.get(blocktype[type]).toUri().toString());
         AudioClip mediaPlayer = new AudioClip(hit.getSource());
+        mediaPlayer.setVolume(volume);
         mediaPlayer.play();
 
     }
@@ -191,6 +193,10 @@ public class Main extends Application {
 
     }
     public Scene gameResult(int Result,int type){
+
+        Media hit = new Media(Paths.get("src/sfx/result.mp3").toUri().toString());
+        AudioClip mediaPlayer = new AudioClip(hit.getSource());
+        mediaPlayer.play();
         Group root = new Group();
         Scene scene=new Scene(root);
         String nResult="";
@@ -219,6 +225,7 @@ public class Main extends Application {
 
         back.setOnAction(e -> {
             try {
+                mediaPlayer.stop();
                 stage.setScene(menu());
             } catch (Exception ex) {
 
@@ -229,6 +236,10 @@ public class Main extends Application {
 
     }
     public Scene   SelectCha(Stage s){
+        Media hit = new Media(Paths.get("src/sfx/TrackM.mp3").toUri().toString());
+        AudioClip mediaPlayer = new AudioClip(hit.getSource());
+        mediaPlayer.setVolume(0.5);
+        mediaPlayer.play();
 
         Group root = new Group();
         Scene scene=new Scene(root);
@@ -261,15 +272,9 @@ public class Main extends Application {
         ImageView m=new ImageView(new Image("charector/base.png"));
         for (int i = 0; i <4 ; i++) {
             System.out.println(pre2+name+(i)+sub);
-            textDis.add(new Sprite(pre2+name2+(i)+sub,264,180));
+            textDis.add(new Sprite(pre2+name2+(i)+sub,266,180));
 
         }
-        for (int i = 0; i <4 ; i++) {
-            System.out.println(pre2+name+(i)+sub);
-            textDis.add(new Sprite(pre2+name2+(i)+sub,690,180));
-
-        }
-
         for (int i = 0; i <4 ; i++) {
             imageDisBack .add(new Sprite(pre+"L"+(i)+sub,0,0));
             imageDis2Back.add(new Sprite(pre+"R"+(i)+sub,640,0));
@@ -317,10 +322,6 @@ public class Main extends Application {
                 charector [1].setOnMouseEntered(event -> rend=1);
                 charector [2].setOnMouseEntered(event -> rend=2);
                 charector [3].setOnMouseEntered(event -> rend=3);
-                charector2[0].setOnMouseEntered(event -> rend=4);
-                charector2[1].setOnMouseEntered(event -> rend=5);
-                charector2[2].setOnMouseEntered(event -> rend=6);
-                charector2[3].setOnMouseEntered(event -> rend=7);
 
                 charector [0].setOnAction(e -> {
                     select[0]=0;
@@ -356,14 +357,13 @@ public class Main extends Application {
                 });
 
                 enterGame.setOnAction(e -> {
+                    mediaPlayer.stop();
                     stage=s;
                     stage.setScene(stageSele(seleP1,seleP2));
                     stage.show();
                 });
                 for (int i = 0; i <4 ; i++) {
                     charector[i].setOnMouseExited(event -> rend=-1);
-                    charector2[i].setOnMouseExited(event -> rend=-1);
-
                 }
 
                 gc.clearRect(0, 0, 1280,720);
@@ -387,13 +387,21 @@ public class Main extends Application {
 
         return scene;
     }
+    public void playsoundBGM(int map , double vol){
+        String[]maps = {"src/sfx/iceHell.wav","src/sfx/deepForest.wav","src/sfx/armyGo.wav","src/sfx/stoneValley.wav",};
+        Media hit = new Media(Paths.get(maps[map]).toUri().toString());
+        AudioClip mediaPlayer = new AudioClip(hit.getSource());
+        mediaPlayer.setVolume(0.5);
+        mediaPlayer.play();
+
+    }
     public Scene   Game(int seleP1,int seleP2,int map) {
         //setScene
-        String[]maps = {"src/sfx/iceHell.mp3","src/sfx/deepForest.mp3","src/sfx/armyGo.mp3","src/sfx/stoneValley.mp3",};
-                Media hit = new Media(Paths.get(maps[map]).toUri().toString());
-                AudioClip mediaPlayer = new AudioClip(hit.getSource());
-                mediaPlayer.setVolume(0.5);
-                mediaPlayer.play();
+        String[]maps = {"src/sfx/iceHell.wav","src/sfx/deepForest.wav","src/sfx/armyGo.wav","src/sfx/stoneValley.wav",};
+        Media hit = new Media(Paths.get(maps[map]).toUri().toString());
+        AudioClip mediaPlayer = new AudioClip(hit.getSource());
+        mediaPlayer.setVolume(0.5);
+        mediaPlayer.play();
         int same=0;
         String       nameMap          ="bg"+map+".png";
         Weapon       defaultWeapon    = setDefaultWeapon(seleP1);
@@ -462,11 +470,14 @@ public class Main extends Application {
 
         //Animation
         AnimationTimer timer = new AnimationTimer() {
+
+
             double lastNanoTime = System.nanoTime() ;
             int count=0,count2=0,countWeapon=0,countAll=0,countB1=0,countB2=0;
             int countLimitWeapon=0;
             @Override
             public void handle(long now) {
+
 
                 double elapsedTime = (now - lastNanoTime) / 10000000.0;
                 lastNanoTime = now;
@@ -494,25 +505,25 @@ public class Main extends Application {
                     player.animation.setOffsetY(directionOffset[1]);
                     player.moveX(-player.getSpeed());
                     player.direction=1;
-                } else if (isPressed(KeyCode.R)&&RateB1>2) {
+                } else if (isPressed(KeyCode.R)&&RateB1>3) {
                     if (player.getNumOfBlock()!=0) {
                         Block newBlock = build(player);
-                        if (checkRender(blockList, weaponsList, newBlock)) System.out.println("intersect");
-                        else{
+                        if (checkRender(blockList, weaponsList, newBlock))
+                        playSoundCreateblock(4,0.5);
 
-                            playSoundCreateblock(newBlock.getType(),0.5);
+                        else{
+                            countB1=0;
+                            playSoundCreateblock(newBlock.getType(),1);
                             blockList.add(newBlock);
                             player.removeBlock();
                         }
-
                     }else System.out.println("player 1 don't have block");
-                    countB1=0;
                 }
                 else {
                     player.animation.stop();
                 }
                 if (isPressed(KeyCode.F)&&Rate>=player.getFireRate()&&player.getBullet()!=0) {
-                    playSoundWeapon(player.getTypeWeapon(),0.1);
+                    playSoundWeapon(player.getTypeWeapon(),0.5);
                     if(player.getTypeWeapon()==1) {
                         createBulletShotGun((player.getTranslateX() + 23), player.getTranslateY() + 30,player,bullet);
                     }else {
@@ -544,24 +555,25 @@ public class Main extends Application {
                     player2.animation.setOffsetY(directionOffset[1]);
                     player2.moveX(-player2.getSpeed());
                     player2.direction=1;
-                } else if (isPressed(KeyCode.CONTROL)&&RateB2>1) {
+                } else if (isPressed(KeyCode.CONTROL)&&RateB2>3) {
                     if (player2.getNumOfBlock()!=0) {
                         Block newBlock = build(player2);
-                        if (checkRender(blockList, weaponsList, newBlock)) System.out.println("intersect");
+                        if (checkRender(blockList, weaponsList, newBlock)) {System.out.println("intersect");
+                        playSoundCreateblock(4,0.5);}
                         else{
-                            playSoundCreateblock(newBlock.getType(),0.5);
+                            countB2=0;
+                            playSoundCreateblock(newBlock.getType(),1);
                             blockList.add(newBlock);
                             player2.removeBlock();
                         }
 
                     }else System.out.println("don't have block");
-                    countB2=0;
                 }
                 else {
                     player2.animation.stop();
                 }
                 if (isPressed(KeyCode.SLASH)&&Rate2>=player2.getFireRate()&&player2.getBullet()!=0) {
-                    playSoundWeapon(player2.getTypeWeapon(),0.1);
+                    playSoundWeapon(player2.getTypeWeapon(),0.5);
                     if(player2.getTypeWeapon()==1) {
                         createBulletShotGun((player2.getTranslateX() + 23), player2.getTranslateY() + 30,player2,bullet);
                     }else {
@@ -820,7 +832,7 @@ public class Main extends Application {
     public Weapon  createWeapon(){
         Weapon weapon=new Weapon();
         //random 0-2 | 0=handgun ,1=machineGun,2= sniper,3= shotGun
-        int type=(int)(12*Math.random());
+        int type=(int)(10*Math.random());
         int px,py;
         px = (int) (1000 * Math.random()) + 100;
         py = (int) (520 * Math.random()) + 100;
