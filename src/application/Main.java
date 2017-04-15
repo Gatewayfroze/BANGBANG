@@ -505,7 +505,7 @@ public class Main extends Application {
                     if (player.getNumOfBlock()!=0) {
                         Block newBlock = build(player);
                         if (checkRender(blockList, weaponsList, newBlock))
-                        playSoundCreateblock(4,30);
+                        playSoundCreateblock(4,60);
 
                         else{
 
