@@ -581,8 +581,8 @@ public class Main extends Application {
                     count2=0;
                 }
                 //Easter Egg
-                if (isPressed(KeyCode.F1)){player .setDamage(1000000); player .setSpeedBullet(50); player.setSpeed(11);}
-                if (isPressed(KeyCode.F2)){player2.setDamage(1000000); player2.setSpeedBullet(50); player2.setSpeed(11);}
+                if (isPressed(KeyCode.F1)){player .setDamage(1000000); player .setSpeedBullet(50); player.setSpeed(10);}
+                if (isPressed(KeyCode.F2)){player2.setDamage(1000000); player2.setSpeedBullet(50); player2.setSpeed(10);}
 
                 //if bullet was shoot
                 if(bullet.size()!=0) {
