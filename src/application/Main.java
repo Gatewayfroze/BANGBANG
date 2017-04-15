@@ -169,6 +169,7 @@ public class Main extends Application {
                 mapDis [3].setOnAction(e -> map=3 );
                 enter.setOnAction(e -> {
                     mediaPlayer.stop();
+                    //
                     stage.setScene(Game(Sele1,Sele2,map));
                     stage.show();
                                        });
