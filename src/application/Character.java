@@ -1,7 +1,6 @@
 package application;
 
 import javafx.geometry.Rectangle2D;
-import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
@@ -33,7 +32,7 @@ public class Character extends Pane {
 	private int bullet;
 	int direction;
 	//direction 0 down,1 left, 2 right, 3 up
-	Rectangle removeRect = null;
+//	Rectangle removeRect = null;
 	SpriteAnimation animation;
 	public Character(){}
 	public Character(ImageView imageView,int type,int life, int hp, int speed, int typeWeapon, int speedBullet, double fireRate, int damage, int bullet, int direction) {
@@ -87,10 +86,7 @@ public class Character extends Pane {
 		return new Rectangle2D(this.getTranslateX(),this.getTranslateY(), width, height);
 	}
 
-	public boolean intersects(Character s) {
-		return s.getBoundary().intersects(this.getBoundary());
 
-	}
 	public boolean intersects(Weapon s) {
 		return s.getBoundary().intersects(this.getBoundary());
 	}

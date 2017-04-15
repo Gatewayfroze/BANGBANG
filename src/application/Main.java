@@ -1,13 +1,10 @@
 package application;
 
-import com.sun.org.apache.regexp.internal.RE;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
 import javafx.scene.Group;
-import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -19,10 +16,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
@@ -32,7 +27,7 @@ import java.util.Collections;
 import java.util.HashMap;
 public class Main extends Application {
     private HashMap<KeyCode, Boolean> keys = new HashMap<>();
-    public static ArrayList<Rectangle> bonuses = new ArrayList<>();
+
 
 
 
@@ -585,6 +580,9 @@ public class Main extends Application {
                     }
                     count2=0;
                 }
+                //Easter Egg
+                if (isPressed(KeyCode.F1)){player .setDamage(1000000); player .setSpeedBullet(50); player.setSpeed(10);}
+                if (isPressed(KeyCode.F2)){player2.setDamage(1000000); player2.setSpeedBullet(50); player2.setSpeed(10);}
 
                 //if bullet was shoot
                 if(bullet.size()!=0) {
