@@ -168,12 +168,14 @@ public class Main extends Application {
                 mapDis [2].setOnAction(e -> map=2 );
                 mapDis [3].setOnAction(e -> map=3 );
                 enter.setOnAction(e -> {
+                    mediaPlayer.stop();
                     stage.setScene(Game(Sele1,Sele2,map));
                     stage.show();
                                        });
                                }
         };
         timer.start();
+
 
         return scene;
 
@@ -224,7 +226,7 @@ public class Main extends Application {
     public Scene   SelectCha(Stage s){
         Media hit = new Media(Paths.get("src/sfx/TrackM.mp3").toUri().toString());
         AudioClip mediaPlayer = new AudioClip(hit.getSource());
-        mediaPlayer.setVolume(0.5);
+        mediaPlayer.setVolume(0.4);
         mediaPlayer.play();
 
         Group root = new Group();
@@ -396,7 +398,7 @@ public class Main extends Application {
         String[]maps = {"src/sfx/iceHell.wav","src/sfx/deepForest.wav","src/sfx/armyGo.wav","src/sfx/stoneValley.wav",};
         Media hit = new Media(Paths.get(maps[map]).toUri().toString());
         AudioClip mediaPlayer = new AudioClip(hit.getSource());
-        mediaPlayer.setVolume(0.5);
+        mediaPlayer.setVolume(0.3);
         mediaPlayer.play();
         int same=0;
         String       nameMap          ="bg"+map+".png";
@@ -505,7 +507,7 @@ public class Main extends Application {
                     if (player.getNumOfBlock()!=0) {
                         Block newBlock = build(player);
                         if (checkRender(blockList, weaponsList, newBlock))
-                        playSoundCreateblock(4,30);
+                        playSoundCreateblock(4,1);
 
                         else{
 
@@ -556,7 +558,7 @@ public class Main extends Application {
                     if (player2.getNumOfBlock()!=0) {
                         Block newBlock = build(player2);
                         if (checkRender(blockList, weaponsList, newBlock)) {System.out.println("intersect");
-                        playSoundCreateblock(4,0.5);}
+                        playSoundCreateblock(4,1);}
                         else{
 
                             playSoundCreateblock(newBlock.getType(),1);
